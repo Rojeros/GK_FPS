@@ -116,7 +116,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="gracz.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="vector.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="gracz.h" />
+    <ClInclude Include="vector.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
