@@ -7,7 +7,10 @@
 #include "Dependencies\glew\glew.h"
 #include "Dependencies\freeglut\freeglut.h"
 #include<cmath>
+#include "camera.h"
 
+//Liczba klatek na sek. i aktualna
+extern int fps, sfps;
 class gracz
 {
 	std::string imie;
@@ -21,13 +24,13 @@ class gracz
 	float energia;
 	int punkty;
 public:
-	gracz(std::string n, float predkosc, float sprint);
-	
+	Camera cam;
+	gracz(std::string n, float predkosc, float sprint,float looks);
+	Camera* getCamera();
 	void update();
 	void show();
 	void skok();
 	std::string getImie();
-	void setPozycja(vector3d pos);
 	void obniZdrowie(int num);
 	int getZdrowie();
 	void setZdrowie(int h);

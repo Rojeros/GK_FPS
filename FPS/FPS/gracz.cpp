@@ -1,10 +1,9 @@
 #include "gracz.h"
 
-gracz::gracz(std::string n, float predkosc, float sprint)
+gracz::gracz(std::string n, float predkosc, float sprint,float looks)
 {
 	imie = n;
 	zdrowie = 500;
-	setPozycja(vector3d(0.0, 10, 0));
 	bieg =sprint;
 	chodzenie = predkosc;
 	sila.change(0.0, -0.3, 0.0);
@@ -12,6 +11,12 @@ gracz::gracz(std::string n, float predkosc, float sprint)
 	energia = 10;
 	czyBieg = false;
 	punkty = 0;
+
+}
+
+Camera* gracz::getCamera()
+{
+	return &cam;
 }
 
 void gracz::show()
@@ -32,12 +37,23 @@ std::string gracz::getImie()
 	return imie;
 }
 
-void gracz::setPozycja(vector3d pos)
-{
-}
+
 
 void gracz::update()
 {
+
+	if (kierunek.y >= sila.y)
+		kierunek += sila;
+	//	std::cout << direction;
+	
+	if (energia<10 && !czyBieg)
+		energia += 0.01;
+	if (czyBieg)
+		energia -= 0.05;
+	if (energia <= 0)
+		setSprint(false);
+	
+
 }
 
 
