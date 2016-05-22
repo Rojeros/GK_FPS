@@ -12,40 +12,40 @@
 
 //Liczba klatek na sek. i aktualna
 extern int fps, sfps;
-class player
+class Player
 
 {
 	
 	collisionsphere collisionSp;
-	std::string imie;
-	int zdrowie;
-	vector3d sila;
-	vector3d kierunek;
-	bool naZiemi;
-	float bieg;
-	float chodzenie;
-	bool czyBieg;
-	float energia;
-	int punkty;
+	std::string name;
+	int health;
+	vector3d force;
+	vector3d direction;
+	bool onGround;
+	float sprint;
+	float walk;
+	bool isSprint;
+	float energy;
+	int points;
 
 
 public:
 	Camera cam;
-	player(std::string n, float predkosc, float sprint,float looks);
-	player(std::string n, collisionsphere cs, int hl, float predkosc, float sprint, float looks);
+	Player(std::string n, float predkosc, float sprint,float looks);
+	Player(std::string n, collisionsphere cs, int hl, float predkosc, float sprint, float looks);
 	Camera* getCamera();
 	void update();
 	void show();
-	void skok();
-	std::string getImie();
-	void obniZdrowie(int num);
-	int getZdrowie();
-	void setZdrowie(int h);
-	void dodZdrowie(int h);
+	void jump();
+	std::string getName();
+	void decreaseHealth(int num);
+	int getHealth();
+	void setHealth(int h);
+	void addHealth(int h);
 	void setSprint(bool b);
-	bool getBieg();
-	void dodPunkty(int num);
-	int getPunkty();
+	bool getSprint();
+	void addPoints(int num);
+	int getPoints();
 	void setPosition(vector3d position);
 
 };

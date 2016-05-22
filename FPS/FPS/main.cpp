@@ -3,6 +3,10 @@
 #include <iostream>
 #include"camera.h"
 #include"player.h"
+#include "collisionplane.h"
+#include "objectloader.h"
+#include "level.h"
+
 
 #define M_PI 1.57079632679489661923
 
@@ -20,13 +24,16 @@ void Idle();
 void Grid();
 
 //player gramy(" ",3,3,3);
-player gramy(" ", collisionsphere(vector3d(0, 1, 0), 1.0), 50, 3, 3, 3);
+Player gramy(" ", collisionsphere(vector3d(0, 1, 0), 3.0), 50, 3, 3, 3);
 bool g_key[256];
 bool g_shift_down = false;
 int g_viewport_width = 0;
 int g_viewport_height = 0;
 bool g_mouse_left_down = false;
 bool g_mouse_right_down = false;
+
+vector<Level*> levels;
+
 
 // Movement settings
 const float g_translation_speed = 0.05;
@@ -35,8 +42,17 @@ const float g_rotation_speed = M_PI / 180 * 0.2;
 int main(int argc, char **argv) {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH);
-	glutInitWindowSize(640, 480);
+	glutInitWindowSize(1680, 1050);
 	glutCreateWindow("FPS");
+	ObjectLoader* objectLoader = new ObjectLoader();
+	std::vector<collisionplane> level_collision_planes;
+	std::vector<vector3d> spawn_points;
+	spawn_points.push_back(vector3d(2, 3, 4));
+	unsigned int levelId = objectLoader->load("testowa_scena.obj", &level_collision_planes);
+	cout << "LEVEL ID: " << levelId << endl;
+	levels.push_back(
+		new Level(levelId, level_collision_planes, "mapa1", spawn_points)
+	);
 
 	glutSetCursor(GLUT_CURSOR_NONE);
 	glutIgnoreKeyRepeat(1);
@@ -53,6 +69,9 @@ int main(int argc, char **argv) {
 
 	glutTimerFunc(1, Timer, 0);
 	glutMainLoop();
+
+	
+	
 
 	return 0;
 }
@@ -84,12 +103,12 @@ void Display(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clear the color buffer and the depth buffer
 	glLoadIdentity();
 
-	gramy.cam.refresh();
-
+	gramy.update();
 	glColor3f(0, 1, 0);
 
 	glutWireTeapot(0.5);
-	Grid();
+	//Grid();
+	levels[0]->show();
 
 	glutSwapBuffers(); //swap the buffers
 }

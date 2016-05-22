@@ -1,120 +1,122 @@
 #include "player.h"
 
-player::player(std::string n, float predkosc, float sprint,float looks)
+Player::Player(std::string n, float predkosc, float sprint,float looks)
 {
-	imie = n;
-	zdrowie = 500;
-	bieg =sprint;
-	chodzenie = predkosc;
-	sila.change(0.0, -0.3, 0.0);
-	kierunek.change(0.0, 0.0, 0.0);
-	energia = 10;
-	czyBieg = false;
-	punkty = 0;
+	name = n;
+	health = 500;
+	sprint =sprint;
+	walk = predkosc;
+	force.change(0.0, -0.3, 0.0);
+	direction.change(0.0, 0.0, 0.0);
+	energy = 10;
+	sprint = false;
+	points = 0;
 
 }
 
-player::player(std::string n, collisionsphere cs, int hl, float predkosc, float sprint, float looks)
+Player::Player(std::string n, collisionsphere cs, int hl, float predkosc, float sprint, float looks)
 {
-	imie = n;
-	zdrowie = hl;
+	name = n;
+	health = hl;
 	collisionSp = cs;
-	bieg = sprint;
-	chodzenie = predkosc;
+	sprint = sprint;
+	walk = predkosc;
 	setPosition(cs.center);
-	sila.change(0.0, -0.3, 0.0);
-	kierunek.change(0.0, 0.0, 0.0);
-	energia = 10;
-	czyBieg = false;
-	punkty = 0;
+	force.change(0.0, -0.3, 0.0);
+	direction.change(0.0, 0.0, 0.0);
+	energy = 10;
+	sprint = false;
+	points = 0;
 
 }
 
-Camera* player::getCamera()
+Camera* Player::getCamera()
 {
 	return &cam;
 }
 
-void player::show()
+void Player::show()
 {
 }
 
-void player::skok()
+void Player::jump()
 {
-	if (naZiemi)
+	if (onGround)
 	{
-		naZiemi = false;
-		kierunek.change(0.0, 2, 0.0);
+		onGround = false;
+		direction.change(0.0, 2, 0.0);
 	}
 }
 
-std::string player::getImie()
+std::string Player::getName()
 {
-	return imie;
+	return name;
 }
 
 
 
-void player::update()
+void Player::update()
 {
 
-	if (kierunek.y >= sila.y)
-		kierunek += sila;
+	if (direction.y >= force.y)
+		direction += force;
 	//	std::cout << direction;
 	
-	if (energia<10 && !czyBieg)
-		energia += 0.01;
-	if (czyBieg)
-		energia -= 0.05;
-	if (energia <= 0)
+	if (energy<10 && !sprint)
+		energy += 0.01;
+	if (sprint)
+		energy -= 0.05;
+	if (energy <= 0)
 		setSprint(false);
+
+	cam.refresh();
 	
 
 }
 
 
-void player::obniZdrowie(int num)
+void Player::decreaseHealth(int num)
 {
-	zdrowie -= num;
+	health -= num;
 }
 
-int player::getZdrowie()
+int Player::getHealth()
 {
-	return zdrowie;
-}
-
-
-void player::setZdrowie(int h)
-{
-	zdrowie = h;
+	return health;
 }
 
 
-void player::dodZdrowie(int h)
+void Player::setHealth(int h)
 {
-	zdrowie += h;
+	health = h;
 }
 
-void player::setSprint(bool b)
+
+void Player::addHealth(int h)
+{
+	health += h;
+}
+
+void Player::setSprint(bool b)
 {
 }
 
-bool player::getBieg()
+bool Player::getSprint()
 {
-	return czyBieg;
+	return sprint;
 }
 
-void player::dodPunkty(int num)
+void Player::addPoints(int num)
 {
-	punkty += num;
+	points += num;
 }
 
-int player::getPunkty()
+int Player::getPoints()
 {
-	return punkty;
+	return points;
 }
 
-void player::setPosition(vector3d position)
+void Player::setPosition(vector3d position)
 {
 	collisionSp.center = position;
 	cam.setLocation(position);

@@ -59,7 +59,7 @@ texcoord::texcoord(float a, float b)
 	v = b;
 }
 
-void objloader::clean()
+void ObjectLoader::clean()
 {
 	for (int i = 0; i<coord.size(); i++)
 		delete coord[i];
@@ -84,7 +84,7 @@ void objloader::clean()
 	vertexnormals.clear();
 }
 
-objloader::~objloader()
+ObjectLoader::~ObjectLoader()
 {
 	for (std::vector<unsigned int>::const_iterator it = texture.begin(); it != texture.end(); it++)
 	{
@@ -96,7 +96,7 @@ objloader::~objloader()
 	}
 }
 
-unsigned int objloader::loadTexture(const char* filename)
+unsigned int ObjectLoader::loadTexture(const char* filename)
 {
 	/*unsigned int num;
 	glGenTextures(1, &num);
@@ -114,7 +114,7 @@ unsigned int objloader::loadTexture(const char* filename)
 	return 0;
 }
 
-objloader::objloader()
+ObjectLoader::ObjectLoader()
 {
 	ismaterial = false;
 	isnormals = false;
@@ -123,7 +123,7 @@ objloader::objloader()
 	//out.open("objreport.txt");
 }
 
-void objloader::smoothnormals()
+void ObjectLoader::smoothnormals()
 {
 	for (int i = 1; i<vertex.size() + 1; i++)
 	{
@@ -156,7 +156,7 @@ void objloader::smoothnormals()
 	}
 }
 
-int objloader::load(const std::string& filename, std::vector<collisionplane>* collplane)
+int ObjectLoader::load(const std::string& filename, std::vector<collisionplane>* collplane)
 {
 	ismaterial = false;
 	isnormals = false;
@@ -249,7 +249,7 @@ int objloader::load(const std::string& filename, std::vector<collisionplane>* co
 		else if ((*coord[i])[0] == 'u' && (*coord[i])[1] == 's' && (*coord[i])[2] == 'e')
 		{
 			char tmp[200];
-			sscanf_s(coord[i]->c_str(), "usemtl %s", tmp);
+			sscanf_s(coord[i]->c_str(), "usemtl %s", tmp, 200);
 			if (strcmp(tmp, "collision") == 0)
 			{
 				coll = true;
@@ -270,7 +270,7 @@ int objloader::load(const std::string& filename, std::vector<collisionplane>* co
 		else if ((*coord[i])[0] == 'm' && (*coord[i])[1] == 't' && (*coord[i])[2] == 'l' && (*coord[i])[3] == 'l')
 		{
 			char filen[200];
-			sscanf_s(coord[i]->c_str(), "mtllib %s", filen);
+			sscanf_s(coord[i]->c_str(), "mtllib %s", filen, 200);
 			std::string filen2 = path + filen;
 			std::ifstream mtlin(filen2.c_str());
 			if (!mtlin.is_open())
@@ -303,6 +303,9 @@ int objloader::load(const std::string& filename, std::vector<collisionplane>* co
 				{
 					if (ismat)
 					{
+						ismat = false;
+						sscanf_s(tmp[i].c_str(), "newmtl %s", name, 200);
+						out << "newmtl " << name << std::endl;
 						if (strcmp(filename, "\0") != 0 && strcmp(filename, "collision") != 0)
 						{
 							materials.push_back(new material(name, alpha, ns, ni, dif, amb, spec, illum, texture));
@@ -312,9 +315,7 @@ int objloader::load(const std::string& filename, std::vector<collisionplane>* co
 							materials.push_back(new material(name, alpha, ns, ni, dif, amb, spec, illum, -1));
 						}
 					}
-					ismat = false;
-					sscanf_s(tmp[i].c_str(), "newmtl %s", name);
-					out << "newmtl " << name << std::endl;
+					
 				}
 				else if (tmp[i][0] == 'N' && tmp[i][1] == 's')
 				{
@@ -353,7 +354,7 @@ int objloader::load(const std::string& filename, std::vector<collisionplane>* co
 				}
 				else if (tmp[i][0] == 'm' && tmp[i][1] == 'a')
 				{
-					sscanf_s(tmp[i].c_str(), "map_Kd %s", filename);
+					sscanf_s(tmp[i].c_str(), "map_Kd %s", filename, 200);
 					bool l = 0;
 					out << "Opening image: " << filename << std::endl;
 					std::string filename2 = path + filename;

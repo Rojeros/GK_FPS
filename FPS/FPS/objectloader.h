@@ -47,7 +47,7 @@ struct texcoord {
 	texcoord(float a, float b);
 };
 
-class objloader {
+class ObjectLoader {
 	std::vector<std::string*> coord;
 	std::vector<coordinate*> vertex;
 	std::vector<face*> faces;
@@ -65,7 +65,7 @@ class objloader {
 	std::vector<int> loadedTexturesNum;
 	std::ofstream out;
 public:
-	objloader();
-	~objloader();
+	ObjectLoader();
+	~ObjectLoader();
 	int load(const std::string& filename, std::vector<collisionplane>* collisionplane);
 };

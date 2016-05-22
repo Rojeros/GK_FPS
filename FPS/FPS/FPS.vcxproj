@@ -122,8 +122,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="camera.cpp" />
+    <ClCompile Include="collision.cpp" />
     <ClCompile Include="collisionplane.cpp" />
     <ClCompile Include="collisionsphere.cpp" />
+    <ClCompile Include="level.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="objectloader.cpp" />
@@ -131,8 +133,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
+    <ClInclude Include="collision.h" />
     <ClInclude Include="collisionplane.h" />
     <ClInclude Include="collisionsphere.h" />
+    <ClInclude Include="level.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="objectloader.h" />
     <ClInclude Include="vector.h" />
