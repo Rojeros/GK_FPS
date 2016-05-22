@@ -54,6 +54,7 @@ public:
 	int getPoints();
 	void teleport();
 	void setPosition(vector3d position);
+	void resetPlayer();
 
 };
 

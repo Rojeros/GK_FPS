@@ -14,6 +14,7 @@ void Camera::init()
 	m_pitch = 0.0;
 
 	setPosition(0, 1, 0);
+	location = vector3d(0, 1, 0);
 }
 
 void Camera::refresh()
@@ -22,6 +23,7 @@ void Camera::refresh()
 	// x/y for flat, z for height
 	m_lx = cos(m_yaw) * cos(m_pitch);
 	m_ly = sin(m_pitch);
+	//std::cout << m_y << std::endl;
 	m_lz = sin(m_yaw) * cos(m_pitch);
 
 	m_strafe_lx = cos(m_yaw - M_PI_2);
@@ -30,7 +32,11 @@ void Camera::refresh()
 	glMatrixMode(GL_MODELVIEW);
 	glLoadIdentity();
 
-	gluLookAt(m_x, m_y, m_z, m_x + m_lx, m_y + m_ly, m_z + m_lz, 0.0, 1.0, 0.0);
+	//if (m_y < 3.0) {
+		//m_y = 3.0;
+	//}
+	//std::cout << location.y << std::endl;
+	gluLookAt(location.x, location.y, location.z, location.x + m_lx, location.y + m_ly, location.z + m_lz, 0.0, 1.0, 0.0);
 
 	//printf("Camera: %f %f %f Direction vector: %f %f %f\n", m_x, m_y, m_z, m_lx, m_ly, m_lz);
 }
@@ -44,11 +50,9 @@ void Camera::setPosition(float x, float y, float z)
 	refresh();
 }
 
-void Camera::setLocation(vector3d newPosition)
+void Camera::setLocation(const vector3d& newLocation)
 {
-	m_x = newPosition.x;
-	m_y = newPosition.y;
-	m_z = newPosition.z;
+	location = newLocation;
 
 	refresh();
 }
@@ -62,7 +66,7 @@ void Camera::getPosition(float &x, float &y, float &z)
 
 vector3d Camera::getLocation()
 {
-	return vector3d(m_x, m_y, m_z);
+	return location;
 }
 
 void Camera::getDirectionVector(float &x, float &y, float &z)
@@ -76,12 +80,12 @@ void Camera::move(float incr)
 {
 
 	float lx = cos(m_yaw)*cos(m_pitch);
-	float ly = sin(m_pitch);
+	//float ly = sin(m_pitch);
 	float lz = sin(m_yaw)*cos(m_pitch);
 
-	m_x = m_x + incr*lx;
-	//m_y = m_y + incr*ly;
-	m_z = m_z + incr*lz;
+	location.x += m_x + incr*lx;
+	//m_y = m_y;
+	location.z += m_z + incr*lz;
 
 	refresh();
 }
@@ -93,15 +97,14 @@ void Camera::strafe(float incr)
 	float lz = sin(m_yaw)*cos(m_pitch);
 
 
-	m_x += -lz*incr;
-	m_z += lx*incr;
+	location.x += -lz*incr;
+	location.z += lx*incr;
 	refresh();
 }
 
 void Camera::fly(float incr)
 {
-	m_y = m_y + incr;
-
+	location.y = location.y + incr;
 	refresh();
 }
 

@@ -24,7 +24,7 @@ void Idle();
 void Grid();
 
 //player gramy(" ",3,3,3);
-Player player(" ", collisionsphere(vector3d(0, 50, 0), 3.0), 50, 3, 3, 3);
+Player player(" ", collisionsphere(vector3d(0, 50, 0), 2), 50, 3, 3, 3);
 bool g_key[256];
 bool g_shift_down = false;
 int g_viewport_width = 0;
@@ -38,7 +38,7 @@ vector<Level*> levels;
 std::vector<collisionplane> level_collision_planes;
 
 // Movement settings
-const float g_translation_speed = 0.05;
+const float g_translation_speed = 0.1;
 const float g_rotation_speed = M_PI / 180 * 0.2;
 
 int main(int argc, char **argv) {
@@ -50,7 +50,7 @@ int main(int argc, char **argv) {
 	std::vector<vector3d> spawn_points;
 	spawn_points.push_back(vector3d(2, 3, 4));
 	//unsigned int levelId = objectLoader->load("testowa_scena.obj", &level_collision_planes);
-	unsigned int levelId = objectLoader->load("scena2.obj", &level_collision_planes);
+	unsigned int levelId = objectLoader->load("Assets/scena3.obj", &level_collision_planes);
 	cout << "LEVEL ID: " << levelId << endl;
 	levels.push_back(
 		new Level(levelId, level_collision_planes, "mapa1", spawn_points)
@@ -112,11 +112,15 @@ void Display(void) {
 	glLoadIdentity();
 	update();
 	glColor3f(0, 1, 0);
+
+	
 	levels[0]->show();
+	
+	
 		
 		//level_start = true;
 	
-	Grid();
+	//Grid();
 
 	glutSwapBuffers(); //swap the buffers
 }
@@ -162,19 +166,15 @@ void Timer(int value)
 {
 
 		if (g_key['w'] || g_key['W']) {
-			if(!player.isWallCollision() && player.isGroundCollision())
 				player.cam.move(g_translation_speed);
 		}
 		 if (g_key['s'] || g_key['S']) {
-			 if (!player.isWallCollision() && player.isGroundCollision())
 				player.cam.move(-g_translation_speed);
 		}
 		 if (g_key['d'] || g_key['D']) {
-			 if (!player.isWallCollision() && player.isGroundCollision())
 				player.cam.strafe(g_translation_speed);
 		}
 		if (g_key['a'] || g_key['A']) {
-			if (!player.isWallCollision() && player.isGroundCollision())
 				player.cam.strafe(-g_translation_speed);
 
 		}
@@ -188,7 +188,7 @@ void Timer(int value)
 		
 	
 
-	glutTimerFunc(5, Timer, 0);
+	glutTimerFunc(10, Timer, 0);
 }
 
 void Idle()

@@ -23,8 +23,8 @@ Player::Player(std::string n, collisionsphere cs, int hl, float predkosc, float 
 	sprint = sprint;
 	walk = predkosc;
 	setPosition(cs.center);
-	force.change(0.0, -0.3, 0.0);
-	direction.change(0.0, 0.0, 0.0);
+	force.change(0.0, -0.1, 0.0);
+	direction.change(0.0, 1, 0.0);
 	energy = 10;
 	sprint = false;
 	points = 0;
@@ -69,8 +69,7 @@ void Player::update(std::vector<collisionplane>& cp)
 
 	if (direction.y >= force.y)
 		direction += force;
-	//	std::cout << direction;
-	
+
 	if (energy<10 && !sprint)
 		energy += 0.01;
 	if (sprint)
@@ -89,25 +88,23 @@ void Player::update(std::vector<collisionplane>& cp)
 	if (newpos.y > tmp.y)
 	{
 		groundCollision = true;
-	}
-	else
-	{
-		groundCollision = false;
+		
 	}
 
 		
 
 	if (newpos.x > tmp.x)
 	{
+		std::cout << "IS WALL" << std::endl;
 		wallCollision = true;
 	}
 	else 
 	{
 		wallCollision = false;
 	}
-
-	std::cout << "WALL COLLISION " << wallCollision << std::endl;
-	std::cout << "GROUND COLLISION " << groundCollision << std::endl;
+	if (!groundCollision) {
+		//std::cout << "GROUND COLLISION LOST" << std::endl;
+	}
 
 	setPosition(newpos);
 	//cam.refresh();
@@ -169,5 +166,12 @@ bool Player::isWallCollision() {
 
 bool Player::isGroundCollision() {
 	return groundCollision;
+}
+
+void Player::resetPlayer()
+{
+	
+	//setPosition(vector3d(collisionSp.center.x,4, collisionSp.center.z));
+	//direction.change(0, 2, 0);
 }
 

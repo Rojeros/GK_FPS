@@ -11,7 +11,7 @@ public:
 	void init();
 	void refresh();
 	void setPosition(float x, float y, float z);
-	void setLocation(vector3d newPosition);
+	void setLocation(const vector3d& newPosition);
 	void getPosition(float &x, float &y, float &z);
 	void getDirectionVector(float &x, float &y, float &z);
 	void setYaw(float angle);
@@ -30,6 +30,7 @@ private:
 	float m_lx, m_ly, m_lz; // Direction vector of where we are looking at
 	float m_yaw, m_pitch; // Various rotation angles
 	float m_strafe_lx, m_strafe_lz; // Always 90 degree to direction vector
+	vector3d location;
 };
 
 #endif
