@@ -1,27 +1,28 @@
 #ifndef __CAMERA_H__
 #define __CAMERA_H__
-
+#include "vector.h"
 class Camera
 {
 
 public:
-	Camera() { Init(); }
+	Camera() { init(); }
 	~Camera() {}
 
-	void Init();
-	void Refresh();
-	void SetPos(float x, float y, float z);
-	void GetPos(float &x, float &y, float &z);
-	void GetDirectionVector(float &x, float &y, float &z);
-	void SetYaw(float angle);
-	void SetPitch(float angle);
+	void init();
+	void refresh();
+	void setPosition(float x, float y, float z);
+	void setLocation(vector3d newPosition);
+	void getPosition(float &x, float &y, float &z);
+	void getDirectionVector(float &x, float &y, float &z);
+	void setYaw(float angle);
+	void setPitch(float angle);
 
 	// Navigation
-	void Move(float incr);
-	void Strafe(float incr);
-	void Fly(float incr);
-	void RotateYaw(float angle);
-	void RotatePitch(float angle);
+	void move(float incr);
+	void strafe(float incr);
+	void fly(float incr);
+	void rotateYaw(float angle);
+	void rotatePitch(float angle);
 
 private:
 	float m_x, m_y, m_z;   // Position

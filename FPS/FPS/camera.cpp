@@ -2,21 +2,21 @@
 
 #include "Dependencies\glew\glew.h"
 #include "Dependencies\freeglut\freeglut.h"
-#include "kamera.h"
+#include "camera.h"
 #include <cmath>
 #include "vector.h"
 #define M_PI_2 3.14159265358979323846
 #define M_PI 1.57079632679489661923
 
-void Camera::Init()
+void Camera::init()
 {
 	m_yaw = 0.0;
 	m_pitch = 0.0;
 
-	SetPos(0, 1, 0);
+	setPosition(0, 1, 0);
 }
 
-void Camera::Refresh()
+void Camera::refresh()
 {
 	// Camera parameter according to Riegl's co-ordinate system
 	// x/y for flat, z for height
@@ -35,30 +35,39 @@ void Camera::Refresh()
 	printf("Camera: %f %f %f Direction vector: %f %f %f\n", m_x, m_y, m_z, m_lx, m_ly, m_lz);
 }
 
-void Camera::SetPos(float x, float y, float z)
+void Camera::setPosition(float x, float y, float z)
 {
 	m_x = x;
 	m_y = y;
 	m_z = z;
 
-	Refresh();
+	refresh();
 }
 
-void Camera::GetPos(float &x, float &y, float &z)
+void Camera::setLocation(vector3d newPosition)
+{
+	m_x = newPosition.x;
+	m_y = newPosition.y;
+	m_z = newPosition.z;
+
+	refresh();
+}
+
+void Camera::getPosition(float &x, float &y, float &z)
 {
 	x = m_x;
 	y = m_y;
 	z = m_z;
 }
 
-void Camera::GetDirectionVector(float &x, float &y, float &z)
+void Camera::getDirectionVector(float &x, float &y, float &z)
 {
 	x = m_lx;
 	y = m_ly;
 	z = m_lz;
 }
 
-void Camera::Move(float incr)
+void Camera::move(float incr)
 {
 
 	float lx = cos(m_yaw)*cos(m_pitch);
@@ -69,10 +78,10 @@ void Camera::Move(float incr)
 	//	m_y = m_y + incr*ly;
 	m_z = m_z + incr*lz;
 
-	Refresh();
+	refresh();
 }
 
-void Camera::Strafe(float incr)
+void Camera::strafe(float incr)
 {
 	float lx = cos(m_yaw)*cos(m_pitch);
 	float ly = sin(m_pitch);
@@ -81,24 +90,24 @@ void Camera::Strafe(float incr)
 
 	m_x += -lz*incr;
 	m_z += lx*incr;
-	Refresh();
+	refresh();
 }
 
-void Camera::Fly(float incr)
+void Camera::fly(float incr)
 {
 	m_y = m_y + incr;
 
-	Refresh();
+	refresh();
 }
 
-void Camera::RotateYaw(float angle)
+void Camera::rotateYaw(float angle)
 {
 	m_yaw += angle;
 
-	Refresh();
+	refresh();
 }
 
-void Camera::RotatePitch(float angle)
+void Camera::rotatePitch(float angle)
 {
 	const float limit = 89.0 * M_PI / 180.0;
 
@@ -110,19 +119,19 @@ void Camera::RotatePitch(float angle)
 	if (m_pitch > limit)
 		m_pitch = limit;
 
-	Refresh();
+	refresh();
 }
 
-void Camera::SetYaw(float angle)
+void Camera::setYaw(float angle)
 {
 	m_yaw = angle;
 
-	Refresh();
+	refresh();
 }
 
-void Camera::SetPitch(float angle)
+void Camera::setPitch(float angle)
 {
 	m_pitch = angle;
 
-	Refresh();
+	refresh();
 }

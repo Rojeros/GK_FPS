@@ -2,7 +2,7 @@
 #include "Dependencies\freeglut\freeglut.h"
 #include <iostream>
 #include"camera.h"
-#include"gracz.h"
+#include"player.h"
 
 #define M_PI 1.57079632679489661923
 
@@ -19,7 +19,8 @@ void Idle();
 
 void Grid();
 
-gracz gramy(" ",3,3,3);
+//player gramy(" ",3,3,3);
+player gramy(" ", collisionsphere(vector3d(0, 1, 0), 1.0), 50, 3, 3, 3);
 bool g_key[256];
 bool g_shift_down = false;
 int g_viewport_width = 0;
@@ -83,7 +84,7 @@ void Display(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clear the color buffer and the depth buffer
 	glLoadIdentity();
 
-	gramy.cam.Refresh();
+	gramy.cam.refresh();
 
 	glColor3f(0, 1, 0);
 
@@ -134,16 +135,16 @@ void Timer(int value)
 {
 
 		if (g_key['w'] || g_key['W']) {
-			gramy.cam.Move(g_translation_speed);
+			gramy.cam.move(g_translation_speed);
 		}
 		 if (g_key['s'] || g_key['S']) {
-			 gramy.cam.Move(-g_translation_speed);
+			 gramy.cam.move(-g_translation_speed);
 		}
 		 if (g_key['d'] || g_key['D']) {
-			 gramy.cam.Strafe(g_translation_speed);
+			 gramy.cam.strafe(g_translation_speed);
 		}
 		if (g_key['a'] || g_key['A']) {
-			gramy.cam.Strafe(-g_translation_speed);
+			gramy.cam.strafe(-g_translation_speed);
 		}
 		if (g_mouse_left_down) {
 			//g_camera.Fly(-g_translation_speed);
@@ -197,11 +198,11 @@ void MouseMotion(int x, int y)
 		int dy = y - g_viewport_height / 2;
 
 		if (dx) {
-			gramy.cam.RotateYaw(g_rotation_speed*dx);
+			gramy.cam.rotateYaw(g_rotation_speed*dx);
 		}
 
 		if (dy) {
-			gramy.cam.RotatePitch(g_rotation_speed*(-dy));
+			gramy.cam.rotatePitch(g_rotation_speed*(-dy));
 		}
 
 		glutWarpPointer(g_viewport_width / 2, g_viewport_height / 2);

@@ -8,11 +8,15 @@
 #include "Dependencies\freeglut\freeglut.h"
 #include<cmath>
 #include "camera.h"
+#include "collisionsphere.h"
 
 //Liczba klatek na sek. i aktualna
 extern int fps, sfps;
-class gracz
+class player
+
 {
+	
+	collisionsphere collisionSp;
 	std::string imie;
 	int zdrowie;
 	vector3d sila;
@@ -23,9 +27,12 @@ class gracz
 	bool czyBieg;
 	float energia;
 	int punkty;
+
+
 public:
 	Camera cam;
-	gracz(std::string n, float predkosc, float sprint,float looks);
+	player(std::string n, float predkosc, float sprint,float looks);
+	player(std::string n, collisionsphere cs, int hl, float predkosc, float sprint, float looks);
 	Camera* getCamera();
 	void update();
 	void show();
@@ -39,6 +46,7 @@ public:
 	bool getBieg();
 	void dodPunkty(int num);
 	int getPunkty();
+	void setPosition(vector3d position);
 
 };
 
