@@ -16,6 +16,7 @@ public:
 	void getDirectionVector(float &x, float &y, float &z);
 	void setYaw(float angle);
 	void setPitch(float angle);
+	vector3d getLocation();
 
 	// Navigation
 	void move(float incr);

@@ -60,6 +60,11 @@ void Camera::getPosition(float &x, float &y, float &z)
 	z = m_z;
 }
 
+vector3d Camera::getLocation()
+{
+	return vector3d(m_x, m_y, m_z);
+}
+
 void Camera::getDirectionVector(float &x, float &y, float &z)
 {
 	x = m_lx;

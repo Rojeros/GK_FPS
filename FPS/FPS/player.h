@@ -9,6 +9,8 @@
 #include<cmath>
 #include "camera.h"
 #include "collisionsphere.h"
+#include "collisionplane.h"
+#include "collision.h"
 
 //Liczba klatek na sek. i aktualna
 extern int fps, sfps;
@@ -28,13 +30,15 @@ class Player
 	float energy;
 	int points;
 
+	bool wallCollision;
+
 
 public:
 	Camera cam;
 	Player(std::string n, float predkosc, float sprint,float looks);
 	Player(std::string n, collisionsphere cs, int hl, float predkosc, float sprint, float looks);
 	Camera* getCamera();
-	void update();
+	void update(std::vector<collisionplane>& cp);
 	void show();
 	void jump();
 	std::string getName();
@@ -45,6 +49,7 @@ public:
 	void setSprint(bool b);
 	bool getSprint();
 	void addPoints(int num);
+	bool isWallCollision();
 	int getPoints();
 	void setPosition(vector3d position);
 

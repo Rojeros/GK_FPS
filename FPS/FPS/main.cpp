@@ -24,7 +24,7 @@ void Idle();
 void Grid();
 
 //player gramy(" ",3,3,3);
-Player gramy(" ", collisionsphere(vector3d(0, 1, 0), 3.0), 50, 3, 3, 3);
+Player player(" ", collisionsphere(vector3d(0, 1, 0), 3.0), 50, 3, 3, 3);
 bool g_key[256];
 bool g_shift_down = false;
 int g_viewport_width = 0;
@@ -33,7 +33,7 @@ bool g_mouse_left_down = false;
 bool g_mouse_right_down = false;
 
 vector<Level*> levels;
-
+std::vector<collisionplane> level_collision_planes;
 
 // Movement settings
 const float g_translation_speed = 0.05;
@@ -45,7 +45,6 @@ int main(int argc, char **argv) {
 	glutInitWindowSize(1680, 1050);
 	glutCreateWindow("FPS");
 	ObjectLoader* objectLoader = new ObjectLoader();
-	std::vector<collisionplane> level_collision_planes;
 	std::vector<vector3d> spawn_points;
 	spawn_points.push_back(vector3d(2, 3, 4));
 	unsigned int levelId = objectLoader->load("testowa_scena.obj", &level_collision_planes);
@@ -103,7 +102,7 @@ void Display(void) {
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clear the color buffer and the depth buffer
 	glLoadIdentity();
 
-	gramy.update();
+	player.update(level_collision_planes);
 	glColor3f(0, 1, 0);
 
 	glutWireTeapot(0.5);
@@ -154,16 +153,20 @@ void Timer(int value)
 {
 
 		if (g_key['w'] || g_key['W']) {
-			gramy.cam.move(g_translation_speed);
+			if(!player.isWallCollision())
+				player.cam.move(g_translation_speed);
 		}
 		 if (g_key['s'] || g_key['S']) {
-			 gramy.cam.move(-g_translation_speed);
+			 if (!player.isWallCollision())
+				player.cam.move(-g_translation_speed);
 		}
 		 if (g_key['d'] || g_key['D']) {
-			 gramy.cam.strafe(g_translation_speed);
+			 if (!player.isWallCollision())
+				player.cam.strafe(g_translation_speed);
 		}
 		if (g_key['a'] || g_key['A']) {
-			gramy.cam.strafe(-g_translation_speed);
+			if (!player.isWallCollision())
+				player.cam.strafe(-g_translation_speed);
 		}
 		if (g_mouse_left_down) {
 			//g_camera.Fly(-g_translation_speed);
@@ -217,11 +220,11 @@ void MouseMotion(int x, int y)
 		int dy = y - g_viewport_height / 2;
 
 		if (dx) {
-			gramy.cam.rotateYaw(g_rotation_speed*dx);
+			player.cam.rotateYaw(g_rotation_speed*dx);
 		}
 
 		if (dy) {
-			gramy.cam.rotatePitch(g_rotation_speed*(-dy));
+			player.cam.rotatePitch(g_rotation_speed*(-dy));
 		}
 
 		glutWarpPointer(g_viewport_width / 2, g_viewport_height / 2);

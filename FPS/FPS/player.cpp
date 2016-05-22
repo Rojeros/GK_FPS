@@ -1,5 +1,6 @@
 #include "player.h"
 
+
 Player::Player(std::string n, float predkosc, float sprint,float looks)
 {
 	name = n;
@@ -55,7 +56,7 @@ std::string Player::getName()
 
 
 
-void Player::update()
+void Player::update(std::vector<collisionplane>& cp)
 {
 
 	if (direction.y >= force.y)
@@ -68,7 +69,35 @@ void Player::update()
 		energy -= 0.05;
 	if (energy <= 0)
 		setSprint(false);
+		
+	vector3d newpos(cam.getLocation());
+	newpos += direction;
+	vector3d tmp(newpos);
+	for (int i = 0; i < cp.size(); i++)
+	{
+		collision::sphereplane(newpos, cp[i].normal, cp[i].p[0], cp[i].p[1], cp[i].p[2], cp[i].p[3], collisionSp.r);
+	}
 
+	if (newpos.y > tmp.y)
+	{
+		onGround = true;
+	}
+	else 
+	{
+		onGround = false;
+	}
+		
+
+	if (newpos.x > tmp.x)
+	{
+		wallCollision = true;
+	}
+	else 
+	{
+		wallCollision = false;
+	}
+
+	setPosition(newpos);
 	cam.refresh();
 	
 
@@ -120,5 +149,9 @@ void Player::setPosition(vector3d position)
 {
 	collisionSp.center = position;
 	cam.setLocation(position);
+}
+
+bool Player::isWallCollision() {
+	return wallCollision;
 }
 
