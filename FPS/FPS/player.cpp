@@ -42,11 +42,19 @@ void Player::show()
 
 void Player::jump()
 {
-	if (onGround)
+	if (groundCollision)
 	{
-		onGround = false;
+		groundCollision = false;
 		direction.change(0.0, 2, 0.0);
 	}
+	else {
+		//direction.change(0.0, 50, 0.0);
+	}
+}
+
+void Player::teleport()
+{
+	direction.change(0.0, 50, 0.0);
 }
 
 std::string Player::getName()
@@ -80,12 +88,13 @@ void Player::update(std::vector<collisionplane>& cp)
 
 	if (newpos.y > tmp.y)
 	{
-		onGround = true;
+		groundCollision = true;
 	}
-	else 
+	else
 	{
-		onGround = false;
+		groundCollision = false;
 	}
+
 		
 
 	if (newpos.x > tmp.x)
@@ -97,8 +106,11 @@ void Player::update(std::vector<collisionplane>& cp)
 		wallCollision = false;
 	}
 
+	std::cout << "WALL COLLISION " << wallCollision << std::endl;
+	std::cout << "GROUND COLLISION " << groundCollision << std::endl;
+
 	setPosition(newpos);
-	cam.refresh();
+	//cam.refresh();
 	
 
 }
@@ -153,5 +165,9 @@ void Player::setPosition(vector3d position)
 
 bool Player::isWallCollision() {
 	return wallCollision;
+}
+
+bool Player::isGroundCollision() {
+	return groundCollision;
 }
 

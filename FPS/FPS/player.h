@@ -23,7 +23,7 @@ class Player
 	int health;
 	vector3d force;
 	vector3d direction;
-	bool onGround;
+	bool groundCollision;
 	float sprint;
 	float walk;
 	bool isSprint;
@@ -50,7 +50,9 @@ public:
 	bool getSprint();
 	void addPoints(int num);
 	bool isWallCollision();
+	bool isGroundCollision();
 	int getPoints();
+	void teleport();
 	void setPosition(vector3d position);
 
 };

@@ -303,9 +303,7 @@ int ObjectLoader::load(const std::string& filename, std::vector<collisionplane>*
 				{
 					if (ismat)
 					{
-						ismat = false;
-						sscanf_s(tmp[i].c_str(), "newmtl %s", name, 200);
-						out << "newmtl " << name << std::endl;
+						
 						if (strcmp(filename, "\0") != 0 && strcmp(filename, "collision") != 0)
 						{
 							materials.push_back(new material(name, alpha, ns, ni, dif, amb, spec, illum, texture));
@@ -315,6 +313,10 @@ int ObjectLoader::load(const std::string& filename, std::vector<collisionplane>*
 							materials.push_back(new material(name, alpha, ns, ni, dif, amb, spec, illum, -1));
 						}
 					}
+
+					ismat = false;
+					sscanf_s(tmp[i].c_str(), "newmtl %s", name, 200);
+					out << "newmtl " << name << std::endl;
 					
 				}
 				else if (tmp[i][0] == 'N' && tmp[i][1] == 's')

@@ -24,13 +24,15 @@ void Idle();
 void Grid();
 
 //player gramy(" ",3,3,3);
-Player player(" ", collisionsphere(vector3d(0, 1, 0), 3.0), 50, 3, 3, 3);
+Player player(" ", collisionsphere(vector3d(0, 50, 0), 3.0), 50, 3, 3, 3);
 bool g_key[256];
 bool g_shift_down = false;
 int g_viewport_width = 0;
 int g_viewport_height = 0;
 bool g_mouse_left_down = false;
 bool g_mouse_right_down = false;
+
+bool level_start = false;
 
 vector<Level*> levels;
 std::vector<collisionplane> level_collision_planes;
@@ -42,12 +44,13 @@ const float g_rotation_speed = M_PI / 180 * 0.2;
 int main(int argc, char **argv) {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH);
-	glutInitWindowSize(1680, 1050);
+	glutInitWindowSize(1000, 1000);
 	glutCreateWindow("FPS");
 	ObjectLoader* objectLoader = new ObjectLoader();
 	std::vector<vector3d> spawn_points;
 	spawn_points.push_back(vector3d(2, 3, 4));
-	unsigned int levelId = objectLoader->load("testowa_scena.obj", &level_collision_planes);
+	//unsigned int levelId = objectLoader->load("testowa_scena.obj", &level_collision_planes);
+	unsigned int levelId = objectLoader->load("scena2.obj", &level_collision_planes);
 	cout << "LEVEL ID: " << levelId << endl;
 	levels.push_back(
 		new Level(levelId, level_collision_planes, "mapa1", spawn_points)
@@ -66,7 +69,7 @@ int main(int argc, char **argv) {
 	glutKeyboardUpFunc(KeyboardUp);
 	glutIdleFunc(Idle);
 
-	glutTimerFunc(1, Timer, 0);
+	glutTimerFunc(100, Timer, 0);
 	glutMainLoop();
 
 	
@@ -97,17 +100,23 @@ void Grid()
 	glPopMatrix();
 }
 
+void update(void) {
+	player.update(level_collision_planes);
+
+}
+
 void Display(void) {
+	//
 	glClearColor(0.0, 0.0, 0.0, 1.0); //clear the screen to black
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clear the color buffer and the depth buffer
 	glLoadIdentity();
-
-	player.update(level_collision_planes);
+	update();
 	glColor3f(0, 1, 0);
-
-	glutWireTeapot(0.5);
-	//Grid();
 	levels[0]->show();
+		
+		//level_start = true;
+	
+	Grid();
 
 	glutSwapBuffers(); //swap the buffers
 }
@@ -153,20 +162,21 @@ void Timer(int value)
 {
 
 		if (g_key['w'] || g_key['W']) {
-			if(!player.isWallCollision())
+			if(!player.isWallCollision() && player.isGroundCollision())
 				player.cam.move(g_translation_speed);
 		}
 		 if (g_key['s'] || g_key['S']) {
-			 if (!player.isWallCollision())
+			 if (!player.isWallCollision() && player.isGroundCollision())
 				player.cam.move(-g_translation_speed);
 		}
 		 if (g_key['d'] || g_key['D']) {
-			 if (!player.isWallCollision())
+			 if (!player.isWallCollision() && player.isGroundCollision())
 				player.cam.strafe(g_translation_speed);
 		}
 		if (g_key['a'] || g_key['A']) {
-			if (!player.isWallCollision())
+			if (!player.isWallCollision() && player.isGroundCollision())
 				player.cam.strafe(-g_translation_speed);
+
 		}
 		if (g_mouse_left_down) {
 			//g_camera.Fly(-g_translation_speed);
@@ -174,9 +184,11 @@ void Timer(int value)
 		if (g_mouse_right_down) {
 			//g_camera.Fly(g_translation_speed);
 		}
+
+		
 	
 
-	glutTimerFunc(1, Timer, 0);
+	glutTimerFunc(5, Timer, 0);
 }
 
 void Idle()
