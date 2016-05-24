@@ -125,6 +125,7 @@
     <ClCompile Include="collision.cpp" />
     <ClCompile Include="collisionplane.cpp" />
     <ClCompile Include="collisionsphere.cpp" />
+    <ClCompile Include="enemy.cpp" />
     <ClCompile Include="level.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="main.cpp" />
@@ -136,6 +137,7 @@
     <ClInclude Include="collision.h" />
     <ClInclude Include="collisionplane.h" />
     <ClInclude Include="collisionsphere.h" />
+    <ClInclude Include="enemy.h" />
     <ClInclude Include="level.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="objectloader.h" />

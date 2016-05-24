@@ -6,7 +6,7 @@
 #include "collisionplane.h"
 #include "objectloader.h"
 #include "level.h"
-
+#include "enemy.h"
 
 #define M_PI 1.57079632679489661923
 
@@ -23,8 +23,9 @@ void Idle();
 
 void Grid();
 
-//player gramy(" ",3,3,3);
+
 Player player(" ", collisionsphere(vector3d(0, 50, 0), 2), 50, 3, 3, 3);
+Enemy enemy(200, 0.01, 5, collisionsphere(vector3d(10, 50, 10), 2), vector3d(0, 0, 0), player.cam.getLocation());
 bool g_key[256];
 bool g_shift_down = false;
 int g_viewport_width = 0;
@@ -95,6 +96,7 @@ void Grid()
 		glVertex3f(-50, 0, i);
 		glVertex3f(50, 0, i);
 		glEnd();
+		
 	}
 
 	glPopMatrix();
@@ -102,7 +104,8 @@ void Grid()
 
 void update(void) {
 	player.update(level_collision_planes);
-
+	enemy.update(level_collision_planes, player.cam.getLocation());
+	
 }
 
 void Display(void) {
@@ -115,7 +118,7 @@ void Display(void) {
 
 	
 	levels[0]->show();
-	
+	enemy.show();
 	
 		
 		//level_start = true;
