@@ -24,14 +24,9 @@ Weapon* createWeapon(vector<unsigned int> anim);
 
 void Grid();
 
-<<<<<<< HEAD
-
-Player player(" ", collisionsphere(vector3d(0, 50, 0), 2), 50, 3, 3, 3);
-Enemy enemy(200, 0.01, 5, collisionsphere(vector3d(10, 50, 10), 2), vector3d(0, 0, 0), player.cam.getLocation());
-=======
-//player gramy(" ",3,3,3);
 Player player;
->>>>>>> origin/feature-level_weapon
+Enemy enemy(200, 0.01, 5, collisionsphere(vector3d(10, 50, 10), 2), vector3d(0, 0, 0), player.cam.getLocation());
+
 bool g_key[256];
 bool g_shift_down = false;
 int g_viewport_width = 0;
@@ -130,13 +125,8 @@ void Display(void) {
 
 	
 	levels[0]->show();
-<<<<<<< HEAD
 	enemy.show();
-=======
-	player.show();
-	
->>>>>>> origin/feature-level_weapon
-	
+	player.show();	
 		
 		//level_start = true;
 	
