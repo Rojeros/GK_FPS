@@ -52,7 +52,7 @@ int main(int argc, char **argv) {
 	std::vector<vector3d> spawn_points;
 	spawn_points.push_back(vector3d(2, 3, 4));
 	//unsigned int levelId = objectLoader->load("testowa_scena.obj", &level_collision_planes);
-	unsigned int levelId = objectLoader->load("Assets/Scenes/scena3.obj", &level_collision_planes);
+	unsigned int levelId = objectLoader->load("Assets/Scenes/scena4.obj", &level_collision_planes);
 	cout << "LEVEL ID: " << levelId << endl;
 	levels.push_back(
 		new Level(levelId, level_collision_planes, "mapa1", spawn_points)
