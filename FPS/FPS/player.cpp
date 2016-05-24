@@ -1,5 +1,8 @@
 #include "player.h"
 
+Player::Player() {
+
+}
 
 Player::Player(std::string n, float predkosc, float sprint,float looks)
 {
@@ -15,8 +18,10 @@ Player::Player(std::string n, float predkosc, float sprint,float looks)
 
 }
 
-Player::Player(std::string n, collisionsphere cs, int hl, float predkosc, float sprint, float looks)
+Player::Player(std::string n, collisionsphere cs, Weapon* startWeapon, int hl, float predkosc, float sprint, float looks)
 {
+	weapons.push_back(startWeapon);
+	currentWeapon = 0;
 	name = n;
 	health = hl;
 	collisionSp = cs;
@@ -38,6 +43,9 @@ Camera* Player::getCamera()
 
 void Player::show()
 {
+	if (weapons.size() > 0) {
+		weapons[currentWeapon]->show(cam.getYaw(), cam.getPitch());
+	}
 }
 
 void Player::jump()
@@ -78,6 +86,7 @@ void Player::update(std::vector<collisionplane>& cp)
 		setSprint(false);
 		
 	vector3d newpos(cam.getLocation());
+	
 	newpos += direction;
 	vector3d tmp(newpos);
 	for (int i = 0; i < cp.size(); i++)
@@ -95,7 +104,7 @@ void Player::update(std::vector<collisionplane>& cp)
 
 	if (newpos.x > tmp.x)
 	{
-		std::cout << "IS WALL" << std::endl;
+		//std::cout << "IS WALL" << std::endl;
 		wallCollision = true;
 	}
 	else 
@@ -107,6 +116,9 @@ void Player::update(std::vector<collisionplane>& cp)
 	}
 
 	setPosition(newpos);
+	if (weapons.size() > 0) {
+		weapons[currentWeapon]->update(newpos);
+	}
 	//cam.refresh();
 	
 
@@ -173,5 +185,14 @@ void Player::resetPlayer()
 	
 	//setPosition(vector3d(collisionSp.center.x,4, collisionSp.center.z));
 	//direction.change(0, 2, 0);
+}
+
+Weapon* Player::getCurrentWeapon() {
+	if (weapons.size() > 0) {
+		return weapons[currentWeapon];
+	}
+
+	return NULL;
+	
 }
 

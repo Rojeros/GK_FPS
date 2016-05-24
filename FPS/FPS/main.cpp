@@ -20,12 +20,18 @@ void MouseMotion(int x, int y);
 void Mouse(int button, int state, int x, int y);
 void Timer(int value);
 void Idle();
+Weapon* createWeapon(vector<unsigned int> anim);
 
 void Grid();
 
+<<<<<<< HEAD
 
 Player player(" ", collisionsphere(vector3d(0, 50, 0), 2), 50, 3, 3, 3);
 Enemy enemy(200, 0.01, 5, collisionsphere(vector3d(10, 50, 10), 2), vector3d(0, 0, 0), player.cam.getLocation());
+=======
+//player gramy(" ",3,3,3);
+Player player;
+>>>>>>> origin/feature-level_weapon
 bool g_key[256];
 bool g_shift_down = false;
 int g_viewport_width = 0;
@@ -51,12 +57,18 @@ int main(int argc, char **argv) {
 	std::vector<vector3d> spawn_points;
 	spawn_points.push_back(vector3d(2, 3, 4));
 	//unsigned int levelId = objectLoader->load("testowa_scena.obj", &level_collision_planes);
-	unsigned int levelId = objectLoader->load("Assets/scena3.obj", &level_collision_planes);
+	unsigned int levelId = objectLoader->load("Assets/Scenes/scena3.obj", &level_collision_planes);
 	cout << "LEVEL ID: " << levelId << endl;
 	levels.push_back(
 		new Level(levelId, level_collision_planes, "mapa1", spawn_points)
 	);
 
+	vector<unsigned int> anim;
+	objectLoader->loadAnimation(anim, "Assets/Weapons/weapon_1/weapon_1", 37);
+	Weapon* weapon = createWeapon(anim);
+
+	Player player_t(" ", collisionsphere(vector3d(0, 50, 0), 2), weapon, 50, 3, 3, 3);
+	player = player_t;
 	glutSetCursor(GLUT_CURSOR_NONE);
 	glutIgnoreKeyRepeat(1);
 
@@ -118,7 +130,12 @@ void Display(void) {
 
 	
 	levels[0]->show();
+<<<<<<< HEAD
 	enemy.show();
+=======
+	player.show();
+	
+>>>>>>> origin/feature-level_weapon
 	
 		
 		//level_start = true;
@@ -188,6 +205,33 @@ void Timer(int value)
 			//g_camera.Fly(g_translation_speed);
 		}
 
+		/*Weapon* weapon = player.getCurrentWeapon();
+
+			if (weapon != NULL) {
+				if (g_key['i'] || g_key['I'])
+				{
+
+					weapon->test('i');
+				}
+				else if (g_key['k'] || g_key['K']) {
+					weapon->test('k');
+				}
+				else if (g_key['j'] || g_key['J']) {
+					weapon->test('j');
+				}
+				else if (g_key['l'] || g_key['L']) {
+					weapon->test('l');
+				}
+				else if (g_key['u'] || g_key['U']) {
+					weapon->test('u');
+				}
+				else if (g_key['o'] || g_key['O'])
+				{
+					weapon->test('o');
+				}
+		}*/
+		
+
 		
 	
 
@@ -246,4 +290,23 @@ void MouseMotion(int x, int y)
 
 		just_warped = true;
 	
+}
+
+Weapon* createWeapon(std::vector<unsigned int> anim) {
+	Weapon* weapon = new Weapon();
+
+	weapon->setAnimationFrames(anim);
+	weapon->setNormalStateAnimation(1);
+	weapon->setFireStateAnimation(16);
+	weapon->setReloadStateAnimation(20);
+	weapon->setPosition(vector3d(-0.06, 0.13, 0.13));
+	weapon->setRotation(vector3d(0, 0, 0));
+	weapon->setCurrentPosition(vector3d(-0.06, 0.13, 0.13));
+	weapon->setCurrentRotation(vector3d(0, 0, 0));
+	weapon->setModelId(anim[0]);
+	weapon->setAllBullets(300);
+	weapon->setMaxMagazineBullets(30);
+
+	return weapon;
+
 }

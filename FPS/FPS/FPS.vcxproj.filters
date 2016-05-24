@@ -42,7 +42,11 @@
     <ClCompile Include="level.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="enemy.cpp">
+=======
+    <ClCompile Include="weapon.cpp">
+>>>>>>> origin/feature-level_weapon
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -71,7 +75,11 @@
     <ClInclude Include="level.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="enemy.h">
+=======
+    <ClInclude Include="weapon.h">
+>>>>>>> origin/feature-level_weapon
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
