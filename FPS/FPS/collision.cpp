@@ -99,7 +99,7 @@ bool collision::sphereplane(vector3d& sp, vector3d pn, vector3d p1, vector3d p2,
 			//std::cout << "returning false: " << pn;
 			return false;
 		}
-		std::cout << "DIST " << dist1 << std::endl;
+		//std::cout << "DIST " << dist1 << std::endl;
 
 		if (dist1>0)	//if not zero
 		{

@@ -98,19 +98,6 @@ ObjectLoader::~ObjectLoader()
 
 unsigned int ObjectLoader::loadTexture(const char* filename)
 {
-	/*unsigned int num;
-	glGenTextures(1, &num);
-	SDL_Surface* img = SDL_LoadBMP(filename);
-	glBindTexture(GL_TEXTURE_2D, num);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, img->w, img->h, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, img->pixels);
-	glTexEnvi(GL_TEXTURE_2D, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	SDL_FreeSurface(img);
-	loadedTextures.push_back(filename);
-	loadedTexturesNum.push_back(num);
-	return num;*/
-
 	return 0;
 }
 
@@ -120,7 +107,6 @@ ObjectLoader::ObjectLoader()
 	isnormals = false;
 	istexture = false;
 	isvertexnormal = false;
-	//out.open("objreport.txt");
 }
 
 void ObjectLoader::smoothnormals()
@@ -514,4 +500,31 @@ int ObjectLoader::load(const std::string& filename, std::vector<collisionplane>*
 	clean();
 	lists.push_back(num);
 	return num;
+}
+
+void ObjectLoader::loadAnimation(std::vector<unsigned int>& anim, const std::string filename, int frames) {
+
+	char frameBuffer[7];
+
+	for (int i = 1; i <= frames; i++) {
+		std::string tempName(filename + "_");
+		std::string leadingZeros("");
+
+		sprintf_s(frameBuffer, 7, "%d", i);
+		int length = strlen(frameBuffer);
+
+		for (int i = 0; i < 6 - length; i++) {
+			leadingZeros += "0";
+		}
+		tempName += leadingZeros + std::to_string(i) + ".obj";
+		std::cout << tempName << std::endl;
+		unsigned int index = load(tempName, NULL);
+
+		if (index != -1)
+			anim.push_back(index);
+
+
+	}
+
+
 }

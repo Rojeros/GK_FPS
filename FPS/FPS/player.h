@@ -11,13 +11,15 @@
 #include "collisionsphere.h"
 #include "collisionplane.h"
 #include "collision.h"
+#include "weapon.h"
 
 //Liczba klatek na sek. i aktualna
 extern int fps, sfps;
 class Player
 
 {
-	
+	std::vector<Weapon*> weapons;
+	unsigned int currentWeapon;
 	collisionsphere collisionSp;
 	std::string name;
 	int health;
@@ -35,8 +37,9 @@ class Player
 
 public:
 	Camera cam;
+	Player();
 	Player(std::string n, float predkosc, float sprint,float looks);
-	Player(std::string n, collisionsphere cs, int hl, float predkosc, float sprint, float looks);
+	Player(std::string n, collisionsphere cs, Weapon* startWeapon, int hl, float predkosc, float sprint, float looks);
 	Camera* getCamera();
 	void update(std::vector<collisionplane>& cp);
 	void show();
@@ -55,6 +58,7 @@ public:
 	void teleport();
 	void setPosition(vector3d position);
 	void resetPlayer();
+	Weapon* getCurrentWeapon();
 
 };
 
