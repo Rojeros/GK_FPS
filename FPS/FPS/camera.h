@@ -24,6 +24,8 @@ public:
 	void fly(float incr);
 	void rotateYaw(float angle);
 	void rotatePitch(float angle);
+	float getYaw();
+	float getPitch();
 
 private:
 	float m_x, m_y, m_z;   // Position

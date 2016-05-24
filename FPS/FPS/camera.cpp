@@ -143,3 +143,11 @@ void Camera::setPitch(float angle)
 
 	refresh();
 }
+
+float Camera::getYaw() {
+	return m_yaw;
+}
+
+float Camera::getPitch() {
+	return m_pitch;
+}

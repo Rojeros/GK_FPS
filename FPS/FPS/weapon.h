@@ -69,7 +69,7 @@ public:
 	void update(vector3d newPosition);
 	void fire();
 	void reload();
-	void show();
+	void show(float angleYaw, float anglePitch);
 
 	void test(const char key);
 

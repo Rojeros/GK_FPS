@@ -111,13 +111,9 @@ void Weapon::update(vector3d newPosition) {
 		curRot=currot; 
 	*/
 	
-	vector3d temp(newPosition);
-	temp.normalize();
-	temp *= 0.3;
-	currentPosition = temp;
-	if (abs(currentPosition.x - position.x) < 0.3 && abs(currentPosition.y - position.y) < 0.3 && abs(currentPosition.z - position.z) < 0.3)
-		currentPosition = position;
+	currentPosition = newPosition;
 
+	
 	
 		
 
@@ -129,12 +125,14 @@ void Weapon::fire() {
 void Weapon::reload() {
 
 }
-void Weapon::show() {
+void Weapon::show(float angleYaw, float anglePitch) {
 	glPushMatrix();
 		glTranslatef(currentPosition.x, currentPosition.y, currentPosition.z);
-		glRotatef(currentRotation.x, 1, 0, 0);
-		glRotatef(currentRotation.y, 0, 1, 0);
-		glRotatef(currentRotation.z, 0, 0, 1);
+		//glRotatef(angle * 57.2957795, 1, 0, 0);
+		glRotatef(-angleYaw * 57.2957795, 0, 1, 0);
+		glRotatef(anglePitch * 57.2957795, 0, 0, 1);
+		glTranslatef(-0.06, -1, 0.13);
+
 		glCallList(animationFrames[currentAnimationFrame]);
 	glPopMatrix();
 }

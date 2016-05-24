@@ -44,7 +44,7 @@ Camera* Player::getCamera()
 void Player::show()
 {
 	if (weapons.size() > 0) {
-		weapons[currentWeapon]->show();
+		weapons[currentWeapon]->show(cam.getYaw(), cam.getPitch());
 	}
 }
 
@@ -86,6 +86,7 @@ void Player::update(std::vector<collisionplane>& cp)
 		setSprint(false);
 		
 	vector3d newpos(cam.getLocation());
+	
 	newpos += direction;
 	vector3d tmp(newpos);
 	for (int i = 0; i < cp.size(); i++)

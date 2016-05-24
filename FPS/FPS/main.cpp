@@ -289,6 +289,8 @@ Weapon* createWeapon(std::vector<unsigned int> anim) {
 	weapon->setReloadStateAnimation(20);
 	weapon->setPosition(vector3d(-0.06, 0.13, 0.13));
 	weapon->setRotation(vector3d(0, 0, 0));
+	weapon->setCurrentPosition(vector3d(-0.06, 0.13, 0.13));
+	weapon->setCurrentRotation(vector3d(0, 0, 0));
 	weapon->setModelId(anim[0]);
 	weapon->setAllBullets(300);
 	weapon->setMaxMagazineBullets(30);
