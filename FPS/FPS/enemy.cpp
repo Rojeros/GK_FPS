@@ -43,7 +43,7 @@ Enemy::Enemy(int h, float s, int str, collisionsphere c, vector3d rot, vector3d 
 	//	}
 }
 
-bool Enemy::update(std::vector<collisionplane>& map2, vector3d playerpos)
+bool Enemy::update(std::vector<collisionplane>& map2, vector3d playerpos, collisionsphere css)
 {
 		direction.change(playerpos - cs.center);
 		direction.normalize();
@@ -56,9 +56,24 @@ bool Enemy::update(std::vector<collisionplane>& map2, vector3d playerpos)
 		newpos.y -= 0.3;
 		for (int i = 0; i<map2.size(); i++)
 			sphereplane(newpos, map2[i].normal, map2[i].p[0], map2[i].p[1], map2[i].p[2], map2[i].p[3], cs.r);
-		//		std::cout << "collision" << std::endl;
-		setLocation(newpos);
 
+
+			boolean isCollision = spheresphere(cs.center, cs.r, css.center, css.r);
+
+			if (isCollision) {
+				setLocation(vector3d(10, 50, 10));
+			}
+			else {
+				setLocation(newpos);
+			}
+		//		std::cout << "collision" << std::endl;
+		
+		
+
+		
+		
+
+		
 	//	std::cout << "dir: " << direction;
 	//	std::cout << rotation.y*(180/M_PI) << std::endl;
 	//	std::cout << direction;

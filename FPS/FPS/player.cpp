@@ -196,3 +196,7 @@ Weapon* Player::getCurrentWeapon() {
 	
 }
 
+collisionsphere Player::getCollisionSphere() {
+	return collisionSp;
+}
+

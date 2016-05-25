@@ -25,7 +25,7 @@ Weapon* createWeapon(vector<unsigned int> anim);
 void Grid();
 
 Player player;
-Enemy enemy(200, 0.01, 5, collisionsphere(vector3d(10, 50, 10), 2), vector3d(0, 0, 0), player.cam.getLocation());
+Enemy enemy(200, 0.003, 5, collisionsphere(vector3d(10, 50, 10), 1), vector3d(0, 0, 0), player.cam.getLocation());
 
 bool g_key[256];
 bool g_shift_down = false;
@@ -62,7 +62,7 @@ int main(int argc, char **argv) {
 	objectLoader->loadAnimation(anim, "Assets/Weapons/weapon_1/weapon_1", 37);
 	Weapon* weapon = createWeapon(anim);
 
-	Player player_t(" ", collisionsphere(vector3d(0, 50, 0), 2), weapon, 50, 3, 3, 3);
+	Player player_t(" ", collisionsphere(vector3d(0, 50, 0), 1), weapon, 50, 3, 3, 3);
 	player = player_t;
 	glutSetCursor(GLUT_CURSOR_NONE);
 	glutIgnoreKeyRepeat(1);
@@ -111,7 +111,7 @@ void Grid()
 
 void update(void) {
 	player.update(level_collision_planes);
-	enemy.update(level_collision_planes, player.cam.getLocation());
+	enemy.update(level_collision_planes, player.cam.getLocation(), player.getCollisionSphere());
 	
 }
 
@@ -119,7 +119,24 @@ void Display(void) {
 	//
 	glClearColor(0.0, 0.0, 0.0, 1.0); //clear the screen to black
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clear the color buffer and the depth buffer
+	
+	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
+
+	gluPerspective(45, 640.0 / 480.0, 0.1, 500.0);
+	glMatrixMode(GL_MODELVIEW);
+	glEnable(GL_DEPTH_TEST);
+	//glEnable(GL_LIGHTING);
+	//glEnable(GL_LIGHT0);
+	glEnable(GL_TEXTURE_2D);
+
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	//float col[] = { 0.5,0.5,0.5,1.0 };
+	//float amb[] = { 0.3,0.3,0.3,1.0 };
+	//glLightfv(GL_LIGHT0,GL_DIFFUSE,col);
+	glShadeModel(GL_SMOOTH);
+
 	update();
 	glColor3f(0, 1, 0);
 

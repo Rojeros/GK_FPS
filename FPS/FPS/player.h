@@ -59,6 +59,7 @@ public:
 	void setPosition(vector3d position);
 	void resetPlayer();
 	Weapon* getCurrentWeapon();
+	collisionsphere getCollisionSphere();
 
 };
 

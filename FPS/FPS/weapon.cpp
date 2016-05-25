@@ -131,7 +131,7 @@ void Weapon::show(float angleYaw, float anglePitch) {
 		//glRotatef(angle * 57.2957795, 1, 0, 0);
 		glRotatef(-angleYaw * 57.2957795, 0, 1, 0);
 		glRotatef(anglePitch * 57.2957795, 0, 0, 1);
-		glTranslatef(-0.06, -1, 0.13);
+		glTranslatef(-0.06, -0.8, 0.13);
 
 		glCallList(animationFrames[currentAnimationFrame]);
 	glPopMatrix();
