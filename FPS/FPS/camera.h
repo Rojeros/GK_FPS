@@ -21,6 +21,7 @@ public:
 	// Navigation
 	void move(float incr);
 	void strafe(float incr);
+	void jump(float incr);
 	void fly(float incr);
 	void rotateYaw(float angle);
 	void rotatePitch(float angle);

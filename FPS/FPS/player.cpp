@@ -29,7 +29,7 @@ Player::Player(std::string n, collisionsphere cs, Weapon* startWeapon, int hl, f
 	walk = predkosc;
 	setPosition(cs.center);
 	force.change(0.0, -0.1, 0.0);
-	direction.change(0.0, 1, 0.0);
+	//direction.change(0.0, 1, 0.0);
 	energy = 10;
 	sprint = false;
 	points = 0;

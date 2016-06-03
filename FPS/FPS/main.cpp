@@ -62,7 +62,7 @@ int main(int argc, char **argv) {
 	objectLoader->loadAnimation(anim, "Assets/Weapons/weapon_1/weapon_1", 37);
 	Weapon* weapon = createWeapon(anim);
 
-	Player player_t(" ", collisionsphere(vector3d(0, 50, 0), 3), weapon, 50, 3, 3, 3);
+	Player player_t(" ", collisionsphere(vector3d(0, 5, 0), 2), weapon, 50, 3, 3, 3);
 	player = player_t;
 	glutSetCursor(GLUT_CURSOR_NONE);
 	glutIgnoreKeyRepeat(1);
@@ -189,6 +189,8 @@ void KeyboardUp(unsigned char key, int x, int y)
 	g_key[key] = false;
 }
 
+bool keyWasChanged = false;
+
 void Timer(int value)
 {
 
@@ -210,6 +212,17 @@ void Timer(int value)
 		}
 		if (g_mouse_right_down) {
 			//g_camera.Fly(g_translation_speed);
+		}
+
+		if (g_key[32]) {
+			if (keyWasChanged == false) {
+				player.cam.fly(2);
+				keyWasChanged = true;
+			}
+			
+		}
+		else {
+			keyWasChanged = false;
 		}
 
 		/*Weapon* weapon = player.getCurrentWeapon();
