@@ -156,14 +156,18 @@ int ObjectLoader::load(const std::string& filename, std::vector<collisionplane>*
 	}
 	std::string path = filename.substr(0, ((filename.find_last_of('/') + 1 != std::string::npos) ? (filename.find_last_of('/') + 1) : 0));
 	out << filename << std::endl;
-	char buf[256];
+	char buf[10000];
 	int curmat = 0;
 	bool coll = false;
 	int z = 0;
 	int h = -1;
+	int xx = 0;
 	while (!in.eof())
 	{
-		in.getline(buf, 256);
+		//xx++;
+		//std::cout << xx << std::endl;
+		in.getline(buf, 10000);
+		//std::cout << buf << std::endl;
 		coord.push_back(new std::string(buf));
 	}
 	for (int i = 0; i<coord.size(); i++)

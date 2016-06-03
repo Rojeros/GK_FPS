@@ -100,12 +100,15 @@ bool collision::sphereplane(vector3d& sp, vector3d pn, vector3d p1, vector3d p2,
 			return false;
 		}
 		//std::cout << "DIST " << dist1 << std::endl;
-
+		
 		if (dist1>0)	//if not zero
 		{
-			sp.x = sp.x + pn.x*(r - dist1);	//calculate the point, and calculate our new location
-			sp.y = sp.y + pn.y*(r - dist1);
-			sp.z = sp.z + pn.z*(r - dist1);
+			sp.x = pn.y < 1 ? sp.x : sp.x + pn.x*(r - dist1);	//calculate the point, and calculate our new location
+			std::cout << "SP Y " << sp.y << std::endl;
+			std::cout << "PN Y " << pn.y << std::endl;
+			std::cout << std::endl;
+			sp.y = pn.y < 1 ? sp.y + pn.y*(r - dist1) + 0.001 : sp.y + pn.y*(r - dist1);
+			sp.z = pn.y < 1 ? sp.z : sp.z + pn.z*(r - dist1);
 		}
 		else	//else if we are in the opposite side, then the normal vector
 		{

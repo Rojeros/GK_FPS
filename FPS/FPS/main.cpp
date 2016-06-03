@@ -62,7 +62,7 @@ int main(int argc, char **argv) {
 	objectLoader->loadAnimation(anim, "Assets/Weapons/weapon_1/weapon_1", 37);
 	Weapon* weapon = createWeapon(anim);
 
-	Player player_t(" ", collisionsphere(vector3d(0, 50, 0), 1), weapon, 50, 3, 3, 3);
+	Player player_t(" ", collisionsphere(vector3d(0, 50, 0), 3), weapon, 50, 3, 3, 3);
 	player = player_t;
 	glutSetCursor(GLUT_CURSOR_NONE);
 	glutIgnoreKeyRepeat(1);
