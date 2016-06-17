@@ -75,6 +75,11 @@ void Camera::getDirectionVector(float &x, float &y, float &z)
 	y = m_ly;
 	z = m_lz;
 }
+vector3d Camera::getDirectionVector()
+{
+	return(vector3d(m_lx, m_ly, m_lz));
+
+}
 
 void Camera::move(float incr)
 {

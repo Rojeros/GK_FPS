@@ -21,7 +21,7 @@ void Mouse(int button, int state, int x, int y);
 void Timer(int value);
 void Idle();
 Weapon* createWeapon(vector<unsigned int> anim);
-
+bool isFired=false;
 void Grid();
 
 Player player;
@@ -112,6 +112,30 @@ void Grid()
 void update(void) {
 	player.update(level_collision_planes);
 	enemy.update(level_collision_planes, player.cam.getLocation(), player.getCollisionSphere());
+	vector3d camdirection,direction;
+	bool isshot=false;
+	if (isFired)
+	{
+		camdirection = player.getCamera()->getDirectionVector();
+		isshot = player.getCurrentWeapon()->fire(direction, camdirection);
+		direction.normalize();
+		if (isshot)
+		{
+			//for (int i = 0; i<zombies.size(); i++)
+			//{
+				if (collision::raysphere(enemy.getSphere()->center.x, enemy.getSphere()->center.y, enemy.getSphere()->center.z, direction.x, direction.y, direction.z, player.cam.getLocation().x, player.cam.getLocation().y, player.cam.getLocation().z, 2.0))
+				{
+					std::cout << "collision\n" <<enemy.getSphere()->center.x << "\t" << enemy.getSphere()->center.y << "\t" << enemy.getSphere()->center.z << std::endl << direction;
+				//	zombies[i].decreaseHealth(player1->getCurWeapon()->getStrength());
+					//			std::cout << zombies[i].getHealth() << std::endl;
+				}
+			//}
+		}
+		player.getCurrentWeapon()->nofire();
+	}
+	else {
+		//player.getCurrentWeapon()->nofire();
+	}
 	
 }
 
@@ -195,6 +219,9 @@ void Timer(int value)
 		if (g_key['w'] || g_key['W']) {
 				player.cam.move(g_translation_speed);
 		}
+		if (g_key['r'] || g_key['R']) {
+			player.getCurrentWeapon()->reload();
+		}
 		 if (g_key['s'] || g_key['S']) {
 				player.cam.move(-g_translation_speed);
 		}
@@ -206,7 +233,10 @@ void Timer(int value)
 
 		}
 		if (g_mouse_left_down) {
-			//g_camera.Fly(-g_translation_speed);
+			isFired = true;
+		}
+		if (!g_mouse_left_down) {
+			isFired = false;
 		}
 		if (g_mouse_right_down) {
 			//g_camera.Fly(g_translation_speed);

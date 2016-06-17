@@ -1,4 +1,15 @@
 #include "weapon.h"
+Weapon::Weapon() {
+	currentState = 1;
+	precision = 10;
+	aimprecision = 10;
+	lastShot = 0;
+	speed = 200;
+	isAim = false;
+	isRealoading = false;
+	isAutomatic = false;
+	isFired = false;
+}
 
 void Weapon::setName(string name_p) {
 	name = name_p;
@@ -110,7 +121,37 @@ void Weapon::update(vector3d newPosition) {
 	if(std::abs(curRot.x-currot.x)<0.3 && std::abs(curRot.y-currot.y)<0.3 && std::abs(curRot.z-currot.z)<0.3)
 		curRot=currot; 
 	*/
-	
+
+	currentAnimationFrame++;
+	if (currentState == 1)
+	{
+		if (currentAnimationFrame>=normalStateAnimation)
+			currentAnimationFrame = 0;
+	}
+	else if (currentState == 2)
+	{
+		if (currentAnimationFrame>normalStateAnimation + fireStateAnimation)
+		{
+			if (isAutomatic && isFired)
+			{
+				currentAnimationFrame = normalStateAnimation;
+			}
+			else {
+				currentState = 1;
+				currentAnimationFrame = 0;
+			}
+		}
+	}
+	else if (currentState == 3)
+	{
+		if (currentAnimationFrame >= normalStateAnimation + fireStateAnimation + reloadStateAnimation - 1)
+		{
+			currentState = 1;
+			currentAnimationFrame = 0;
+			isRealoading = false;
+		}
+	}
+	lastShot++;
 	currentPosition = newPosition;
 
 	
@@ -119,11 +160,61 @@ void Weapon::update(vector3d newPosition) {
 
 
 }
-void Weapon::fire() {
-
+bool Weapon::fire(vector3d& direction, vector3d& camdirection) {
+	if (isRealoading)
+		return 0;
+	if ((!isAutomatic && !isFired) || isAutomatic)
+	{
+		currentState = 2;
+		currentAnimationFrame = normalStateAnimation;
+		if (lastShot >= speed)
+		{
+			if (allBullets>0)
+			{
+				if (isAim)
+				{
+					direction.x = camdirection.x + ((float)(rand() % 2 - 1) / aimprecision);
+					direction.y = camdirection.y + ((float)(rand() % 2 - 1) / aimprecision);
+					direction.z = camdirection.z + ((float)(rand() % 2 - 1) / aimprecision);
+				}
+				else {
+					direction.x = camdirection.x + ((float)(rand() % 2 - 1) / precision);
+					direction.y = camdirection.y + ((float)(rand() % 2 - 1) / precision);
+					direction.z = camdirection.z + ((float)(rand() % 2 - 1) / precision);
+				}
+				isFired = true;
+				lastShot = 0;
+				allBullets--;
+				return 1;
+			}
+			else {
+				reload();
+				return 0;
+			}
+		}
+	}
+	return 0;
+}
+void Weapon::nofire()
+{
+	isFired = false;
 }
 void Weapon::reload() {
-
+	if (!isRealoading && numbullets != allBullets)
+	{
+		isRealoading = true;
+		if (allBullets + allBullets>numbullets)
+		{
+			allBullets -= numbullets - allBullets;
+			allBullets = numbullets;
+		}
+		else {
+			allBullets = allBullets + allBullets;
+			allBullets = 0;
+		}
+		currentAnimationFrame = normalStateAnimation+fireStateAnimation;
+		currentState = 3;
+	}
 }
 void Weapon::show(float angleYaw, float anglePitch) {
 	glPushMatrix();
@@ -159,7 +250,7 @@ void Weapon::test(const char key) {
 		currentPosition.y += 0.01;
 	}
 
-	std::cout << currentPosition.x << " " << currentPosition.y << " " << currentPosition.z << std::endl;
+	//std::cout << currentPosition.x << " " << currentPosition.y << " " << currentPosition.z << std::endl;
 
 	/*
 	if(keys[SDLK_j])

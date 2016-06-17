@@ -17,8 +17,13 @@ class Weapon {
 	unsigned int fireStateAnimation;	//0,1
 	unsigned int reloadStateAnimation;	//2,3,4
 
+	unsigned int numbullets;
+
 	bool isFired;
 	bool isRealoading;
+	bool isAim;
+	bool isAutomatic;
+
 
 	vector3d currentPosition;
 	vector3d currentRotation;
@@ -27,13 +32,19 @@ class Weapon {
 	vector3d rotation;
 
 	int maxMagazineBullets;
+
 	int allBullets;
+	unsigned int lastshot;
+	unsigned int speed;
+	float precision;
+	float aimprecision;
 
 	unsigned int currentState;
 	unsigned int currentAnimationFrame;
 	unsigned int lastShot;
 
 public:
+	Weapon();
 	void setName(string name_p);
 	void setAnimationFrames(vector<unsigned int> animationFrames_p);
 	void setModelId(unsigned int modelId_p);
@@ -67,7 +78,8 @@ public:
 
 
 	void update(vector3d newPosition);
-	void fire();
+	bool fire(vector3d& direction, vector3d& camdirection);
+	void nofire();
 	void reload();
 	void show(float angleYaw, float anglePitch);
 

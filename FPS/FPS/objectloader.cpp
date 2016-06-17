@@ -521,7 +521,7 @@ void ObjectLoader::loadAnimation(std::vector<unsigned int>& anim, const std::str
 			leadingZeros += "0";
 		}
 		tempName += leadingZeros + std::to_string(i) + ".obj";
-		std::cout << tempName << std::endl;
+		//std::cout << tempName << std::endl;
 		unsigned int index = load(tempName, NULL);
 
 		if (index != -1)
