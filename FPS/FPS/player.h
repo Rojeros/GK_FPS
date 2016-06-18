@@ -19,7 +19,7 @@ class Player
 
 {
 	std::vector<Weapon*> weapons;
-	unsigned int currentWeapon;
+	int currentWeapon;
 	collisionsphere collisionSp;
 	std::string name;
 	int health;
@@ -49,6 +49,7 @@ public:
 	int getHealth();
 	void setHealth(int h);
 	void addHealth(int h);
+	void addWeapon(Weapon*gun);
 	void setSprint(bool b);
 	bool getSprint();
 	void addPoints(int num);
@@ -59,6 +60,7 @@ public:
 	void setPosition(vector3d position);
 	void resetPlayer();
 	Weapon* getCurrentWeapon();
+	void changeWeapon(bool up);
 	collisionsphere getCollisionSphere();
 
 };

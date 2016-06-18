@@ -147,6 +147,11 @@ void Player::addHealth(int h)
 	health += h;
 }
 
+void Player::addWeapon(Weapon * gun)
+{
+	weapons.push_back(gun);
+}
+
 void Player::setSprint(bool b)
 {
 }
@@ -194,6 +199,31 @@ Weapon* Player::getCurrentWeapon() {
 
 	return NULL;
 	
+}
+
+void Player::changeWeapon(bool up)
+{
+	if(up){
+		
+		if (weapons.size() > (currentWeapon + 1)) {
+			currentWeapon++;
+		
+		}
+		else {
+			currentWeapon = 0;
+		}
+
+	}
+	else {
+		
+		if ((currentWeapon - 1) > 0) {
+			currentWeapon--;
+		}
+		else {
+			currentWeapon = weapons.size()-1;
+		}
+	}
+	cout << weapons[currentWeapon]->getName()<<"\n";
 }
 
 collisionsphere Player::getCollisionSphere() {

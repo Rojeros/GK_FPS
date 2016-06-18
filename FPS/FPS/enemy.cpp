@@ -61,7 +61,8 @@ bool Enemy::update(std::vector<collisionplane>& map2, vector3d playerpos, collis
 			boolean isCollision = spheresphere(cs.center, cs.r, css.center, css.r);
 
 			if (isCollision) {
-				setLocation(vector3d(10, 50, 10));
+				//setLocation(vector3d(10, 50, 10));
+				
 			}
 			else {
 				setLocation(newpos);
@@ -139,5 +140,8 @@ int Enemy::getStrength()
 
 bool Enemy::isDead()
 {
+	if (health <= 0) {
+		isdead = true;
+	}
 	return isdead;
 }

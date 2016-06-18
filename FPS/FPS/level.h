@@ -20,5 +20,5 @@ public:
 	//skybox* getSkybox();
 	void change(unsigned int m, std::vector<collisionplane>& cplane, std::string n);// , std::string skyImages[]);
 	std::vector<vector3d>* getSpawnPoints();
-	vector3d* getRandomSpawnPoint();
+	vector3d getRandomSpawnPoint();
 };

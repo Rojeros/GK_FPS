@@ -17,15 +17,16 @@ void Reshape(int w, int h);
 void Keyboard(unsigned char key, int x, int y);
 void KeyboardUp(unsigned char key, int x, int y);
 void MouseMotion(int x, int y);
+void mouseWheel(int button, int dir, int x, int y);
 void Mouse(int button, int state, int x, int y);
 void Timer(int value);
 void Idle();
-Weapon* createWeapon(vector<unsigned int> anim);
+Weapon* createWeapon(vector<unsigned int> anim,int i);
 bool isFired=false;
 void Grid();
 
 Player player;
-Enemy enemy(200, 0.003, 5, collisionsphere(vector3d(10, 50, 10), 1), vector3d(0, 0, 0), player.cam.getLocation());
+std::vector<Enemy> enemyList;
 
 bool g_key[256];
 bool g_shift_down = false;
@@ -50,7 +51,15 @@ int main(int argc, char **argv) {
 	glutCreateWindow("FPS");
 	ObjectLoader* objectLoader = new ObjectLoader();
 	std::vector<vector3d> spawn_points;
-	spawn_points.push_back(vector3d(2, 3, 4));
+	spawn_points.push_back(vector3d(-2, 3, 4));
+	spawn_points.push_back(vector3d(3, 3, 4));
+	spawn_points.push_back(vector3d(-4, 3, 4));
+	spawn_points.push_back(vector3d(4, 3, 4));
+	spawn_points.push_back(vector3d(-2, 3, -4));
+	spawn_points.push_back(vector3d(3, 3, -4));
+	spawn_points.push_back(vector3d(-4, 3, -4));
+	spawn_points.push_back(vector3d(4, 3, -4));
+
 	//unsigned int levelId = objectLoader->load("testowa_scena.obj", &level_collision_planes);
 	unsigned int levelId = objectLoader->load("Assets/Scenes/scena4.obj", &level_collision_planes);
 	cout << "LEVEL ID: " << levelId << endl;
@@ -60,9 +69,13 @@ int main(int argc, char **argv) {
 
 	vector<unsigned int> anim;
 	objectLoader->loadAnimation(anim, "Assets/Weapons/weapon_1/weapon_1", 37);
-	Weapon* weapon = createWeapon(anim);
+	Weapon* weapon0= createWeapon(anim,0);
 
-	Player player_t(" ", collisionsphere(vector3d(0, 50, 0), 3), weapon, 50, 3, 3, 3);
+	Player player_t(" ", collisionsphere(vector3d(0, 50, 0), 3), weapon0, 50, 3, 3, 3);
+	Weapon* weapon1 = createWeapon(anim, 1);
+	Weapon* weapon2 = createWeapon(anim, 2);
+	player_t.addWeapon(weapon1);
+	player_t.addWeapon(weapon2);
 	player = player_t;
 	glutSetCursor(GLUT_CURSOR_NONE);
 	glutIgnoreKeyRepeat(1);
@@ -71,6 +84,7 @@ int main(int argc, char **argv) {
 	glutIdleFunc(Display);
 	glutReshapeFunc(Reshape);
 	glutMouseFunc(Mouse);
+	glutMouseWheelFunc(mouseWheel);
 	glutMotionFunc(MouseMotion);
 	glutPassiveMotionFunc(MouseMotion);
 	glutKeyboardFunc(Keyboard);
@@ -111,9 +125,29 @@ void Grid()
 
 void update(void) {
 	player.update(level_collision_planes);
-	enemy.update(level_collision_planes, player.cam.getLocation(), player.getCollisionSphere());
-	vector3d camdirection,direction;
-	bool isshot=false;
+
+	if (enemyList.size() <= 4) {
+		enemyList.push_back(Enemy(200, 0.003, 5, collisionsphere(levels[0]->getRandomSpawnPoint(), 1), vector3d(0, 0, 0), player.cam.getLocation()));
+	}
+
+	vector<Enemy>::iterator it=enemyList.begin();
+	while (it != enemyList.end()) {
+		it->update(level_collision_planes, player.cam.getLocation(), player.getCollisionSphere());
+		if (it->setAttack(player.getCollisionSphere()))
+		{
+			player.decreaseHealth(it->getStrength());
+		}
+		if (it->isDead()) {
+			it = enemyList.erase(it);
+		}
+		else {
+			it++;
+		}
+	}
+
+
+	vector3d camdirection, direction;
+	bool isshot = false;
 	if (isFired)
 	{
 		camdirection = player.getCamera()->getDirectionVector();
@@ -121,22 +155,24 @@ void update(void) {
 		direction.normalize();
 		if (isshot)
 		{
-			//for (int i = 0; i<zombies.size(); i++)
-			//{
-				if (collision::raysphere(enemy.getSphere()->center.x, enemy.getSphere()->center.y, enemy.getSphere()->center.z, direction.x, direction.y, direction.z, player.cam.getLocation().x, player.cam.getLocation().y, player.cam.getLocation().z, 2.0))
+			vector<Enemy>::iterator it;
+			for (it = enemyList.begin(); it != enemyList.end(); ++it) {
+				if (collision::raysphere(it->getSphere()->center.x, it->getSphere()->center.y, it->getSphere()->center.z, direction.x, direction.y, direction.z, player.cam.getLocation().x, player.cam.getLocation().y, player.cam.getLocation().z, 2.0))
 				{
-					std::cout << "collision\n" <<enemy.getSphere()->center.x << "\t" << enemy.getSphere()->center.y << "\t" << enemy.getSphere()->center.z << std::endl << direction;
-				//	zombies[i].decreaseHealth(player1->getCurWeapon()->getStrength());
-					//			std::cout << zombies[i].getHealth() << std::endl;
+					it->decreaseHealth(player.getCurrentWeapon()->getPower());
+					
+				
 				}
-			//}
+				cout << player.getCurrentWeapon()->getAmmoClip() << "\n";
+				cout << player.getCurrentWeapon()->getAllBullets()<<"\n";
+			}
+			player.getCurrentWeapon()->nofire();
 		}
-		player.getCurrentWeapon()->nofire();
+		else {
+			player.getCurrentWeapon()->nofire();
+		}
+
 	}
-	else {
-		//player.getCurrentWeapon()->nofire();
-	}
-	
 }
 
 void Display(void) {
@@ -166,7 +202,10 @@ void Display(void) {
 
 	
 	levels[0]->show();
-	enemy.show();
+	vector<Enemy>::iterator it;
+	for (it = enemyList.begin(); it != enemyList.end(); ++it) {
+		it->show();
+	}
 	player.show();	
 		
 		//level_start = true;
@@ -219,9 +258,7 @@ void Timer(int value)
 		if (g_key['w'] || g_key['W']) {
 				player.cam.move(g_translation_speed);
 		}
-		if (g_key['r'] || g_key['R']) {
-			player.getCurrentWeapon()->reload();
-		}
+		
 		 if (g_key['s'] || g_key['S']) {
 				player.cam.move(-g_translation_speed);
 		}
@@ -241,7 +278,9 @@ void Timer(int value)
 		if (g_mouse_right_down) {
 			//g_camera.Fly(g_translation_speed);
 		}
-
+		if (g_key['r'] || g_key['R']) {
+			player.getCurrentWeapon()->reload();
+		}
 		/*Weapon* weapon = player.getCurrentWeapon();
 
 			if (weapon != NULL) {
@@ -299,7 +338,19 @@ void Mouse(int button, int state, int x, int y)
 		}
 	}
 }
+void mouseWheel(int button, int dir, int x, int y)
+{
+	if (dir > 0)
+	{
+		player.changeWeapon(false);
+	}
+	else
+	{
+		player.changeWeapon(true);
+	}
 
+	return;
+}
 void MouseMotion(int x, int y)
 {
 	// This variable is hack to stop glutWarpPointer from triggering an event callback to Mouse(...)
@@ -329,21 +380,53 @@ void MouseMotion(int x, int y)
 	
 }
 
-Weapon* createWeapon(std::vector<unsigned int> anim) {
-	Weapon* weapon = new Weapon();
+Weapon* createWeapon(std::vector<unsigned int> anim,int i) {
+	if (i == 0) {
+		Weapon* weapon = new Weapon("pistol", 150, false, 50, 300, 5, 12, 10, 10);
 
-	weapon->setAnimationFrames(anim);
-	weapon->setNormalStateAnimation(1);
-	weapon->setFireStateAnimation(16);
-	weapon->setReloadStateAnimation(20);
-	weapon->setPosition(vector3d(-0.06, 0.13, 0.13));
-	weapon->setRotation(vector3d(0, 0, 0));
-	weapon->setCurrentPosition(vector3d(-0.06, 0.13, 0.13));
-	weapon->setCurrentRotation(vector3d(0, 0, 0));
-	weapon->setModelId(anim[0]);
-	weapon->setAllBullets(300);
-	weapon->setMaxMagazineBullets(30);
+		weapon->setAnimationFrames(anim);
+		weapon->setNormalStateAnimation(1);
+		weapon->setFireStateAnimation(16);
+		weapon->setReloadStateAnimation(20);
+		weapon->setPosition(vector3d(-0.06, 0.13, 0.13));
+		weapon->setRotation(vector3d(0, 0, 0));
+		weapon->setCurrentPosition(vector3d(-0.06, 0.13, 0.13));
+		weapon->setCurrentRotation(vector3d(0, 0, 0));
+		weapon->setModelId(anim[0]);
 
-	return weapon;
 
+		return weapon;
+	}
+	if (i == 1) {
+		Weapon* weapon = new Weapon("minigun", 1, false, 2, 300, 5, 50, 40, 40);
+
+		weapon->setAnimationFrames(anim);
+		weapon->setNormalStateAnimation(1);
+		weapon->setFireStateAnimation(16);
+		weapon->setReloadStateAnimation(20);
+		weapon->setPosition(vector3d(-0.06, 0.13, 0.13));
+		weapon->setRotation(vector3d(0, 0, 0));
+		weapon->setCurrentPosition(vector3d(-0.06, 0.13, 0.13));
+		weapon->setCurrentRotation(vector3d(0, 0, 0));
+		weapon->setModelId(anim[0]);
+
+
+		return weapon;
+	}
+	else {
+		Weapon* weapon = new Weapon("shotgun", 300, false, 200, 20, 2, 2, 10, 10);
+
+		weapon->setAnimationFrames(anim);
+		weapon->setNormalStateAnimation(1);
+		weapon->setFireStateAnimation(16);
+		weapon->setReloadStateAnimation(20);
+		weapon->setPosition(vector3d(-0.06, 0.13, 0.13));
+		weapon->setRotation(vector3d(0, 0, 0));
+		weapon->setCurrentPosition(vector3d(-0.06, 0.13, 0.13));
+		weapon->setCurrentRotation(vector3d(0, 0, 0));
+		weapon->setModelId(anim[0]);
+
+
+		return weapon;
+	}
 }
