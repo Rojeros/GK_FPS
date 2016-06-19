@@ -23,6 +23,7 @@ enum coordinates {
 };
 
 
+
 class text {
 	void text::startText(int g_viewport_width, int g_viewport_height);
 	void text::displayText(std::string text, int g_viewport_width, int g_viewport_height, int size,coordinates coord,int line);
