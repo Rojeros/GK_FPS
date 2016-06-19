@@ -60,6 +60,7 @@ public:
 	void setPosition(vector3d position);
 	void resetPlayer();
 	Weapon* getCurrentWeapon();
+	Weapon* Player::getRandomWeapon();
 	void changeWeapon(bool up);
 	collisionsphere getCollisionSphere();
 

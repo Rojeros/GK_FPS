@@ -63,6 +63,7 @@ public:
 	void setCurrentState(unsigned int currentState_p);
 	void setCurrentAnimationFrame(unsigned int currentAnimationFrame_p);
 	void setLastShot(unsigned int lastShot_p);
+	void addAllBullets(unsigned int ammoClip_p);
 
 	string getName();
 	vector<unsigned int>& getAnimationFrames();

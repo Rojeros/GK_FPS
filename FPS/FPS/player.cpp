@@ -201,6 +201,14 @@ Weapon* Player::getCurrentWeapon() {
 	
 }
 
+Weapon* Player::getRandomWeapon() {
+	if (weapons.size() > 0) {
+		return weapons[rand()%weapons.size()];
+	}
+
+	return NULL;
+
+}
 void Player::changeWeapon(bool up)
 {
 	if(up){
@@ -216,7 +224,7 @@ void Player::changeWeapon(bool up)
 	}
 	else {
 		
-		if ((currentWeapon - 1) > 0) {
+		if ((currentWeapon - 1) >= 0) {
 			currentWeapon--;
 		}
 		else {

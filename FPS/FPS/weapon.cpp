@@ -72,6 +72,11 @@ void Weapon::setLastShot(unsigned int lastShot_p) {
 	lastShot = lastShot_p;
 }
 
+void Weapon::addAllBullets(unsigned int ammoClip_p)
+{
+	allBullets += ammoClip_p;
+}
+
 string Weapon::getName() {
 	return name;
 }

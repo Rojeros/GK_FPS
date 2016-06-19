@@ -8,6 +8,7 @@
 #include "level.h"
 #include "enemy.h"
 #include "text.h"
+#include "item.h"
 
 #define M_PI 1.57079632679489661923
 
@@ -49,6 +50,7 @@ const float g_rotation_speed = M_PI / 180 * 0.2;
 
 //vector3d a(0, 0, 0);
 //vector3d b(0, 0, 0);
+item object;
 
 int main(int argc, char **argv) {
 	glutInit(&argc, argv);
@@ -148,6 +150,12 @@ void update(void) {
 			player.decreaseHealth(it->getStrength());
 		}
 		if (it->isDead()) {
+			int g = rand() % 10;
+			if (g == 1)
+				object.add(0, collisionsphere(it->getSphere()->center, 1.0));
+			else if (g == 2)
+				object.add(1, collisionsphere(it->getSphere()->center, 1.0));
+
 			it = enemyList.erase(it);
 		}
 		else {
@@ -155,6 +163,7 @@ void update(void) {
 		}
 	}
 
+	
 
 	vector3d camdirection, direction;
 	bool isshot = false;
@@ -175,8 +184,6 @@ void update(void) {
 					
 				
 				}
-				cout << player.getCurrentWeapon()->getAmmoClip() << "\n";
-				cout << player.getCurrentWeapon()->getAllBullets()<<"\n";
 			}
 			player.getCurrentWeapon()->nofire();
 		}
@@ -185,6 +192,20 @@ void update(void) {
 		}
 
 	}
+
+	int h = object.update(player.getCollisionSphere());
+	switch (h) {
+	case -1:
+		break;
+	case 0:
+		
+		player.getRandomWeapon()->addAllBullets(50);
+		break;
+	case 1:
+		player.setHealth(player.getHealth()+ 500);
+		break;
+	}
+
 }
 
 void Display(void) {
@@ -210,7 +231,7 @@ void Display(void) {
 	glShadeModel(GL_SMOOTH);
 
 	update();
-	glColor3f(0, 1, 0);
+	//glColor3f(0, 1, 0);
 	
 	/*
 	glPushMatrix();
@@ -222,14 +243,14 @@ void Display(void) {
 	glPopMatrix();
 	*/
 
-	
+	object.show();
 	levels[0]->show();
 	vector<Enemy>::iterator it;
 	for (it = enemyList.begin(); it != enemyList.end(); ++it) {
 		it->show();
 	}
 	player.show();	
-		
+	
 		//level_start = true;
 	
 	//Grid();
