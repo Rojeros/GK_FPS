@@ -7,6 +7,7 @@
 #include "objectloader.h"
 #include "level.h"
 #include "enemy.h"
+#include "text.h"
 
 #define M_PI 1.57079632679489661923
 
@@ -24,9 +25,9 @@ void Idle();
 Weapon* createWeapon(vector<unsigned int> anim,int i);
 bool isFired=false;
 void Grid();
-
 Player player;
 std::vector<Enemy> enemyList;
+text informations;
 
 bool g_key[256];
 bool g_shift_down = false;
@@ -40,9 +41,14 @@ bool level_start = false;
 vector<Level*> levels;
 std::vector<collisionplane> level_collision_planes;
 
+
 // Movement settings
 const float g_translation_speed = 0.1;
 const float g_rotation_speed = M_PI / 180 * 0.2;
+
+
+//vector3d a(0, 0, 0);
+//vector3d b(0, 0, 0);
 
 int main(int argc, char **argv) {
 	glutInit(&argc, argv);
@@ -90,6 +96,10 @@ int main(int argc, char **argv) {
 	glutKeyboardFunc(Keyboard);
 	glutKeyboardUpFunc(KeyboardUp);
 	glutIdleFunc(Idle);
+
+
+	
+
 
 	glutTimerFunc(100, Timer, 0);
 	glutMainLoop();
@@ -155,9 +165,11 @@ void update(void) {
 		direction.normalize();
 		if (isshot)
 		{
+	//		a = direction;
+	//		b = player.getCamera()->getLocation();
 			vector<Enemy>::iterator it;
 			for (it = enemyList.begin(); it != enemyList.end(); ++it) {
-				if (collision::raysphere(it->getSphere()->center.x, it->getSphere()->center.y, it->getSphere()->center.z, direction.x, direction.y, direction.z, player.cam.getLocation().x, player.cam.getLocation().y, player.cam.getLocation().z, 2.0))
+				if (collision::raysphere(it->getSphere()->center.x, it->getSphere()->center.y, it->getSphere()->center.z, direction.x, direction.y, direction.z,player.cam.getLocation().x, player.cam.getLocation().y, player.cam.getLocation().z,it->getSphere()->r))
 				{
 					it->decreaseHealth(player.getCurrentWeapon()->getPower());
 					
@@ -176,7 +188,7 @@ void update(void) {
 }
 
 void Display(void) {
-	//
+	
 	glClearColor(0.0, 0.0, 0.0, 1.0); //clear the screen to black
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clear the color buffer and the depth buffer
 	
@@ -199,6 +211,16 @@ void Display(void) {
 
 	update();
 	glColor3f(0, 1, 0);
+	
+	/*
+	glPushMatrix();
+	glColor3f(1, 1, 1);
+	glBegin(GL_LINES);
+	glVertex3f(b.x,b.y,b.z);
+	glVertex3f(b.x + a.x*100, b.y + a.y * 100, b.z + a.z * 100);
+	glEnd();
+	glPopMatrix();
+	*/
 
 	
 	levels[0]->show();
@@ -211,6 +233,8 @@ void Display(void) {
 		//level_start = true;
 	
 	//Grid();
+
+	informations.showTextInfo(player.getHealth(), player.getCurrentWeapon()->getAmmoClip(), player.getCurrentWeapon()->getAllBullets(), 0, player.getCurrentWeapon()->getName(),g_viewport_width,g_viewport_height);
 
 	glutSwapBuffers(); //swap the buffers
 }
@@ -382,7 +406,7 @@ void MouseMotion(int x, int y)
 
 Weapon* createWeapon(std::vector<unsigned int> anim,int i) {
 	if (i == 0) {
-		Weapon* weapon = new Weapon("pistol", 150, false, 50, 300, 5, 12, 10, 10);
+		Weapon* weapon = new Weapon("pistol", 150, false, 50, 300, 5, 12, 1000, 1000);
 
 		weapon->setAnimationFrames(anim);
 		weapon->setNormalStateAnimation(1);
@@ -430,3 +454,4 @@ Weapon* createWeapon(std::vector<unsigned int> anim,int i) {
 		return weapon;
 	}
 }
+

@@ -6,7 +6,7 @@
 #include <string>
 #include "Dependencies\glew\glew.h"
 #include "Dependencies\freeglut\freeglut.h"
-#include<cmath>
+#include <cmath>
 #include "camera.h"
 #include "collisionsphere.h"
 #include "collisionplane.h"
