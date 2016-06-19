@@ -20,6 +20,7 @@ class Enemy : private collision
 	static unsigned int walk;
 	static unsigned int attack;
 	static unsigned int die;
+	unsigned int timer;
 	int health;
 	float speed;
 	int strength;

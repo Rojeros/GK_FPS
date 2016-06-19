@@ -41,8 +41,8 @@ int item::update(collisionsphere playerpos)
 
 		if (items[i].speed.y<0 && items[i].direction)
 			items[i].direction = false;
-		items[i].speed.z = sin(items[i].rotation.y);
-		items[i].speed.x = cos(items[i].rotation.y/2);
+		items[i].speed.z = sin(items[i].rotation.y*2);
+		items[i].speed.x = cos(items[i].rotation.y*2);
 	}
 	for (int i = 0;i<items.size();i++)
 	{

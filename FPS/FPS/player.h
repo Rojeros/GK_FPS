@@ -31,8 +31,8 @@ class Player
 	bool isSprint;
 	float energy;
 	int points;
-
 	bool wallCollision;
+	vector3d startPoint;
 
 
 public:
@@ -55,6 +55,7 @@ public:
 	void addPoints(int num);
 	bool isWallCollision();
 	bool isGroundCollision();
+	bool isDead();
 	int getPoints();
 	void teleport();
 	void setPosition(vector3d position);
@@ -63,6 +64,8 @@ public:
 	Weapon* Player::getRandomWeapon();
 	void changeWeapon(bool up);
 	collisionsphere getCollisionSphere();
+	std::vector<Weapon*> getAllWeapon();
+	int getIntCurrentWeapon();
 
 };
 

@@ -50,7 +50,7 @@ const float g_rotation_speed = M_PI / 180 * 0.2;
 
 //vector3d a(0, 0, 0);
 //vector3d b(0, 0, 0);
-item object;
+item bonuses;
 
 int main(int argc, char **argv) {
 	glutInit(&argc, argv);
@@ -79,7 +79,7 @@ int main(int argc, char **argv) {
 	objectLoader->loadAnimation(anim, "Assets/Weapons/weapon_1/weapon_1", 37);
 	Weapon* weapon0= createWeapon(anim,0);
 
-	Player player_t(" ", collisionsphere(vector3d(0, 50, 0), 3), weapon0, 50, 3, 3, 3);
+	Player player_t(" ", collisionsphere(vector3d(0, 50, 0), 3), weapon0, 1500, 3, 3, 3);
 	Weapon* weapon1 = createWeapon(anim, 1);
 	Weapon* weapon2 = createWeapon(anim, 2);
 	player_t.addWeapon(weapon1);
@@ -136,76 +136,82 @@ void Grid()
 }
 
 void update(void) {
-	player.update(level_collision_planes);
-
-	if (enemyList.size() <= 4) {
-		enemyList.push_back(Enemy(200, 0.003, 5, collisionsphere(levels[0]->getRandomSpawnPoint(), 1), vector3d(0, 0, 0), player.cam.getLocation()));
+	if (player.isDead()) {
+		if(isFired)
+			player.resetPlayer();
 	}
+	else {
+		player.update(level_collision_planes);
 
-	vector<Enemy>::iterator it=enemyList.begin();
-	while (it != enemyList.end()) {
-		it->update(level_collision_planes, player.cam.getLocation(), player.getCollisionSphere());
-		if (it->setAttack(player.getCollisionSphere()))
-		{
-			player.decreaseHealth(it->getStrength());
+		if (enemyList.size() <= 4) {
+			enemyList.push_back(Enemy(200, 0.003, 5, collisionsphere(levels[0]->getRandomSpawnPoint(), 1), vector3d(0, 0, 0), player.cam.getLocation()));
 		}
-		if (it->isDead()) {
-			int g = rand() % 10;
-			if (g == 1)
-				object.add(0, collisionsphere(it->getSphere()->center, 1.0));
-			else if (g == 2)
-				object.add(1, collisionsphere(it->getSphere()->center, 1.0));
 
-			it = enemyList.erase(it);
-		}
-		else {
-			it++;
-		}
-	}
-
-	
-
-	vector3d camdirection, direction;
-	bool isshot = false;
-	if (isFired)
-	{
-		camdirection = player.getCamera()->getDirectionVector();
-		isshot = player.getCurrentWeapon()->fire(direction, camdirection);
-		direction.normalize();
-		if (isshot)
-		{
-	//		a = direction;
-	//		b = player.getCamera()->getLocation();
-			vector<Enemy>::iterator it;
-			for (it = enemyList.begin(); it != enemyList.end(); ++it) {
-				if (collision::raysphere(it->getSphere()->center.x, it->getSphere()->center.y, it->getSphere()->center.z, direction.x, direction.y, direction.z,player.cam.getLocation().x, player.cam.getLocation().y, player.cam.getLocation().z,it->getSphere()->r))
-				{
-					it->decreaseHealth(player.getCurrentWeapon()->getPower());
-					
-				
-				}
+		vector<Enemy>::iterator it = enemyList.begin();
+		while (it != enemyList.end()) {
+			it->update(level_collision_planes, player.cam.getLocation(), player.getCollisionSphere());
+			if (it->setAttack(player.getCollisionSphere()))
+			{
+				player.decreaseHealth(it->getStrength());
 			}
-			player.getCurrentWeapon()->nofire();
+			if (it->isDead()) {
+				player.addPoints(5);
+				int g = rand() % 10;
+				if (g == 1)
+					bonuses.add(0, collisionsphere(it->getSphere()->center, 1.0));
+				else if (g == 2)
+					bonuses.add(1, collisionsphere(it->getSphere()->center, 1.0));
+
+				it = enemyList.erase(it);
+			}
+			else {
+				it++;
+			}
 		}
-		else {
-			player.getCurrentWeapon()->nofire();
+
+
+
+		vector3d camdirection, direction;
+		bool isshot = false;
+		if (isFired)
+		{
+			camdirection = player.getCamera()->getDirectionVector();
+			isshot = player.getCurrentWeapon()->fire(direction, camdirection);
+			direction.normalize();
+			if (isshot)
+			{
+				//		a = direction;
+				//		b = player.getCamera()->getLocation();
+				vector<Enemy>::iterator it;
+				for (it = enemyList.begin(); it != enemyList.end(); ++it) {
+					if (collision::raysphere(it->getSphere()->center.x, it->getSphere()->center.y, it->getSphere()->center.z, direction.x, direction.y, direction.z, player.cam.getLocation().x, player.cam.getLocation().y, player.cam.getLocation().z, it->getSphere()->r))
+					{
+						it->decreaseHealth(player.getCurrentWeapon()->getPower());
+
+
+					}
+				}
+				player.getCurrentWeapon()->nofire();
+			}
+			else {
+				player.getCurrentWeapon()->nofire();
+			}
+
 		}
 
-	}
+		int h = bonuses.update(player.getCollisionSphere());
+		switch (h) {
+		case -1:
+			break;
+		case 0:
 
-	int h = object.update(player.getCollisionSphere());
-	switch (h) {
-	case -1:
-		break;
-	case 0:
-		
-		player.getRandomWeapon()->addAllBullets(50);
-		break;
-	case 1:
-		player.setHealth(player.getHealth()+ 500);
-		break;
+			player.getRandomWeapon()->addAllBullets(50);
+			break;
+		case 1:
+			player.setHealth(player.getHealth() + 500);
+			break;
+		}
 	}
-
 }
 
 void Display(void) {
@@ -243,7 +249,7 @@ void Display(void) {
 	glPopMatrix();
 	*/
 
-	object.show();
+	bonuses.show();
 	levels[0]->show();
 	vector<Enemy>::iterator it;
 	for (it = enemyList.begin(); it != enemyList.end(); ++it) {
@@ -254,10 +260,14 @@ void Display(void) {
 		//level_start = true;
 	
 	//Grid();
+		informations.showTextInfo(player.getHealth(), player.getCurrentWeapon()->getAmmoClip(), player.getCurrentWeapon()->getAllBullets(), 0, player.getAllWeapon(),player.getIntCurrentWeapon(),player.getPoints(),g_viewport_width,g_viewport_height);
+	if (player.isDead()) {
+		
+		informations.displayDiffrentText("GAME OVER", g_viewport_width, g_viewport_height, 1.2, CENTER, 1, vector3d(1, 0, 0));
 
-	informations.showTextInfo(player.getHealth(), player.getCurrentWeapon()->getAmmoClip(), player.getCurrentWeapon()->getAllBullets(), 0, player.getCurrentWeapon()->getName(),g_viewport_width,g_viewport_height);
-
+	}
 	glutSwapBuffers(); //swap the buffers
+
 }
 
 void Reshape(int w, int h) {
@@ -443,7 +453,7 @@ Weapon* createWeapon(std::vector<unsigned int> anim,int i) {
 		return weapon;
 	}
 	if (i == 1) {
-		Weapon* weapon = new Weapon("minigun", 1, false, 2, 300, 5, 50, 40, 40);
+		Weapon* weapon = new Weapon("minigun", 10, false, 5, 500, 5, 100, 80, 80);
 
 		weapon->setAnimationFrames(anim);
 		weapon->setNormalStateAnimation(1);
@@ -459,7 +469,7 @@ Weapon* createWeapon(std::vector<unsigned int> anim,int i) {
 		return weapon;
 	}
 	else {
-		Weapon* weapon = new Weapon("shotgun", 300, false, 200, 20, 2, 2, 10, 10);
+		Weapon* weapon = new Weapon("shotgun", 300, false, 200, 20, 2, 2, 20, 20);
 
 		weapon->setAnimationFrames(anim);
 		weapon->setNormalStateAnimation(1);

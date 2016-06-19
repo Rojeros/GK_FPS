@@ -23,6 +23,7 @@ Enemy::Enemy(std::vector<unsigned int>& f, unsigned int& w, unsigned int& at, un
 	direction.change(playerpos - cs.center);
 	direction.normalize();
 	curframe = 0;
+	timer = 0;
 }
 
 Enemy::Enemy(int h, float s, int str, collisionsphere c, vector3d rot, vector3d playerloc)
@@ -40,7 +41,7 @@ Enemy::Enemy(int h, float s, int str, collisionsphere c, vector3d rot, vector3d 
 	direction.change(playerloc - cs.center);
 	direction.normalize();
 	curframe = 0;
-	//	}
+	timer = 0;
 }
 
 bool Enemy::update(std::vector<collisionplane>& map2, vector3d playerpos, collisionsphere css)
@@ -109,17 +110,22 @@ void Enemy::setLocation(vector3d& loc)
 
 bool Enemy::setAttack(collisionsphere playerloc)
 {
-	if (spheresphere(cs.center, cs.r, playerloc.center, playerloc.r) && !isdead)
+	
+	if (spheresphere(cs.center, cs.r, playerloc.center, playerloc.r) && !isdead && timer>200)
 	{
 		isattack = true;
 		iswalk = false;
+		timer = 0;
 		return 1;
 	}
 	else if (!isdead) {
+		timer++;
 		iswalk = true;
 		isattack = false;
 		return 0;
 	}
+
+	return 0;
 }
 
 
@@ -140,7 +146,7 @@ int Enemy::getStrength()
 
 bool Enemy::isDead()
 {
-	if (health <= 0) {
+	if (health <= 0 || cs.center.y<-100) {
 		isdead = true;
 	}
 	return isdead;

@@ -33,6 +33,7 @@ Player::Player(std::string n, collisionsphere cs, Weapon* startWeapon, int hl, f
 	energy = 10;
 	sprint = false;
 	points = 0;
+	startPoint = cs.center;
 
 }
 
@@ -56,7 +57,7 @@ void Player::jump()
 		direction.change(0.0, 2, 0.0);
 	}
 	else {
-		//direction.change(0.0, 50, 0.0);
+		//direction.change(0.0, 30, 0.0);
 	}
 }
 
@@ -185,11 +186,19 @@ bool Player::isGroundCollision() {
 	return groundCollision;
 }
 
+bool Player::isDead()
+{
+	if(health<=0 || cam.getLocation().y<-100)
+	return true;
+
+	return false;
+}
+
 void Player::resetPlayer()
 {
-	
-	//setPosition(vector3d(collisionSp.center.x,4, collisionSp.center.z));
-	//direction.change(0, 2, 0);
+	setHealth(1500);
+	setPosition(startPoint);
+	points=0;
 }
 
 Weapon* Player::getCurrentWeapon() {
@@ -236,5 +245,15 @@ void Player::changeWeapon(bool up)
 
 collisionsphere Player::getCollisionSphere() {
 	return collisionSp;
+}
+
+std::vector<Weapon*> Player::getAllWeapon()
+{
+	return weapons;
+}
+
+int Player::getIntCurrentWeapon()
+{
+	return currentWeapon;
 }
 
