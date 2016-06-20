@@ -109,14 +109,6 @@ bool collision::sphereplane(vector3d& sp, vector3d pn, vector3d p1, vector3d p2,
 			//forced to "stand in place"
 
 			sp.x = pn.y < 1 ? sp.x : sp.x + pn.x*(r - dist1);	//calculate the point, and calculate our new location
-			//std::cout << "SP Y " << sp.y << std::endl;
-<<<<<<< HEAD
-		//	std::cout << "PN Y " << pn.y << std::endl;
-		//	std::cout << std::endl;
-=======
-			//std::cout << "PN Y " << pn.y << std::endl;
-			//std::cout << std::endl;
->>>>>>> origin/feature-level
 			sp.y = pn.y < 1 ? sp.y + pn.y*(r - dist1) + 0.001 : sp.y + pn.y*(r - dist1);
 			sp.z = pn.y < 1 ? sp.z : sp.z + pn.z*(r - dist1);
 		}

@@ -79,15 +79,11 @@ int main(int argc, char **argv) {
 	objectLoader->loadAnimation(anim, "Assets/Weapons/weapon_1/weapon_1", 37);
 	Weapon* weapon0= createWeapon(anim,0);
 
-<<<<<<< HEAD
-	Player player_t(" ", collisionsphere(vector3d(0, 5, 0), 2), weapon, 50, 3, 3, 3);
-=======
-	Player player_t(" ", collisionsphere(vector3d(0, 50, 0), 3), weapon0, 1500, 3, 3, 3);
+	Player player_t(" ", collisionsphere(vector3d(0, 5, 0), 3), weapon0, 1500, 3, 3, 3);
 	Weapon* weapon1 = createWeapon(anim, 1);
 	Weapon* weapon2 = createWeapon(anim, 2);
 	player_t.addWeapon(weapon1);
 	player_t.addWeapon(weapon2);
->>>>>>> origin/feature-level
 	player = player_t;
 	glutSetCursor(GLUT_CURSOR_NONE);
 	glutIgnoreKeyRepeat(1);
@@ -338,7 +334,6 @@ void Timer(int value)
 		if (g_mouse_right_down) {
 			//g_camera.Fly(g_translation_speed);
 		}
-<<<<<<< HEAD
 
 		if (g_key[32]) {
 			if (time < 6) {
@@ -351,11 +346,9 @@ void Timer(int value)
 			time = 0;
 		}
 
-=======
 		if (g_key['r'] || g_key['R']) {
 			player.getCurrentWeapon()->reload();
 		}
->>>>>>> origin/feature-level
 		/*Weapon* weapon = player.getCurrentWeapon();
 
 			if (weapon != NULL) {
@@ -457,7 +450,7 @@ void MouseMotion(int x, int y)
 
 Weapon* createWeapon(std::vector<unsigned int> anim,int i) {
 	if (i == 0) {
-		Weapon* weapon = new Weapon("pistol", 150, false, 50, 300, 5, 12, 1000, 1000);
+		Weapon* weapon = new Weapon("pistol", 30, false, 50, 300, 5, 12, 1000, 1000);
 
 		weapon->setAnimationFrames(anim);
 		weapon->setNormalStateAnimation(1);
@@ -489,7 +482,7 @@ Weapon* createWeapon(std::vector<unsigned int> anim,int i) {
 		return weapon;
 	}
 	else {
-		Weapon* weapon = new Weapon("shotgun", 300, false, 200, 20, 2, 2, 20, 20);
+		Weapon* weapon = new Weapon("shotgun", 50, false, 200, 20, 2, 2, 20, 20);
 
 		weapon->setAnimationFrames(anim);
 		weapon->setNormalStateAnimation(1);
