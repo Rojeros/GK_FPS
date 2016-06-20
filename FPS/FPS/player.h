@@ -51,6 +51,7 @@ public:
 	void addHealth(int h);
 	void addWeapon(Weapon*gun);
 	void setSprint(bool b);
+	void setStartPosition(vector3d pos);
 	bool getSprint();
 	void addPoints(int num);
 	bool isWallCollision();

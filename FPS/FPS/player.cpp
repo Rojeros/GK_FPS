@@ -157,6 +157,11 @@ void Player::setSprint(bool b)
 {
 }
 
+void Player::setStartPosition(vector3d pos)
+{
+	startPoint = pos;
+}
+
 bool Player::getSprint()
 {
 	return sprint;

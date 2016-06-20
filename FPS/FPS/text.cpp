@@ -1,6 +1,6 @@
 #include "text.h"
 
-void text::showTextInfo(int health, int ammo, int allammo, int point, std::vector<Weapon*> weaponName, int currentWeapon,int points, int g_viewport_width, int g_viewport_height)
+void text::showTextInfo(int health, int ammo, int allammo, int point, std::vector<Weapon*> weaponName, int currentWeapon,int points, int g_viewport_width, int g_viewport_height,std::string level)
 {
 	startText(g_viewport_width, g_viewport_height);
 	glLineWidth(5);
@@ -46,10 +46,14 @@ void text::showTextInfo(int health, int ammo, int allammo, int point, std::vecto
 
 	endText();
 
+	startText(g_viewport_width, g_viewport_height);
+	glLineWidth(2);
+	displayText("Level: " + level, g_viewport_width, g_viewport_height, 8, N, 0);
+	endText();
 
 	startText(g_viewport_width, g_viewport_height);
-	glLineWidth(5);
-	displayText("Points: "+to_string(points), g_viewport_width, g_viewport_height, 8, N, 0);
+	glLineWidth(2);
+	displayText("Points: "+to_string(points), g_viewport_width, g_viewport_height, 8, N, -1);
 	endText();
 
 	startText(g_viewport_width, g_viewport_height);

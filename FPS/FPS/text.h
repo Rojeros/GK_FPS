@@ -31,7 +31,7 @@ class text {
 	void text::displayText(std::string text, int g_viewport_width, int g_viewport_height, double size, coordinates coord, int line, vector3d color);
 	void text::endText();
 public:
-	void text::showTextInfo(int health, int ammo, int allammo, int point, std::vector<Weapon*> weaponName,int currentWeapon,int points, int g_viewport_width, int g_viewport_height);
+	void text::showTextInfo(int health, int ammo, int allammo, int point, std::vector<Weapon*> weaponName,int currentWeapon,int points, int g_viewport_width, int g_viewport_height,std::string level);
 	void text::displayDiffrentText(std::string text, int g_viewport_width, int g_viewport_height, double size, coordinates coord, int line,vector3d color);
 
 };

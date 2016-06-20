@@ -1,6 +1,6 @@
 #include "item.h"
 
-oneItem::oneItem(int& i,  collisionsphere c)
+oneItem::oneItem(kind i,  collisionsphere c)
 {
 	id = i;
 	direction = false;
@@ -8,10 +8,22 @@ oneItem::oneItem(int& i,  collisionsphere c)
 	rotation.change(0, 0, 0);
 	cs = c;
 	scale = vector3d(1, 1, 1);
+	colour = vector3d(1, 1, 1);
+}
+
+oneItem::oneItem(kind i, collisionsphere c, vector3d rotation, vector3d speed, vector3d scale,vector3d colour)
+{
+	id = i;
+	direction = false;
+	speed.change(speed.x, speed.y, speed.z);
+	rotation.change(rotation.x, rotation.y, rotation.z);
+	cs = c;
+	this->scale = scale;
+	this->colour = colour;
 }
 
 
-item::item(int i, unsigned int mesh, collisionsphere& c)
+item::item(kind i, unsigned int mesh, collisionsphere& c)
 {
 	items.push_back(oneItem(i, c));
 }
@@ -23,27 +35,38 @@ item::item()
 
 int item::update(collisionsphere playerpos)
 {
-	for (int i = 0;i<items.size();i++)
+	
+	
+	for (int i = 0;i < items.size();i++)
 	{
-		items[i].rotation.y += 0.01;
-		if (items[i].rotation.y>360)
-			items[i].rotation.y -= 360;
+		if (items[i].id == finish) {
+			items[i].colour.x += 0.001;
+			if (items[i].colour.y>1)
+				items[i].colour.x =0;
 		
-		
-		if (items[i].speed.y < 2 && !items[i].direction) {
-			items[i].speed.y += 0.005;
 		}
-		if (items[i].speed.y >= 2) {
-			items[i].direction = true;
-		}
-		if (items[i].speed.y>0 && items[i].direction)
-			items[i].speed.y -= 0.005;
+		else {
+			items[i].rotation.y += 0.01;
+			if (items[i].rotation.y>360)
+				items[i].rotation.y -= 360;
 
-		if (items[i].speed.y<0 && items[i].direction)
-			items[i].direction = false;
-		items[i].speed.z = sin(items[i].rotation.y*2);
-		items[i].speed.x = cos(items[i].rotation.y*2);
+
+			if (items[i].speed.y < 2 && !items[i].direction) {
+				items[i].speed.y += 0.005;
+			}
+			if (items[i].speed.y >= 2) {
+				items[i].direction = true;
+			}
+			if (items[i].speed.y > 0 && items[i].direction)
+				items[i].speed.y -= 0.005;
+
+			if (items[i].speed.y < 0 && items[i].direction)
+				items[i].direction = false;
+			items[i].speed.z = sin(items[i].rotation.y * 2);
+			items[i].speed.x = cos(items[i].rotation.y * 2);
+		}
 	}
+
 	for (int i = 0;i<items.size();i++)
 	{
 		if (spheresphere(items[i].cs.center, items[i].cs.r, playerpos.center, playerpos.r))
@@ -58,9 +81,11 @@ int item::update(collisionsphere playerpos)
 
 void item::show()
 {
+	
 	glEnable(GL_NORMALIZE);
 	for (int i = 0;i<items.size();i++)
 	{
+	
 		glPushMatrix();
 		glTranslatef(items[i].cs.center.x+items[i].speed.x, items[i].cs.center.y+items[i].speed.y, items[i].cs.center.z+ items[i].speed.z);
 		glRotatef(items[i].rotation.x, 1.0, 0.0, 0.0);
@@ -69,30 +94,49 @@ void item::show()
 		glScalef(items[i].scale.x, items[i].scale.y, items[i].scale.z);
 
 		switch (items[i].id) {
-		case 0:
+		case ammo:
 			glColor3f(0, 0, 1);
+			glutSolidCube(0.5);
+			glPopMatrix();
 			break;
-		case 1:
+		case health:
 			glColor3f(1, 0.5, 0.5);
+			glutSolidSphere(0.5, 10, 10);
+
+			glPopMatrix();
+			break;
+		case finish:
+			glColor3f(1, 0.5, 0.5);
+		//	glColor3f(items[i].colour.x, items[i].colour.y, items[i].colour.z);
+			glutSolidCube(2);
+			glPopMatrix();
 			break;
 		default:
 			glColor3f(1, 1, 1);
-			break;
-		
+			glutSolidCube(4);
+			glPopMatrix();
 		}
+	
 		
-		glutSolidCube(0.5);
-		glPopMatrix();
+		
 	}
 	glDisable(GL_NORMALIZE);
 }
 
-void item::add(int i,  collisionsphere c)
+void item::add(kind i,  collisionsphere c)
 {
 	items.push_back(oneItem(i, c));
 }
 
-void item::del(int id)
+void item::add(kind i, collisionsphere c, vector3d rotation, vector3d speed, vector3d scale)
+{
+	items.push_back(oneItem( i, c,rotation,speed,scale,vector3d(1,1,1)));
+
+}
+
+
+
+void item::del(kind id)
 {
 	for (int i = 0;i<items.size();i++)
 	{
@@ -102,4 +146,9 @@ void item::del(int id)
 			break;
 		}
 	}
+}
+
+void item::clear()
+{
+	items.clear();
 }

@@ -1,13 +1,16 @@
 #include "level.h"
 
 
-Level::Level(unsigned int lId, std::vector<collisionplane>& cplane, std::string n, std::vector<vector3d>& sp) // std::vector<std::string>& skyImages, 
+Level::Level(unsigned int lId, std::vector<collisionplane>& cplane, std::string n, std::vector<vector3d>& sp,vector3d pStartPoint,vector3d endp) // std::vector<std::string>& skyImages, 
 {
 	levelId = lId;
 	cp = cplane;
 	name = n;
 	//sky = new skybox(skyImages[0].c_str(), skyImages[1].c_str(), skyImages[2].c_str(), skyImages[3].c_str(), skyImages[4].c_str(), skyImages[5].c_str());
 	spawnPoints = sp;
+	playerSpawnPoint = pStartPoint;
+	endPoint = endp;
+	end = false;
 }
 void Level::update()
 {
@@ -23,7 +26,8 @@ std::vector<collisionplane>& Level::getCollisionPlanes()
 }
 std::string& Level::getName()
 {
-	return name;
+
+	return  name;
 }
 void Level::change(unsigned int lId, std::vector<collisionplane>& cplane, std::string n) //, std::string skyImages[]
 {
@@ -46,4 +50,24 @@ std::vector<vector3d>* Level::getSpawnPoints()
 vector3d Level::getRandomSpawnPoint()
 {
 	return (spawnPoints[rand() % spawnPoints.size()]);
+}
+
+vector3d Level::getPlayerSpawnPoint()
+{
+	return playerSpawnPoint;
+}
+
+vector3d Level::getEndPoint()
+{
+	return endPoint;
+}
+
+void Level::setEnd(bool i)
+{
+	end = i;
+}
+
+bool Level::isEnd()
+{
+	return end;
 }
