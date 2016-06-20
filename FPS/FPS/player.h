@@ -6,7 +6,7 @@
 #include <string>
 #include "Dependencies\glew\glew.h"
 #include "Dependencies\freeglut\freeglut.h"
-#include<cmath>
+#include <cmath>
 #include "camera.h"
 #include "collisionsphere.h"
 #include "collisionplane.h"
@@ -19,7 +19,7 @@ class Player
 
 {
 	std::vector<Weapon*> weapons;
-	unsigned int currentWeapon;
+	int currentWeapon;
 	collisionsphere collisionSp;
 	std::string name;
 	int health;
@@ -31,8 +31,8 @@ class Player
 	bool isSprint;
 	float energy;
 	int points;
-
 	bool wallCollision;
+	vector3d startPoint;
 
 
 public:
@@ -49,17 +49,23 @@ public:
 	int getHealth();
 	void setHealth(int h);
 	void addHealth(int h);
+	void addWeapon(Weapon*gun);
 	void setSprint(bool b);
 	bool getSprint();
 	void addPoints(int num);
 	bool isWallCollision();
 	bool isGroundCollision();
+	bool isDead();
 	int getPoints();
 	void teleport();
 	void setPosition(vector3d position);
 	void resetPlayer();
 	Weapon* getCurrentWeapon();
+	Weapon* Player::getRandomWeapon();
+	void changeWeapon(bool up);
 	collisionsphere getCollisionSphere();
+	std::vector<Weapon*> getAllWeapon();
+	int getIntCurrentWeapon();
 
 };
 

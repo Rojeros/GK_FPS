@@ -43,7 +43,7 @@ std::vector<vector3d>* Level::getSpawnPoints()
 	return &spawnPoints;
 }
 
-vector3d* Level::getRandomSpawnPoint()
+vector3d Level::getRandomSpawnPoint()
 {
-	return &(spawnPoints[rand() % spawnPoints.size()]);
+	return (spawnPoints[rand() % spawnPoints.size()]);
 }

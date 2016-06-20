@@ -151,6 +151,7 @@ bool vector3d::operator!=(const vector3d& vec2)
 	return (x != vec2.x && y != vec2.y && z != vec2.z);
 }
 
+
 std::ostream& operator<<(std::ostream& out, vector3d vec2)
 {
 	out << vec2.x << "\t" << vec2.y << "\t" << vec2.z << std::endl;

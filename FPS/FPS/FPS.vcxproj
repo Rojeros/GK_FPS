@@ -132,6 +132,8 @@
     <ClCompile Include="objectloader.cpp" />
     <ClCompile Include="vector.cpp" />
     <ClCompile Include="weapon.cpp" />
+    <ClCompile Include="item.cpp" />
+    <ClCompile Include="text.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
@@ -144,6 +146,8 @@
     <ClInclude Include="objectloader.h" />
     <ClInclude Include="vector.h" />
     <ClInclude Include="weapon.h" />
+    <ClInclude Include="item.h" />
+    <ClInclude Include="text.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

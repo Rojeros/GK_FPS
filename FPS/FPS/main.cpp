@@ -7,6 +7,8 @@
 #include "objectloader.h"
 #include "level.h"
 #include "enemy.h"
+#include "text.h"
+#include "item.h"
 
 #define M_PI 1.57079632679489661923
 
@@ -17,15 +19,16 @@ void Reshape(int w, int h);
 void Keyboard(unsigned char key, int x, int y);
 void KeyboardUp(unsigned char key, int x, int y);
 void MouseMotion(int x, int y);
+void mouseWheel(int button, int dir, int x, int y);
 void Mouse(int button, int state, int x, int y);
 void Timer(int value);
 void Idle();
-Weapon* createWeapon(vector<unsigned int> anim);
-
+Weapon* createWeapon(vector<unsigned int> anim,int i);
+bool isFired=false;
 void Grid();
-
 Player player;
-Enemy enemy(200, 0.003, 5, collisionsphere(vector3d(10, 50, 10), 1), vector3d(0, 0, 0), player.cam.getLocation());
+std::vector<Enemy> enemyList;
+text informations;
 
 bool g_key[256];
 bool g_shift_down = false;
@@ -39,9 +42,15 @@ bool level_start = false;
 vector<Level*> levels;
 std::vector<collisionplane> level_collision_planes;
 
+
 // Movement settings
 const float g_translation_speed = 0.2;
 const float g_rotation_speed = M_PI / 180 * 0.2;
+
+
+//vector3d a(0, 0, 0);
+//vector3d b(0, 0, 0);
+item bonuses;
 
 int main(int argc, char **argv) {
 	glutInit(&argc, argv);
@@ -50,7 +59,15 @@ int main(int argc, char **argv) {
 	glutCreateWindow("FPS");
 	ObjectLoader* objectLoader = new ObjectLoader();
 	std::vector<vector3d> spawn_points;
-	spawn_points.push_back(vector3d(2, 3, 4));
+	spawn_points.push_back(vector3d(-2, 3, 4));
+	spawn_points.push_back(vector3d(3, 3, 4));
+	spawn_points.push_back(vector3d(-4, 3, 4));
+	spawn_points.push_back(vector3d(4, 3, 4));
+	spawn_points.push_back(vector3d(-2, 3, -4));
+	spawn_points.push_back(vector3d(3, 3, -4));
+	spawn_points.push_back(vector3d(-4, 3, -4));
+	spawn_points.push_back(vector3d(4, 3, -4));
+
 	//unsigned int levelId = objectLoader->load("testowa_scena.obj", &level_collision_planes);
 	unsigned int levelId = objectLoader->load("Assets/Scenes/scena4.obj", &level_collision_planes);
 	cout << "LEVEL ID: " << levelId << endl;
@@ -60,9 +77,17 @@ int main(int argc, char **argv) {
 
 	vector<unsigned int> anim;
 	objectLoader->loadAnimation(anim, "Assets/Weapons/weapon_1/weapon_1", 37);
-	Weapon* weapon = createWeapon(anim);
+	Weapon* weapon0= createWeapon(anim,0);
 
+<<<<<<< HEAD
 	Player player_t(" ", collisionsphere(vector3d(0, 5, 0), 2), weapon, 50, 3, 3, 3);
+=======
+	Player player_t(" ", collisionsphere(vector3d(0, 50, 0), 3), weapon0, 1500, 3, 3, 3);
+	Weapon* weapon1 = createWeapon(anim, 1);
+	Weapon* weapon2 = createWeapon(anim, 2);
+	player_t.addWeapon(weapon1);
+	player_t.addWeapon(weapon2);
+>>>>>>> origin/feature-level
 	player = player_t;
 	glutSetCursor(GLUT_CURSOR_NONE);
 	glutIgnoreKeyRepeat(1);
@@ -71,11 +96,16 @@ int main(int argc, char **argv) {
 	glutIdleFunc(Display);
 	glutReshapeFunc(Reshape);
 	glutMouseFunc(Mouse);
+	glutMouseWheelFunc(mouseWheel);
 	glutMotionFunc(MouseMotion);
 	glutPassiveMotionFunc(MouseMotion);
 	glutKeyboardFunc(Keyboard);
 	glutKeyboardUpFunc(KeyboardUp);
 	glutIdleFunc(Idle);
+
+
+	
+
 
 	glutTimerFunc(100, Timer, 0);
 	glutMainLoop();
@@ -110,13 +140,86 @@ void Grid()
 }
 
 void update(void) {
-	player.update(level_collision_planes);
-	enemy.update(level_collision_planes, player.cam.getLocation(), player.getCollisionSphere());
-	
+	if (player.isDead()) {
+		if(isFired)
+			player.resetPlayer();
+	}
+	else {
+		player.update(level_collision_planes);
+
+		if (enemyList.size() <= 4) {
+			enemyList.push_back(Enemy(200, 0.003, 5, collisionsphere(levels[0]->getRandomSpawnPoint(), 1), vector3d(0, 0, 0), player.cam.getLocation()));
+		}
+
+		vector<Enemy>::iterator it = enemyList.begin();
+		while (it != enemyList.end()) {
+			it->update(level_collision_planes, player.cam.getLocation(), player.getCollisionSphere());
+			if (it->setAttack(player.getCollisionSphere()))
+			{
+				player.decreaseHealth(it->getStrength());
+			}
+			if (it->isDead()) {
+				player.addPoints(5);
+				int g = rand() % 10;
+				if (g == 1)
+					bonuses.add(0, collisionsphere(it->getSphere()->center, 1.0));
+				else if (g == 2)
+					bonuses.add(1, collisionsphere(it->getSphere()->center, 1.0));
+
+				it = enemyList.erase(it);
+			}
+			else {
+				it++;
+			}
+		}
+
+
+
+		vector3d camdirection, direction;
+		bool isshot = false;
+		if (isFired)
+		{
+			camdirection = player.getCamera()->getDirectionVector();
+			isshot = player.getCurrentWeapon()->fire(direction, camdirection);
+			direction.normalize();
+			if (isshot)
+			{
+				//		a = direction;
+				//		b = player.getCamera()->getLocation();
+				vector<Enemy>::iterator it;
+				for (it = enemyList.begin(); it != enemyList.end(); ++it) {
+					if (collision::raysphere(it->getSphere()->center.x, it->getSphere()->center.y, it->getSphere()->center.z, direction.x, direction.y, direction.z, player.cam.getLocation().x, player.cam.getLocation().y, player.cam.getLocation().z, it->getSphere()->r))
+					{
+						it->decreaseHealth(player.getCurrentWeapon()->getPower());
+
+
+					}
+				}
+				player.getCurrentWeapon()->nofire();
+			}
+			else {
+				player.getCurrentWeapon()->nofire();
+			}
+
+		}
+
+		int h = bonuses.update(player.getCollisionSphere());
+		switch (h) {
+		case -1:
+			break;
+		case 0:
+
+			player.getRandomWeapon()->addAllBullets(50);
+			break;
+		case 1:
+			player.setHealth(player.getHealth() + 500);
+			break;
+		}
+	}
 }
 
 void Display(void) {
-	//
+	
 	glClearColor(0.0, 0.0, 0.0, 1.0); //clear the screen to black
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clear the color buffer and the depth buffer
 	
@@ -138,18 +241,37 @@ void Display(void) {
 	glShadeModel(GL_SMOOTH);
 
 	update();
-	glColor3f(0, 1, 0);
-
+	//glColor3f(0, 1, 0);
 	
+	/*
+	glPushMatrix();
+	glColor3f(1, 1, 1);
+	glBegin(GL_LINES);
+	glVertex3f(b.x,b.y,b.z);
+	glVertex3f(b.x + a.x*100, b.y + a.y * 100, b.z + a.z * 100);
+	glEnd();
+	glPopMatrix();
+	*/
+
+	bonuses.show();
 	levels[0]->show();
-	enemy.show();
+	vector<Enemy>::iterator it;
+	for (it = enemyList.begin(); it != enemyList.end(); ++it) {
+		it->show();
+	}
 	player.show();	
-		
+	
 		//level_start = true;
 	
 	//Grid();
+		informations.showTextInfo(player.getHealth(), player.getCurrentWeapon()->getAmmoClip(), player.getCurrentWeapon()->getAllBullets(), 0, player.getAllWeapon(),player.getIntCurrentWeapon(),player.getPoints(),g_viewport_width,g_viewport_height);
+	if (player.isDead()) {
+		
+		informations.displayDiffrentText("GAME OVER", g_viewport_width, g_viewport_height, 1.2, CENTER, 1, vector3d(1, 0, 0));
 
+	}
 	glutSwapBuffers(); //swap the buffers
+
 }
 
 void Reshape(int w, int h) {
@@ -196,6 +318,7 @@ void Timer(int value)
 		if (g_key['w'] || g_key['W']) {
 				player.cam.move(g_translation_speed);
 		}
+		
 		 if (g_key['s'] || g_key['S']) {
 				player.cam.move(-g_translation_speed);
 		}
@@ -207,11 +330,15 @@ void Timer(int value)
 
 		}
 		if (g_mouse_left_down) {
-			//g_camera.Fly(-g_translation_speed);
+			isFired = true;
+		}
+		if (!g_mouse_left_down) {
+			isFired = false;
 		}
 		if (g_mouse_right_down) {
 			//g_camera.Fly(g_translation_speed);
 		}
+<<<<<<< HEAD
 
 		if (g_key[32]) {
 			if (time < 6) {
@@ -224,6 +351,11 @@ void Timer(int value)
 			time = 0;
 		}
 
+=======
+		if (g_key['r'] || g_key['R']) {
+			player.getCurrentWeapon()->reload();
+		}
+>>>>>>> origin/feature-level
 		/*Weapon* weapon = player.getCurrentWeapon();
 
 			if (weapon != NULL) {
@@ -281,7 +413,19 @@ void Mouse(int button, int state, int x, int y)
 		}
 	}
 }
+void mouseWheel(int button, int dir, int x, int y)
+{
+	if (dir > 0)
+	{
+		player.changeWeapon(false);
+	}
+	else
+	{
+		player.changeWeapon(true);
+	}
 
+	return;
+}
 void MouseMotion(int x, int y)
 {
 	// This variable is hack to stop glutWarpPointer from triggering an event callback to Mouse(...)
@@ -311,21 +455,54 @@ void MouseMotion(int x, int y)
 	
 }
 
-Weapon* createWeapon(std::vector<unsigned int> anim) {
-	Weapon* weapon = new Weapon();
+Weapon* createWeapon(std::vector<unsigned int> anim,int i) {
+	if (i == 0) {
+		Weapon* weapon = new Weapon("pistol", 150, false, 50, 300, 5, 12, 1000, 1000);
 
-	weapon->setAnimationFrames(anim);
-	weapon->setNormalStateAnimation(1);
-	weapon->setFireStateAnimation(16);
-	weapon->setReloadStateAnimation(20);
-	weapon->setPosition(vector3d(-0.06, 0.13, 0.13));
-	weapon->setRotation(vector3d(0, 0, 0));
-	weapon->setCurrentPosition(vector3d(-0.06, 0.13, 0.13));
-	weapon->setCurrentRotation(vector3d(0, 0, 0));
-	weapon->setModelId(anim[0]);
-	weapon->setAllBullets(300);
-	weapon->setMaxMagazineBullets(30);
+		weapon->setAnimationFrames(anim);
+		weapon->setNormalStateAnimation(1);
+		weapon->setFireStateAnimation(16);
+		weapon->setReloadStateAnimation(20);
+		weapon->setPosition(vector3d(-0.06, 0.13, 0.13));
+		weapon->setRotation(vector3d(0, 0, 0));
+		weapon->setCurrentPosition(vector3d(-0.06, 0.13, 0.13));
+		weapon->setCurrentRotation(vector3d(0, 0, 0));
+		weapon->setModelId(anim[0]);
 
-	return weapon;
 
+		return weapon;
+	}
+	if (i == 1) {
+		Weapon* weapon = new Weapon("minigun", 10, false, 5, 500, 5, 100, 80, 80);
+
+		weapon->setAnimationFrames(anim);
+		weapon->setNormalStateAnimation(1);
+		weapon->setFireStateAnimation(16);
+		weapon->setReloadStateAnimation(20);
+		weapon->setPosition(vector3d(-0.06, 0.13, 0.13));
+		weapon->setRotation(vector3d(0, 0, 0));
+		weapon->setCurrentPosition(vector3d(-0.06, 0.13, 0.13));
+		weapon->setCurrentRotation(vector3d(0, 0, 0));
+		weapon->setModelId(anim[0]);
+
+
+		return weapon;
+	}
+	else {
+		Weapon* weapon = new Weapon("shotgun", 300, false, 200, 20, 2, 2, 20, 20);
+
+		weapon->setAnimationFrames(anim);
+		weapon->setNormalStateAnimation(1);
+		weapon->setFireStateAnimation(16);
+		weapon->setReloadStateAnimation(20);
+		weapon->setPosition(vector3d(-0.06, 0.13, 0.13));
+		weapon->setRotation(vector3d(0, 0, 0));
+		weapon->setCurrentPosition(vector3d(-0.06, 0.13, 0.13));
+		weapon->setCurrentRotation(vector3d(0, 0, 0));
+		weapon->setModelId(anim[0]);
+
+
+		return weapon;
+	}
 }
+
