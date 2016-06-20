@@ -40,7 +40,7 @@ vector<Level*> levels;
 std::vector<collisionplane> level_collision_planes;
 
 // Movement settings
-const float g_translation_speed = 0.1;
+const float g_translation_speed = 0.2;
 const float g_rotation_speed = M_PI / 180 * 0.2;
 
 int main(int argc, char **argv) {
@@ -189,8 +189,7 @@ void KeyboardUp(unsigned char key, int x, int y)
 	g_key[key] = false;
 }
 
-bool keyWasChanged = false;
-
+int time = 0;
 void Timer(int value)
 {
 
@@ -215,14 +214,14 @@ void Timer(int value)
 		}
 
 		if (g_key[32]) {
-			if (keyWasChanged == false) {
-				player.cam.fly(2);
-				keyWasChanged = true;
+			if (time < 6) {
+				player.cam.fly(0.6);
+				time++;
 			}
 			
 		}
 		else {
-			keyWasChanged = false;
+			time = 0;
 		}
 
 		/*Weapon* weapon = player.getCurrentWeapon();
