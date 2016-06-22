@@ -82,7 +82,7 @@ int main(int argc, char **argv) {
 		);
 
 	vector<unsigned int> anim;
-	objectLoader->loadAnimation(anim, "Assets/Weapons/weapon_1/weapon_1", 37);
+	objectLoader->loadAnimation(anim, "Assets/Weapons/pistol_2/pistol2", 37);
 	Weapon* weapon0 = createWeapon(anim, 0);
 
 	Player player_t(" ", collisionsphere(vector3d(0, 5, 0), 3), weapon0, 1500, 3, 3, 3);
@@ -263,7 +263,7 @@ void Display(void) {
 
 	glClearColor(0.0, 0.0, 0.0, 1.0); //clear the screen to black
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clear the color buffer and the depth buffer
-
+	glClearDepth(1.0);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 
@@ -301,6 +301,8 @@ void Display(void) {
 		it->show();
 	}
 	player.show();
+
+	glClear(GL_DEPTH_BUFFER_BIT);
 
 	//level_start = true;
 
@@ -390,7 +392,7 @@ void Timer(int value)
 		if (g_key['r'] || g_key['R']) {
 			player.getCurrentWeapon()->reload();
 		}
-		/*Weapon* weapon = player.getCurrentWeapon();
+		Weapon* weapon = player.getCurrentWeapon();
 
 			if (weapon != NULL) {
 				if (g_key['i'] || g_key['I'])
@@ -414,7 +416,7 @@ void Timer(int value)
 				{
 					weapon->test('o');
 				}
-		}*/
+		}
 		
 
 		

@@ -148,6 +148,7 @@ void Weapon::update(vector3d newPosition) {
 		curRot=currot; 
 	*/
 
+	
 	currentAnimationFrame++;
 	if (currentState == 1)
 	{
@@ -179,11 +180,6 @@ void Weapon::update(vector3d newPosition) {
 	}
 	lastShot++;
 	currentPosition = newPosition;
-
-	
-	
-		
-
 
 }
 bool Weapon::fire(vector3d& direction, vector3d& camdirection) {
@@ -249,7 +245,7 @@ void Weapon::show(float angleYaw, float anglePitch) {
 		//glRotatef(angle * 57.2957795, 1, 0, 0);
 		glRotatef(-angleYaw * 57.2957795, 0, 1, 0);
 		glRotatef(anglePitch * 57.2957795, 0, 0, 1);
-		glTranslatef(-0.06, -0.8, 0.13);
+		glTranslatef(1.4, -0.6, 0.5);
 
 		glCallList(animationFrames[currentAnimationFrame]);
 	glPopMatrix();
@@ -258,26 +254,26 @@ void Weapon::show(float angleYaw, float anglePitch) {
 void Weapon::test(const char key) {
 
 	if (key == 'i') {
-		currentPosition.z += 0.01;
+		currentPosition.z += 0.05;
 	}
 	else if (key == 'k') {
-		currentPosition.z -= 0.01;
+		currentPosition.z -= 0.05;
 	}
 	else if (key == 'j') {
-		currentPosition.x -= 0.01;
+		currentPosition.x -= 0.05;
 	}
 	else if (key == 'l') {
-		currentPosition.x += 0.01;
+		currentPosition.x += 0.05;
 	}
 	else if (key == 'u') {
-		currentPosition.y -= 0.01;
+		currentPosition.y -= 0.05;
 
 	}
 	else if (key == 'o') {
-		currentPosition.y += 0.01;
+		currentPosition.y += 0.05;
 	}
 
-	//std::cout << currentPosition.x << " " << currentPosition.y << " " << currentPosition.z << std::endl;
+	std::cout << currentPosition.x << " " << currentPosition.y << " " << currentPosition.z << std::endl;
 
 	/*
 	if(keys[SDLK_j])

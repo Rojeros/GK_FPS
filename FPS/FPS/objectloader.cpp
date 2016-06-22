@@ -96,9 +96,68 @@ ObjectLoader::~ObjectLoader()
 	}
 }
 
+GLuint ObjectLoader::loadImage(const char * filename)
+{
+
+	GLuint texture;
+
+	int width, height;
+
+	unsigned char * data;
+
+	FILE * file;
+
+	fopen_s(&file, filename, "rb");
+
+	if (file == NULL) {
+		std::cout << "IS NULL" << std::endl;
+		return 0;
+	}
+
+	std::cout << "IS FILE " << std::endl;
+
+	width = 1024;
+	height = 1024;
+	data = (unsigned char *)malloc(width * height * 3);
+	//int size = fseek(file,);
+	fread(data, width * height * 3, 1, file);
+	fclose(file);
+
+	for (int i = 0; i < width * height; ++i)
+	{
+		int index = i * 3;
+		unsigned char B, R;
+		B = data[index];
+		R = data[index + 2];
+
+		data[index] = R;
+		data[index + 2] = B;
+
+	}
+
+
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+
+
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, width, height, GL_RGB, GL_UNSIGNED_BYTE, data);
+	free(data);
+
+	return texture;
+}
+
 unsigned int ObjectLoader::loadTexture(const char* filename)
 {
-	return 0;
+	GLuint texture = loadImage(filename);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	loadedTextures.push_back(filename);
+	loadedTexturesNum.push_back(texture);
+	return texture;
 }
 
 ObjectLoader::ObjectLoader()
@@ -348,12 +407,12 @@ int ObjectLoader::load(const std::string& filename, std::vector<collisionplane>*
 				{
 					sscanf_s(tmp[i].c_str(), "map_Kd %s", filename, 200);
 					bool l = 0;
-					out << "Opening image: " << filename << std::endl;
+					std::cout << "Opening image: " << filename << std::endl;
 					std::string filename2 = path + filename;
 					for (int i = 0; i<loadedTextures.size(); i++)
 						if (loadedTextures[i] == filename2)
 						{
-							out << "loading " << filename2 << std::endl;
+							std::cout << "loading " << filename2 << std::endl;
 							texture = loadedTexturesNum[i];
 							l = 1;
 							break;
@@ -367,6 +426,7 @@ int ObjectLoader::load(const std::string& filename, std::vector<collisionplane>*
 			{
 				if (strcmp(filename, "\0") != 0)
 				{
+					std::cout << "WITH TEXTURE" << std::endl;
 					materials.push_back(new material(name, alpha, ns, ni, dif, amb, spec, illum, texture));
 				}
 				else {
@@ -420,6 +480,9 @@ int ObjectLoader::load(const std::string& filename, std::vector<collisionplane>*
 		else
 			istexture = true;
 		out << "2....." << std::endl;
+
+		//std::cout << "IS TEXTURE " << istexture << std::endl;ww
+
 		isnormals = false;
 		if (faces[i]->four)
 		{

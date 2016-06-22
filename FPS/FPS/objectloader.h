@@ -69,4 +69,5 @@ public:
 	~ObjectLoader();
 	int load(const std::string& filename, std::vector<collisionplane>* collisionplane);
 	void loadAnimation(std::vector<unsigned int>& anim, const std::string filename, int frames);
+	GLuint loadImage(const char * filename);
 };
