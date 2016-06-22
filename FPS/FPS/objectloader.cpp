@@ -110,11 +110,8 @@ GLuint ObjectLoader::loadImage(const char * filename)
 	fopen_s(&file, filename, "rb");
 
 	if (file == NULL) {
-		std::cout << "IS NULL" << std::endl;
 		return 0;
 	}
-
-	std::cout << "IS FILE " << std::endl;
 
 	width = 1024;
 	height = 1024;
@@ -151,9 +148,72 @@ GLuint ObjectLoader::loadImage(const char * filename)
 	return texture;
 }
 
+GLuint ObjectLoader::loadImage2(const char* filename)
+{
+	//image format
+	FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
+	//pointer to the image, once loaded
+	FIBITMAP *dib(0);
+	//pointer to the image data
+	BYTE* bits(0);
+	//image width and height
+	unsigned int width(0), height(0);
+	//OpenGL's image ID to map to
+	GLuint texture;
+
+	//check the file signature and deduce its format
+	fif = FreeImage_GetFileType(filename, 0);
+	//if still unknown, try to guess the file format from the file extension
+	if (fif == FIF_UNKNOWN)
+		fif = FreeImage_GetFIFFromFilename(filename);
+	//if still unkown, return failure
+	if (fif == FIF_UNKNOWN)
+		return false;
+
+	std::cout << "FIF " << fif << std::endl;
+
+	//check that the plugin has reading capabilities and load the file
+	if (FreeImage_FIFSupportsReading(fif))
+		dib = FreeImage_Load(fif, filename);
+	//if the image failed to load, return failure
+	if (!dib)
+		return false;
+
+	//retrieve the image data
+	bits = FreeImage_GetBits(dib);
+	//get the image width and height
+	width = FreeImage_GetWidth(dib);
+	height = FreeImage_GetHeight(dib);
+	//if this somehow one of these failed (they shouldn't), return failure
+	if ((bits == 0) || (width == 0) || (height == 0))
+		return false;
+
+	//if this texture ID is in use, unload the current texture
+
+	//generate an OpenGL texture ID for this texture
+	glGenTextures(1, &texture);
+	glBindTexture(GL_TEXTURE_2D, texture);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+
+
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, width, height, GL_RGB, GL_UNSIGNED_BYTE, bits);
+	//free(bits);
+
+	//Free FreeImage's copy of the data
+	FreeImage_Unload(dib);
+
+	//return success
+	return texture;
+}
+
 unsigned int ObjectLoader::loadTexture(const char* filename)
 {
-	GLuint texture = loadImage(filename);
+	GLuint texture = loadImage2(filename);
+	std::cout << "TEXTURE LOADED " << filename << " WITH ID " << texture << std::endl;
 	glBindTexture(GL_TEXTURE_2D, texture);
 	loadedTextures.push_back(filename);
 	loadedTexturesNum.push_back(texture);
@@ -210,11 +270,9 @@ int ObjectLoader::load(const std::string& filename, std::vector<collisionplane>*
 	std::ifstream in(filename.c_str());
 	if (!in.is_open())
 	{
-		out << "Not opened file " << filename << std::endl;
 		return -1;
 	}
 	std::string path = filename.substr(0, ((filename.find_last_of('/') + 1 != std::string::npos) ? (filename.find_last_of('/') + 1) : 0));
-	out << filename << std::endl;
 	char buf[10000];
 	int curmat = 0;
 	bool coll = false;
@@ -238,14 +296,12 @@ int ObjectLoader::load(const std::string& filename, std::vector<collisionplane>*
 			float tmpx, tmpy, tmpz;
 			sscanf_s(coord[i]->c_str(), "v %f %f %f", &tmpx, &tmpy, &tmpz);
 			vertex.push_back(new coordinate(tmpx, tmpy, tmpz));
-			out << "v " << tmpx << " " << tmpy << " " << tmpz << std::endl;
 		}
 		else if ((*coord[i])[0] == 'v' && (*coord[i])[1] == 'n')
 		{
 			float tmpx, tmpy, tmpz;
 			sscanf_s(coord[i]->c_str(), "vn %f %f %f", &tmpx, &tmpy, &tmpz);
 			normals.push_back(new coordinate(tmpx, tmpy, tmpz));
-			out << "vn " << tmpx << " " << tmpy << " " << tmpz << std::endl;
 		}
 		else if ((*coord[i])[0] == 'f')
 		{
@@ -268,7 +324,6 @@ int ObjectLoader::load(const std::string& filename, std::vector<collisionplane>*
 					{
 						int t[4];
 						sscanf_s(coord[i]->c_str(), "f %d/%d/%d %d/%d/%d %d/%d/%d %d/%d/%d", &a, &t[0], &b, &c, &t[1], &b, &d, &t[2], &b, &e, &t[3], &b);
-						out << t[0] << " " << t[1] << " " << t[2] << " " << t[3] << " " << a << " " << b << " " << c << " " << d << " " << e << std::endl;
 						faces.push_back(new face(b, a, c, d, e, t[0], t[1], t[2], t[3], curmat));
 					}
 					else {
@@ -310,7 +365,6 @@ int ObjectLoader::load(const std::string& filename, std::vector<collisionplane>*
 					if (strcmp(materials[i]->name.c_str(), tmp) == 0)
 					{
 						curmat = i;
-						out << "curmat=" << i << std::endl;
 						break;
 					}
 				}
@@ -324,7 +378,6 @@ int ObjectLoader::load(const std::string& filename, std::vector<collisionplane>*
 			std::ifstream mtlin(filen2.c_str());
 			if (!mtlin.is_open())
 			{
-				out << "connot open the material file " << filen2 << std::endl;
 				clean();
 				return -1;
 			}
@@ -365,7 +418,6 @@ int ObjectLoader::load(const std::string& filename, std::vector<collisionplane>*
 
 					ismat = false;
 					sscanf_s(tmp[i].c_str(), "newmtl %s", name, 200);
-					out << "newmtl " << name << std::endl;
 					
 				}
 				else if (tmp[i][0] == 'N' && tmp[i][1] == 's')
@@ -407,12 +459,10 @@ int ObjectLoader::load(const std::string& filename, std::vector<collisionplane>*
 				{
 					sscanf_s(tmp[i].c_str(), "map_Kd %s", filename, 200);
 					bool l = 0;
-					std::cout << "Opening image: " << filename << std::endl;
 					std::string filename2 = path + filename;
 					for (int i = 0; i<loadedTextures.size(); i++)
 						if (loadedTextures[i] == filename2)
 						{
-							std::cout << "loading " << filename2 << std::endl;
 							texture = loadedTexturesNum[i];
 							l = 1;
 							break;
@@ -426,7 +476,6 @@ int ObjectLoader::load(const std::string& filename, std::vector<collisionplane>*
 			{
 				if (strcmp(filename, "\0") != 0)
 				{
-					std::cout << "WITH TEXTURE" << std::endl;
 					materials.push_back(new material(name, alpha, ns, ni, dif, amb, spec, illum, texture));
 				}
 				else {
@@ -446,7 +495,6 @@ int ObjectLoader::load(const std::string& filename, std::vector<collisionplane>*
 		ismaterial = false;
 	else
 		ismaterial = true;
-	out << "numvertex :" << vertex.size() << " " << normals.size() << " " << faces.size() << " " << materials.size() << std::endl;
 	//draw
 	if (isvertexnormal)
 		smoothnormals();
@@ -467,7 +515,6 @@ int ObjectLoader::load(const std::string& filename, std::vector<collisionplane>*
 			glMaterialf(GL_FRONT, GL_SHININESS, materials[faces[i]->mat]->ns);
 			glColor3f(diffuse[0], diffuse[1], diffuse[2]);
 			last = faces[i]->mat;
-			out << "1....." << std::endl;
 			if (materials[faces[i]->mat]->texture == -1)
 				glDisable(GL_TEXTURE_2D);
 			else {
@@ -479,7 +526,6 @@ int ObjectLoader::load(const std::string& filename, std::vector<collisionplane>*
 			istexture = false;
 		else
 			istexture = true;
-		out << "2....." << std::endl;
 
 		//std::cout << "IS TEXTURE " << istexture << std::endl;ww
 
@@ -487,7 +533,6 @@ int ObjectLoader::load(const std::string& filename, std::vector<collisionplane>*
 		if (faces[i]->four)
 		{
 			glBegin(GL_QUADS);
-			out << "faces[i]->texcoord[0]-1 " << faces[i]->facenum - 1 << std::endl;
 			if (isnormals)
 				glNormal3f(normals[faces[i]->facenum - 1]->x, normals[faces[i]->facenum - 1]->y, normals[faces[i]->facenum - 1]->z);
 
@@ -498,7 +543,6 @@ int ObjectLoader::load(const std::string& filename, std::vector<collisionplane>*
 				glNormal3f(vertexnormals[faces[i]->faces[0] - 1]->x, vertexnormals[faces[i]->faces[0] - 1]->y, vertexnormals[faces[i]->faces[0] - 1]->z);
 
 
-			out << "faces[i]->faces[0]-1: " << faces[i]->faces[0] - 1 << " " << faces[i]->faces[1] - 1 << " " << faces[i]->faces[2] - 1 << " " << faces[i]->faces[3] - 1 << " " << std::endl;
 			glVertex3f(vertex[faces[i]->faces[0] - 1]->x, vertex[faces[i]->faces[0] - 1]->y, vertex[faces[i]->faces[0] - 1]->z);
 
 			if (istexture && materials[faces[i]->mat]->texture != -1)
@@ -563,7 +607,6 @@ int ObjectLoader::load(const std::string& filename, std::vector<collisionplane>*
 		}
 	}
 	glEndList();
-	out << "3....." << std::endl;
 	clean();
 	lists.push_back(num);
 	return num;

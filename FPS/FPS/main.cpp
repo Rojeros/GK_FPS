@@ -82,13 +82,15 @@ int main(int argc, char **argv) {
 		);
 
 	vector<unsigned int> anim;
-	objectLoader->loadAnimation(anim, "Assets/Weapons/pistol_2/pistol2", 37);
+	objectLoader->loadAnimation(anim, "Assets/Weapons/pistol_2/pistol2", 47);
 	Weapon* weapon0 = createWeapon(anim, 0);
 
 	Player player_t(" ", collisionsphere(vector3d(0, 5, 0), 3), weapon0, 1500, 3, 3, 3);
 
 	//weapons for player
-	Weapon* weapon1 = createWeapon(anim, 1);
+	vector<unsigned int> anim2;
+	objectLoader->loadAnimation(anim2, "Assets/Weapons/minigun/minigun", 37);
+	Weapon* weapon1 = createWeapon(anim2, 1);
 	Weapon* weapon2 = createWeapon(anim, 2);
 	player_t.addWeapon(weapon1);
 	player_t.addWeapon(weapon2);
@@ -497,8 +499,8 @@ Weapon* createWeapon(std::vector<unsigned int> anim,int i) {
 
 		weapon->setAnimationFrames(anim);
 		weapon->setNormalStateAnimation(1);
-		weapon->setFireStateAnimation(16);
-		weapon->setReloadStateAnimation(20);
+		weapon->setFireStateAnimation(15);
+		weapon->setReloadStateAnimation(24);
 		weapon->setPosition(vector3d(-0.06, 0.13, 0.13));
 		weapon->setRotation(vector3d(0, 0, 0));
 		weapon->setCurrentPosition(vector3d(-0.06, 0.13, 0.13));
@@ -513,8 +515,8 @@ Weapon* createWeapon(std::vector<unsigned int> anim,int i) {
 
 		weapon->setAnimationFrames(anim);
 		weapon->setNormalStateAnimation(1);
-		weapon->setFireStateAnimation(16);
-		weapon->setReloadStateAnimation(20);
+		weapon->setFireStateAnimation(15);
+		weapon->setReloadStateAnimation(24);
 		weapon->setPosition(vector3d(-0.06, 0.13, 0.13));
 		weapon->setRotation(vector3d(0, 0, 0));
 		weapon->setCurrentPosition(vector3d(-0.06, 0.13, 0.13));
@@ -529,8 +531,8 @@ Weapon* createWeapon(std::vector<unsigned int> anim,int i) {
 
 		weapon->setAnimationFrames(anim);
 		weapon->setNormalStateAnimation(1);
-		weapon->setFireStateAnimation(16);
-		weapon->setReloadStateAnimation(20);
+		weapon->setFireStateAnimation(15);
+		weapon->setReloadStateAnimation(24);
 		weapon->setPosition(vector3d(-0.06, 0.13, 0.13));
 		weapon->setRotation(vector3d(0, 0, 0));
 		weapon->setCurrentPosition(vector3d(-0.06, 0.13, 0.13));

@@ -1,6 +1,7 @@
 #pragma once
 #include "Dependencies\glew\glew.h"
 #include "Dependencies\freeglut\freeglut.h"
+#include "Dependencies\freeImage\FreeImage.h"
 #include "collisionplane.h"
 #include <cstdlib>
 #include <vector>
@@ -70,4 +71,5 @@ public:
 	int load(const std::string& filename, std::vector<collisionplane>* collisionplane);
 	void loadAnimation(std::vector<unsigned int>& anim, const std::string filename, int frames);
 	GLuint loadImage(const char * filename);
+	GLuint loadImage2(const char * filename);
 };
