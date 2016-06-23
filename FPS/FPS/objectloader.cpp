@@ -188,6 +188,7 @@ GLuint ObjectLoader::loadImage2(const char* filename)
 	if ((bits == 0) || (width == 0) || (height == 0))
 		return false;
 
+	std::cout << width << " " << height << std::endl;
 	//if this texture ID is in use, unload the current texture
 
 	//generate an OpenGL texture ID for this texture
@@ -200,7 +201,10 @@ GLuint ObjectLoader::loadImage2(const char* filename)
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, width, height, GL_RGB, GL_UNSIGNED_BYTE, bits);
+	int result = gluBuild2DMipmaps(GL_TEXTURE_2D, 3, width, height, GL_RGB, GL_UNSIGNED_BYTE, bits);
+	
+	std::cout << "MIP MAP IS CREATED " << result << std::endl;
+	
 	//free(bits);
 
 	//Free FreeImage's copy of the data
