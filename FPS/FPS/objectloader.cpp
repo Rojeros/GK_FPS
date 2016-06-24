@@ -142,7 +142,7 @@ GLuint ObjectLoader::loadImage(const char * filename)
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, width, height, GL_RGB, GL_UNSIGNED_BYTE, data);
+	int result = gluBuild2DMipmaps(GL_TEXTURE_2D, 3, width, height, GL_RGB, GL_UNSIGNED_BYTE, data);
 	free(data);
 
 	return texture;
@@ -170,7 +170,7 @@ GLuint ObjectLoader::loadImage2(const char* filename)
 	if (fif == FIF_UNKNOWN)
 		return false;
 
-	std::cout << "FIF " << fif << std::endl;
+	std::cout << "FIF " << fif << " " << filename << std::endl;
 
 	//check that the plugin has reading capabilities and load the file
 	if (FreeImage_FIFSupportsReading(fif))
@@ -185,6 +185,7 @@ GLuint ObjectLoader::loadImage2(const char* filename)
 	width = FreeImage_GetWidth(dib);
 	height = FreeImage_GetHeight(dib);
 	//if this somehow one of these failed (they shouldn't), return failure
+	std::cout << (bits == 0) << std::endl;
 	if ((bits == 0) || (width == 0) || (height == 0))
 		return false;
 
@@ -192,18 +193,24 @@ GLuint ObjectLoader::loadImage2(const char* filename)
 	//if this texture ID is in use, unload the current texture
 
 	//generate an OpenGL texture ID for this texture
-	glGenTextures(1, &texture);
-	glBindTexture(GL_TEXTURE_2D, texture);
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
+	try {
+		glGenTextures(1, &texture);
+		glBindTexture(GL_TEXTURE_2D, texture);
+		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
 
 
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	int result = gluBuild2DMipmaps(GL_TEXTURE_2D, 3, width, height, GL_RGB, GL_UNSIGNED_BYTE, bits);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+		gluBuild2DMipmaps(GL_TEXTURE_2D, 3, width, height, GL_RGB, GL_UNSIGNED_BYTE, bits);
+	}
+	catch (...) {
+		return 100;
+	}
 	
-	std::cout << "MIP MAP IS CREATED " << result << std::endl;
+	
+	//std::cout << "MIP MAP IS CREATED " << result << std::endl;
 	
 	//free(bits);
 

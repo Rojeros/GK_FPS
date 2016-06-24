@@ -131,25 +131,9 @@ unsigned int Weapon::getLastShot() {
 
 void Weapon::update(vector3d newPosition) {
 
-	/*
-	vector3d tmpVec(curpos-curPos);
-	tmpVec.normalize();
-//		std::cout << "tmpVec: " << tmpVec;
-	tmpVec*=0.3;
-	curPos+=tmpVec;
-	if(std::abs(curPos.x-curpos.x)<0.3 && std::abs(curPos.y-curpos.y)<0.3 && std::abs(curPos.z-curpos.z)<0.3)
-		curPos=curpos;
-	std::cout << "curpos: " << curPos;
-	tmpVec.change(currot-curRot);
-	tmpVec.normalize();
-	tmpVec*=0.3;
-	curRot+=tmpVec;	
-	if(std::abs(curRot.x-currot.x)<0.3 && std::abs(curRot.y-currot.y)<0.3 && std::abs(curRot.z-currot.z)<0.3)
-		curRot=currot; 
-	*/
-
-	
 	currentAnimationFrame++;
+	//std::cout << " CUR FRAME X " << currentAnimationFrame << std::endl;
+	lastshot++;
 	if (currentState == 1)
 	{
 		if (currentAnimationFrame>=normalStateAnimation)
@@ -159,6 +143,8 @@ void Weapon::update(vector3d newPosition) {
 	{
 		if (currentAnimationFrame>normalStateAnimation + fireStateAnimation)
 		{
+			std::cout << "IS AUTO: " << isAutomatic << " IS FIRED: " << isFired << " CUR FRAME " << currentAnimationFrame << std::endl;
+			std::cout << (normalStateAnimation + fireStateAnimation) << std::endl;
 			if (isAutomatic && isFired)
 			{
 				currentAnimationFrame = normalStateAnimation;

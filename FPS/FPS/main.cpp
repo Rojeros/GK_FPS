@@ -70,7 +70,7 @@ int main(int argc, char **argv) {
 	spawn_points.push_back(vector3d(4, 3, -4));
 
 	//unsigned int levelId = objectLoader->load("testowa_scena.obj", &level_collision_planes);
-	unsigned int levelId = objectLoader->load("Assets/Scenes/scena4.obj", &level_collision_planes);
+	unsigned int levelId = objectLoader->load("Assets/Scenes/level_1/level1.obj", &level_collision_planes);
 	unsigned int levelId2 = objectLoader->load("Assets/Scenes/scena4.obj", &level_collision_planes);
 
 	//level adding
@@ -118,6 +118,7 @@ int main(int argc, char **argv) {
 
 
 	glutTimerFunc(100, Timer, 0);
+	//sglutTimerFunc(1000/60, Display);
 	glutMainLoop();
 
 
@@ -268,19 +269,48 @@ void Display(void) {
 	glClearDepth(1.0);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	gluPerspective(45, 640.0 / 480.0, 0.1, 500.0);
 	glMatrixMode(GL_MODELVIEW);
 	glEnable(GL_DEPTH_TEST);
-	//glEnable(GL_LIGHTING);
-	//glEnable(GL_LIGHT0);
+	glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
 	glEnable(GL_TEXTURE_2D);
 
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glBindTexture(GL_TEXTURE_2D, 0); // Unbind texture
 
-	//float col[] = { 0.5,0.5,0.5,1.0 };
-	//float amb[] = { 0.3,0.3,0.3,1.0 };
-	//glLightfv(GL_LIGHT0,GL_DIFFUSE,col);
+									 // Light and materials
+									 //glColor4f(1, 1, 1, 1); // Set current color to white
+	GLfloat light_position[] = { 5.0f, 15.0f, 5.0f, 0.0f }; // From the right
+	GLfloat light_color[] = { 1.f, 0.95f, 0.95f, 1.0f }; // creamy light light
+	GLfloat ambient_color[] = { 0.2f, 0.2f, 0.2f, 1.0f }; // Weak white light
+
+														  // Set light
+	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
+	glLightfv(GL_LIGHT0, GL_AMBIENT, ambient_color);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_color);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, light_color);
+
+	glEnable(GL_LIGHT1);
+	GLfloat light_position2[] = { -5.0f, 10.0f, 5.0f, 0.0f }; // From the right
+	GLfloat light_color2[] = { 1.f, .8f, .8f, 1.0f }; // green light
+													  //GLfloat ambient_color2[] = { 0.1f, 0.1f, 0.1f, 1.0f }; // Weak white light
+
+													  // Set light
+	glLightfv(GL_LIGHT1, GL_POSITION, light_position2);
+	//glLightfv(GL_LIGHT1, GL_AMBIENT, ambient_color2);
+	glLightfv(GL_LIGHT1, GL_DIFFUSE, light_color2);
+
+	glEnable(GL_LIGHT2);
+	GLfloat light_position3[] = { 5.0f, 3.f, -5.0f, 0.0f }; // From the right
+	GLfloat light_color3[] = { .8f, .8f, 1.0f, 1.0f }; // blue light
+													   //GLfloat ambient_color3[] = { 0.1f, 0.1f, 0.1f, 1.0f }; // Weak white light
+
+													   // Set light
+	glLightfv(GL_LIGHT2, GL_POSITION, light_position3);
+	//glLightfv(GL_LIGHT2, GL_AMBIENT, ambient_color3);
+	glLightfv(GL_LIGHT2, GL_DIFFUSE, light_color3);
 	glShadeModel(GL_SMOOTH);
 
 	update();
@@ -424,7 +454,7 @@ void Timer(int value)
 		
 	
 
-	glutTimerFunc(10, Timer, 0);
+	glutTimerFunc(1000/60, Timer, 0);
 }
 
 void Idle()
