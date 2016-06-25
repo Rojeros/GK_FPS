@@ -21,6 +21,7 @@ class Enemy : private collision
 	static unsigned int attack;
 	static unsigned int die;
 	unsigned int timer;
+	unsigned int attackTime;
 	int health;
 	float speed;
 	int strength;
@@ -35,7 +36,7 @@ class Enemy : private collision
 
 public:
 	Enemy(std::vector<unsigned int>& f, unsigned int& w, unsigned int& at, unsigned int& di, int h, float s, int str, collisionsphere c, vector3d rot, vector3d playerloc);
-	Enemy(int h, float s, int str, collisionsphere c, vector3d rot, vector3d playerloc);
+	Enemy(int h, float s, int str, unsigned int attackTime, collisionsphere c, vector3d rot, vector3d playerloc);
 	bool update(std::vector<collisionplane>&, vector3d, collisionsphere);
 	void show();
 	collisionsphere* getSphere();

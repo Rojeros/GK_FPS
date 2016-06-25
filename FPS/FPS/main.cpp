@@ -23,6 +23,7 @@ void mouseWheel(int button, int dir, int x, int y);
 void Mouse(int button, int state, int x, int y);
 void Timer(int value);
 void Idle();
+void calculateFPS();
 Weapon* createWeapon(vector<unsigned int> anim, int i);
 bool isFired = false;
 void Grid();
@@ -49,6 +50,15 @@ std::vector<collisionplane> level2_collision_planes;
 const float g_translation_speed = 0.2;
 const float g_rotation_speed = M_PI / 180 * 0.2;
 
+//  The number of frames
+int frameCount = 0;
+
+//  Number of frames per second
+float fpsCount = 0;
+
+//  currentTime - previousTime is the time elapsed
+//  between every call of the Idle function
+int currentTime = 0, previousTime = 0;
 
 //vector3d a(0, 0, 0);
 //vector3d b(0, 0, 0);
@@ -158,7 +168,7 @@ void update(void) {
 
 	//check player status
 	if (player.isDead()) {
-		informations.displayDiffrentText("GAME OVER", g_viewport_width, g_viewport_height, 1.2, CENTER, 1, vector3d(1, 0, 0));
+	//	informations.displayDiffrentText("GAME OVER", g_viewport_width, g_viewport_height, 1.2, CENTER, 1, vector3d(1, 0, 0));
 		if (isFired)
 			player.resetPlayer();
 	}
@@ -190,7 +200,7 @@ void update(void) {
 		player.update(levels[currentLevel]->getCollisionPlanes());
 
 		if (enemyList.size() <= 4) {
-			enemyList.push_back(Enemy(200, 0.003, 5, collisionsphere(levels[currentLevel]->getRandomSpawnPoint(), 1), vector3d(0, 0, 0), player.cam.getLocation()));
+			enemyList.push_back(Enemy(200, 0.03, 5,100, collisionsphere(levels[currentLevel]->getRandomSpawnPoint(), 1), vector3d(0, 0, 0), player.cam.getLocation()));
 		}
 
 		vector<Enemy>::iterator it = enemyList.begin();
@@ -274,15 +284,21 @@ void Display(void) {
 	glClearDepth(1.0);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	
+//	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	gluPerspective(45, 640.0 / 480.0, 0.1, 500.0);
 	glMatrixMode(GL_MODELVIEW);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
+	
+
+
 	glEnable(GL_TEXTURE_2D);
 	//glShadeModel(GL_SMOOTH);
+	
+
 
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
@@ -294,19 +310,33 @@ void Display(void) {
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, cyan);
 
 	bonuses.show();
+
+	player.show();
+	
 	levels[currentLevel]->show();
 	vector<Enemy>::iterator it;
 	for (it = enemyList.begin(); it != enemyList.end(); ++it) {
 		it->show();
 	}
-	player.show();
+	
+	//level_start = true;
+	
+	//Grid();
+	
+	
 
 	glClear(GL_DEPTH_BUFFER_BIT);
+	glDisable(GL_LIGHTING);
+	glDisable(GL_LIGHT0);
 
-	//level_start = true;
+	informations.showTextInfo(player.getHealth(), player.getCurrentWeapon()->getAmmoClip(), player.getCurrentWeapon()->getAllBullets(), 0, player.getAllWeapon(), player.getIntCurrentWeapon(), player.getPoints(), g_viewport_width, g_viewport_height, levels[currentLevel]->getName());
+	informations.displayDiffrentText("FPS: " + std::to_string((int)(fpsCount)), g_viewport_width, g_viewport_height, 10, NW, -2, vector3d(0.8, 0.8, 0.8));
+	if (player.isDead()) 
+		informations.displayDiffrentText("GAME OVER", g_viewport_width, g_viewport_height, 1.2, CENTER, 1, vector3d(1, 0, 0));
+	if (levels[currentLevel]->isEnd()) 		//player end level?
+		informations.displayDiffrentText("LEVEL SUCCES", g_viewport_width, g_viewport_height, 1.2, CENTER, 1, vector3d(0, 0, 1));//display information
 
-//Grid();
-	informations.showTextInfo(player.getHealth(), player.getCurrentWeapon()->getAmmoClip(), player.getCurrentWeapon()->getAllBullets(), 0, player.getAllWeapon(), player.getIntCurrentWeapon(), player.getPoints(), g_viewport_width, g_viewport_height,levels[currentLevel]->getName());
+	
 
 	glutSwapBuffers(); //swap the buffers
 
@@ -430,6 +460,7 @@ void Timer(int value)
 void Idle()
 {
 	Display();
+	calculateFPS();
 }
 
 void Mouse(int button, int state, int x, int y)
@@ -544,3 +575,27 @@ Weapon* createWeapon(std::vector<unsigned int> anim,int i) {
 	}
 }
 
+void calculateFPS()
+{
+	//  Increase frame count
+	frameCount++;
+
+	//  Get the number of milliseconds since glutInit called 
+	//  (or first call to glutGet(GLUT ELAPSED TIME)).
+	currentTime = glutGet(GLUT_ELAPSED_TIME);
+
+	//  Calculate time passed
+	int timeInterval = currentTime - previousTime;
+
+	if (timeInterval > 1000)
+	{
+		//  calculate the number of frames per second
+		fpsCount = frameCount / (timeInterval / 1000.0f);
+
+		//  Set time
+		previousTime = currentTime;
+
+		//  Reset frame count
+		frameCount = 0;
+	}
+}

@@ -24,15 +24,17 @@ Enemy::Enemy(std::vector<unsigned int>& f, unsigned int& w, unsigned int& at, un
 	direction.normalize();
 	curframe = 0;
 	timer = 0;
+	attackTime = 200;
 }
 
-Enemy::Enemy(int h, float s, int str, collisionsphere c, vector3d rot, vector3d playerloc)
+Enemy::Enemy(int health, float speed, int strength, unsigned int attackTime, collisionsphere c, vector3d rot, vector3d playerloc)
 {
 	//	if(frames.size()!=0)
 	//	{
-	health = h;
-	speed = s;
-	strength = str;
+	this->attackTime = attackTime;
+	this->health = health;
+	this->speed = speed;
+	this->strength = strength;
 	isattack = false;
 	iswalk = true;
 	isdead = false;
@@ -111,7 +113,7 @@ void Enemy::setLocation(vector3d& loc)
 bool Enemy::setAttack(collisionsphere playerloc)
 {
 	
-	if (spheresphere(cs.center, cs.r, playerloc.center, playerloc.r) && !isdead && timer>200)
+	if (spheresphere(cs.center, cs.r, playerloc.center, playerloc.r) && !isdead && timer>attackTime)
 	{
 		isattack = true;
 		iswalk = false;

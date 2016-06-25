@@ -81,7 +81,7 @@ int item::update(collisionsphere playerpos)
 
 void item::show()
 {
-	
+	glDisable(GL_TEXTURE_2D);
 	glEnable(GL_NORMALIZE);
 	for (int i = 0;i<items.size();i++)
 	{
@@ -121,6 +121,7 @@ void item::show()
 		
 	}
 	glDisable(GL_NORMALIZE);
+	glEnable(GL_TEXTURE_2D);
 }
 
 void item::add(kind i,  collisionsphere c)
