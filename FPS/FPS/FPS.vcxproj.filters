@@ -14,6 +14,8 @@
     <ClCompile Include="weapon.cpp" />
     <ClCompile Include="item.cpp" />
     <ClCompile Include="text.cpp" />
+    <ClCompile Include="particle.cpp" />
+    <ClCompile Include="effects.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
@@ -28,5 +30,7 @@
     <ClInclude Include="weapon.h" />
     <ClInclude Include="item.h" />
     <ClInclude Include="text.h" />
+    <ClInclude Include="particle.h" />
+    <ClInclude Include="effects.h" />
   </ItemGroup>
 </Project>

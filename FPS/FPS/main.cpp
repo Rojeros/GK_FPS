@@ -9,6 +9,7 @@
 #include "enemy.h"
 #include "text.h"
 #include "item.h"
+#include "Effects.h"
 
 #define M_PI 1.57079632679489661923
 
@@ -30,6 +31,7 @@ void Grid();
 Player player;
 std::vector<Enemy> enemyList;
 text informations;
+Effects effects;
 
 bool g_key[256];
 bool g_shift_down = false;
@@ -37,6 +39,7 @@ int g_viewport_width = 0;
 int g_viewport_height = 0;
 bool g_mouse_left_down = false;
 bool g_mouse_right_down = false;
+bool rain = false;
 
 bool level_start = false;
 
@@ -79,6 +82,8 @@ int main(int argc, char **argv) {
 	spawn_points.push_back(vector3d(3, 3, -4));
 	spawn_points.push_back(vector3d(-4, 3, -4));
 	spawn_points.push_back(vector3d(4, 3, -4));
+
+	effects.initEffects();
 
 	//unsigned int levelId = objectLoader->load("testowa_scena.obj", &level_collision_planes);
 	unsigned int levelId = objectLoader->load("Assets/Scenes/level_1/level1.obj", &level1_collision_planes);
@@ -136,7 +141,7 @@ int main(int argc, char **argv) {
 	glutMainLoop();
 
 
-
+	effects.delEffects();
 
 	return 0;
 }
@@ -285,7 +290,7 @@ void Display(void) {
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	
-//	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	gluPerspective(45, 640.0 / 480.0, 0.1, 500.0);
 	glMatrixMode(GL_MODELVIEW);
@@ -323,7 +328,7 @@ void Display(void) {
 	
 	//Grid();
 	
-	
+	effects.display();
 
 	glClear(GL_DEPTH_BUFFER_BIT);
 	glDisable(GL_LIGHTING);
@@ -379,7 +384,7 @@ void KeyboardUp(unsigned char key, int x, int y)
 	g_key[key] = false;
 }
 
-int time = 0;
+int jumpTime = 0;
 int z = 0;
 void Timer(int value)
 {
@@ -411,18 +416,21 @@ void Timer(int value)
 		}
 
 		if (g_key[32]) {
-			if (time < 6) {
+			if (jumpTime < 6) {
 				player.cam.fly(0.6);
-				time++;
+				jumpTime++;
 			}
 			
 		}
 		else {
-			time = 0;
+			jumpTime = 0;
 		}
 
 		if (g_key['r'] || g_key['R']) {
 			player.getCurrentWeapon()->reload();
+		}
+		if (g_key['1']) {
+			effects.rain = !effects.rain;
 		}
 		Weapon* weapon = player.getCurrentWeapon();
 

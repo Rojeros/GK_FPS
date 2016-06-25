@@ -130,8 +130,10 @@
     <ClCompile Include="collision.cpp" />
     <ClCompile Include="collisionplane.cpp" />
     <ClCompile Include="collisionsphere.cpp" />
+    <ClCompile Include="effects.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="level.cpp" />
+    <ClCompile Include="particle.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="objectloader.cpp" />
@@ -145,8 +147,10 @@
     <ClInclude Include="collision.h" />
     <ClInclude Include="collisionplane.h" />
     <ClInclude Include="collisionsphere.h" />
+    <ClInclude Include="effects.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="level.h" />
+    <ClInclude Include="particle.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="objectloader.h" />
     <ClInclude Include="vector.h" />
