@@ -2,6 +2,8 @@
 
 void text::showTextInfo(int health, int ammo, int allammo, int point, std::vector<Weapon*> weaponName, int currentWeapon,int points, int g_viewport_width, int g_viewport_height,std::string level)
 {
+
+
 	startText(g_viewport_width, g_viewport_height);
 	glLineWidth(5);
 	displayText("HP:", g_viewport_width, g_viewport_height, 8,NW,0);
@@ -74,6 +76,7 @@ void text::startText(int g_viewport_width,int g_viewport_height) {
 
 	glDisable(GL_TEXTURE_2D);
 	glMatrixMode(GL_PROJECTION);
+	glColor3f(1,1,1);
 	glPushMatrix();
 	glLoadIdentity();
 	gluOrtho2D(0.0, g_viewport_width, 0.0, g_viewport_height);

@@ -41,7 +41,8 @@ bool level_start = false;
 
 vector<Level*> levels;
 int currentLevel = 0;
-std::vector<collisionplane> level_collision_planes;
+std::vector<collisionplane> level1_collision_planes;
+std::vector<collisionplane> level2_collision_planes;
 
 
 // Movement settings
@@ -55,7 +56,7 @@ item bonuses;
 
 int main(int argc, char **argv) {
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_DOUBLE | GLUT_DEPTH);
+	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
 	glutInitWindowSize(1000, 1000);
 	glutCreateWindow("FPS");
 	ObjectLoader* objectLoader = new ObjectLoader();
@@ -70,15 +71,15 @@ int main(int argc, char **argv) {
 	spawn_points.push_back(vector3d(4, 3, -4));
 
 	//unsigned int levelId = objectLoader->load("testowa_scena.obj", &level_collision_planes);
-	unsigned int levelId = objectLoader->load("Assets/Scenes/level_1/level1.obj", &level_collision_planes);
-	unsigned int levelId2 = objectLoader->load("Assets/Scenes/scena4.obj", &level_collision_planes);
+	unsigned int levelId = objectLoader->load("Assets/Scenes/level_1/level1.obj", &level1_collision_planes);
+	unsigned int levelId2 = objectLoader->load("Assets/Scenes/scena4.obj", &level2_collision_planes);
 
 	//level adding
 	cout << "LEVEL ID: " << levelId << endl;
 	levels.push_back(
-		new Level(levelId, level_collision_planes, "mapa1", spawn_points, vector3d(-3, 5, -4), vector3d(-9, 1, -4)));
+		new Level(levelId, level1_collision_planes, "mapa1", spawn_points, vector3d(-3, 5, -4), vector3d(-9, 1, -4)));
 	levels.push_back(
-		new Level(levelId2, level_collision_planes, "mapa2", spawn_points, vector3d(3, 5, 4), vector3d(9, 1, 4))
+		new Level(levelId2, level2_collision_planes, "mapa2", spawn_points, vector3d(3, 5, 4), vector3d(9, 1, 4))
 		);
 
 	vector<unsigned int> anim;
@@ -91,7 +92,10 @@ int main(int argc, char **argv) {
 	vector<unsigned int> anim2;
 	objectLoader->loadAnimation(anim2, "Assets/Weapons/minigun/minigun", 37);
 	Weapon* weapon1 = createWeapon(anim2, 1);
-	Weapon* weapon2 = createWeapon(anim, 2);
+
+	vector<unsigned int> anim3;
+	objectLoader->loadAnimation(anim3, "Assets/Weapons/shotgun/shotgun", 37);
+	Weapon* weapon2 = createWeapon(anim3, 2);
 	player_t.addWeapon(weapon1);
 	player_t.addWeapon(weapon2);
 
@@ -183,7 +187,7 @@ void update(void) {
 		}
 	}
 	else {		//normal update for everything
-		player.update(level_collision_planes);
+		player.update(levels[currentLevel]->getCollisionPlanes());
 
 		if (enemyList.size() <= 4) {
 			enemyList.push_back(Enemy(200, 0.003, 5, collisionsphere(levels[currentLevel]->getRandomSpawnPoint(), 1), vector3d(0, 0, 0), player.cam.getLocation()));
@@ -191,7 +195,7 @@ void update(void) {
 
 		vector<Enemy>::iterator it = enemyList.begin();
 		while (it != enemyList.end()) {
-			it->update(level_collision_planes, player.cam.getLocation(), player.getCollisionSphere());
+			it->update(levels[currentLevel]->getCollisionPlanes(), player.cam.getLocation(), player.getCollisionSphere());
 			if (it->setAttack(player.getCollisionSphere()))
 			{
 				player.decreaseHealth(it->getStrength());
@@ -263,8 +267,9 @@ void update(void) {
 }
 
 void Display(void) {
-
+	update();
 	glClearColor(0.0, 0.0, 0.0, 1.0); //clear the screen to black
+	glDepthMask(GL_TRUE);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clear the color buffer and the depth buffer
 	glClearDepth(1.0);
 	glMatrixMode(GL_PROJECTION);
@@ -274,57 +279,19 @@ void Display(void) {
 	gluPerspective(45, 640.0 / 480.0, 0.1, 500.0);
 	glMatrixMode(GL_MODELVIEW);
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
+	glEnable(GL_TEXTURE_2D);
+	//glShadeModel(GL_SMOOTH);
+
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
-	glEnable(GL_TEXTURE_2D);
 
-	glBindTexture(GL_TEXTURE_2D, 0); // Unbind texture
+	GLfloat lightpos[] = { .5, 1., 1., 0. };
+	glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
 
-									 // Light and materials
-									 //glColor4f(1, 1, 1, 1); // Set current color to white
-	GLfloat light_position[] = { 5.0f, 15.0f, 5.0f, 0.0f }; // From the right
-	GLfloat light_color[] = { 1.f, 0.95f, 0.95f, 1.0f }; // creamy light light
-	GLfloat ambient_color[] = { 0.2f, 0.2f, 0.2f, 1.0f }; // Weak white light
-
-														  // Set light
-	glLightfv(GL_LIGHT0, GL_POSITION, light_position);
-	glLightfv(GL_LIGHT0, GL_AMBIENT, ambient_color);
-	glLightfv(GL_LIGHT0, GL_DIFFUSE, light_color);
-	glLightfv(GL_LIGHT0, GL_SPECULAR, light_color);
-
-	glEnable(GL_LIGHT1);
-	GLfloat light_position2[] = { -5.0f, 10.0f, 5.0f, 0.0f }; // From the right
-	GLfloat light_color2[] = { 1.f, .8f, .8f, 1.0f }; // green light
-													  //GLfloat ambient_color2[] = { 0.1f, 0.1f, 0.1f, 1.0f }; // Weak white light
-
-													  // Set light
-	glLightfv(GL_LIGHT1, GL_POSITION, light_position2);
-	//glLightfv(GL_LIGHT1, GL_AMBIENT, ambient_color2);
-	glLightfv(GL_LIGHT1, GL_DIFFUSE, light_color2);
-
-	glEnable(GL_LIGHT2);
-	GLfloat light_position3[] = { 5.0f, 3.f, -5.0f, 0.0f }; // From the right
-	GLfloat light_color3[] = { .8f, .8f, 1.0f, 1.0f }; // blue light
-													   //GLfloat ambient_color3[] = { 0.1f, 0.1f, 0.1f, 1.0f }; // Weak white light
-
-													   // Set light
-	glLightfv(GL_LIGHT2, GL_POSITION, light_position3);
-	//glLightfv(GL_LIGHT2, GL_AMBIENT, ambient_color3);
-	glLightfv(GL_LIGHT2, GL_DIFFUSE, light_color3);
-	glShadeModel(GL_SMOOTH);
-
-	update();
-	//glColor3f(0, 1, 0);
-
-	/*
-	glPushMatrix();
-	glColor3f(1, 1, 1);
-	glBegin(GL_LINES);
-	glVertex3f(b.x,b.y,b.z);
-	glVertex3f(b.x + a.x*100, b.y + a.y * 100, b.z + a.z * 100);
-	glEnd();
-	glPopMatrix();
-	*/
+	GLfloat cyan[] = { 1.f, .8f, .8f, 1.f };
+	glMaterialfv(GL_FRONT, GL_DIFFUSE, cyan);
 
 	bonuses.show();
 	levels[currentLevel]->show();
@@ -383,10 +350,13 @@ void KeyboardUp(unsigned char key, int x, int y)
 }
 
 int time = 0;
+int z = 0;
 void Timer(int value)
 {
 
 		if (g_key['w'] || g_key['W']) {
+			z++;
+			std::cout << "WWWW " << z << std::endl;
 				player.cam.move(g_translation_speed);
 		}
 		
@@ -453,7 +423,7 @@ void Timer(int value)
 
 		
 	
-
+	
 	glutTimerFunc(1000/60, Timer, 0);
 }
 
@@ -562,7 +532,7 @@ Weapon* createWeapon(std::vector<unsigned int> anim,int i) {
 		weapon->setAnimationFrames(anim);
 		weapon->setNormalStateAnimation(1);
 		weapon->setFireStateAnimation(15);
-		weapon->setReloadStateAnimation(24);
+		weapon->setReloadStateAnimation(20);
 		weapon->setPosition(vector3d(-0.06, 0.13, 0.13));
 		weapon->setRotation(vector3d(0, 0, 0));
 		weapon->setCurrentPosition(vector3d(-0.06, 0.13, 0.13));

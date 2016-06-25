@@ -1,4 +1,4 @@
-#include "objectloader.h"
+﻿#include "objectloader.h"
 
 coordinate::coordinate(float a, float b, float c)
 {
@@ -196,14 +196,14 @@ GLuint ObjectLoader::loadImage2(const char* filename)
 	try {
 		glGenTextures(1, &texture);
 		glBindTexture(GL_TEXTURE_2D, texture);
-		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_NEAREST);
-
-
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, bits);
+		gluBuild2DMipmaps(GL_TEXTURE_2D, 3, width, height, GL_RGB, GL_UNSIGNED_BYTE, bits);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+		glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-		gluBuild2DMipmaps(GL_TEXTURE_2D, 3, width, height, GL_RGB, GL_UNSIGNED_BYTE, bits);
+
 	}
 	catch (...) {
 		return 100;
@@ -498,7 +498,7 @@ int ObjectLoader::load(const std::string& filename, std::vector<collisionplane>*
 		{
 			float u, v;
 			sscanf_s(coord[i]->c_str(), "vt %f %f", &u, &v);
-			texturecoordinate.push_back(new texcoord(u, 1 - v));
+			texturecoordinate.push_back(new texcoord(u, v));
 			istexture = true;
 		}
 	}
