@@ -106,6 +106,8 @@ void Enemy::show()
 	//glColor3ub(255, 0, 0);
 	//glutSolidCube(0.5);
 	glCallList(frames[curframe]);
+//	glScalef(1, 1, 1);
+//	glutSolidSphere(cs.r,10,10);
 	glPopMatrix();
 	glDisable(GL_NORMALIZE);
 }

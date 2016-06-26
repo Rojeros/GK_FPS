@@ -256,7 +256,7 @@ void update(void) {
 		player.update(levels[currentLevel]->getCollisionPlanes());
 
 		if (enemyList.size() <= 4) {
-			enemyList.push_back(Enemy(enemyAnimation, 200, 0.03, 5,100, collisionsphere(levels[currentLevel]->getRandomSpawnPoint(), 0.3), vector3d(0, 0, 0), player.cam.getLocation(), enemy_collision_planes));
+			enemyList.push_back(Enemy(enemyAnimation, 200, 0.03, 05,100, collisionsphere(levels[currentLevel]->getRandomSpawnPoint(), 3.5), vector3d(0, 0, 0), player.cam.getLocation(), enemy_collision_planes));
 		}
 
 		vector<Enemy>::iterator it = enemyList.begin();
@@ -298,26 +298,26 @@ void update(void) {
 				//		b = player.getCamera()->getLocation();
 				vector<Enemy>::iterator it;
 				for (it = enemyList.begin(); it != enemyList.end(); ++it) {
-					float dist;
-					vector3d point;
+					float dist=0;
+					vector3d point=vector3d(0,0,0);
 					
 					if (collision::raysphere(it->getSphere()->center.x, it->getSphere()->center.y, it->getSphere()->center.z, direction.x, direction.y, direction.z, player.cam.getLocation().x, player.cam.getLocation().y, player.cam.getLocation().z, it->getSphere()->r,&dist,&point))
 					{
 						it->decreaseHealth(player.getCurrentWeapon()->getPower());
 					}
-					else
-					{
-						std::vector<collisionplane> cp = it->getCollisionPlanes();
-						for (int i = 0; i < cp.size(); i++)
-						{
-							if (collision::rayplane(cp[i].normal.x, cp[i].normal.y, cp[i].normal.z, cp[i].p[0].x, cp[i].p[0].y, cp[i].p[0].z, direction.x, direction.y, direction.z, -cp[i].normal.x, -cp[i].normal.y, -cp[i].normal.z, cp[i].p[0], cp[i].p[1], cp[i].p[2], cp[i].p[3], &dist, &point))
-							{
-								it->decreaseHealth(player.getCurrentWeapon()->getPower());
-								break;
+			//		else
+			//		{
+			//			std::vector<collisionplane> cp = it->getCollisionPlanes();
+			//			for (int i = 0; i < cp.size(); i++)
+			//			{
+			//				if (collision::rayplane(cp[i].normal.x, cp[i].normal.y, cp[i].normal.z, cp[i].p[0].x, cp[i].p[0].y, cp[i].p[0].z, direction.x, direction.y, direction.z, -cp[i].normal.x, -cp[i].normal.y, -cp[i].normal.z, cp[i].p[0], cp[i].p[1], cp[i].p[2], cp[i].p[3], &dist, &point))
+			//				{
+			//					it->decreaseHealth(player.getCurrentWeapon()->getPower());
+			//					break;
 
-							}
-						}
-					}
+			//				}
+			//			}
+			//		}
 
 
 
