@@ -20,6 +20,20 @@ typedef struct _particleT
 	vector3d positionOnGround;
 } particleT;
 
+typedef struct BulletT
+{
+	vector3d positionInAir;
+	vector3d destination;
+	vector3d direction;
+	float size;
+	float speed;
+	bool boom;
+	int life;
+	int maxTimer;
+	int timer;
+	BulletT(vector3d positionInAir, vector3d destination, vector3d direction, float size, float speed,bool boom,float timer) :positionInAir(positionInAir), destination(destination), direction(direction), size(size), speed(speed), boom(boom), life(0),maxTimer(timer),timer(0){};
+} ;
+
 typedef struct _particleSystemT
 {
 	float GroundHeight;

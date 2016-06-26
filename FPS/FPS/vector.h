@@ -22,7 +22,9 @@ public:
 	void normalize();
 	bool operator==(const vector3d& vec2);
 	bool operator!=(const vector3d& vec2);
+	bool operator>=(const vector3d& vec2);
 	vector3d operator+(const vector3d& vec2);
+	vector3d operator+(const float vec2);
 	vector3d operator-(const vector3d& vec2);
 	vector3d operator*(const float& num);
 	vector3d operator/(const float& num);
@@ -30,6 +32,7 @@ public:
 	vector3d& operator-=(const vector3d& vec2);
 	vector3d& operator*=(const float& num);
 	vector3d& operator/=(const float& num);
+
 	friend std::ostream& operator<<(std::ostream& out, vector3d vec2);
 };
 #endif
