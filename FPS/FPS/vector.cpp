@@ -89,6 +89,11 @@ vector3d vector3d::operator+(const vector3d& vec2)
 	return (vector3d(x + vec2.x, y + vec2.y, z + vec2.z));
 }
 
+vector3d vector3d::operator+(const float vec2)
+{
+	return (vector3d(x + vec2, y + vec2, z + vec2));
+}
+
 vector3d vector3d::operator-(const vector3d& vec2)
 {
 	return (vector3d(x - vec2.x, y - vec2.y, z - vec2.z));
@@ -149,6 +154,11 @@ bool vector3d::operator==(const vector3d& vec2)
 bool vector3d::operator!=(const vector3d& vec2)
 {
 	return (x != vec2.x && y != vec2.y && z != vec2.z);
+}
+
+bool vector3d::operator>=(const vector3d & vec2)
+{
+	return (x >= vec2.x && y >= vec2.y && z >= vec2.z);
 }
 
 

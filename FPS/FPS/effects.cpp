@@ -8,8 +8,8 @@ Effects::Effects()
 
 void Effects::initEffects()
 {
-	rainBitmap = loadImage3("C:\\Users\\Rojeros\\Source\\Repos\\GK_FPS\\FPS\\FPS\\Effects\\waterCircle.png");
-
+	rainBitmap = loadImage3("Effects\\waterCircle.png");
+	bulletBitmap = loadImage3("Effects\\fireball.png");
 	initRain(&raining, 0, 100.0f, 75, 35, 35, 500, 1.0f, 1.5f);
 }
 
@@ -17,11 +17,121 @@ void Effects::display()
 {
 	if (rain)
 	renderRain(raining);
+
+	bulletDisplay();
+}
+
+void Effects::update()
+{
+	bulletUpdate();
 }
 
 void Effects::delEffects()
 {
 	freeRain(&raining);
+}
+
+void Effects::addBullet(vector3d start, vector3d end, vector3d direction, float speed, float size,float dist)
+{
+	bool t=false;
+	int timer = 0;
+	if (end.x == 0&& end.y == 0&& end.z == 0) {
+		t = true;
+	}
+	bullets.push_back(BulletT(start, end, direction, size, speed,t,timer));
+}
+
+void Effects::bulletUpdate()
+{
+	for (std::vector<BulletT>::iterator it = bullets.begin(); it != bullets.end(); ++it) {
+
+		if (!it->boom) {
+			vector3d tmp;
+			tmp = vector3d(abs(it->destination.x) -abs( it->positionInAir.x), abs(it->destination.y) - abs(it->positionInAir.y), abs(it->destination.z) - abs(it->positionInAir.z));
+			if (abs(tmp.x)<1 &&abs(tmp.y)<1 &&abs(tmp.z)<1) {
+				it->life++;
+
+			}
+			else {
+				it->positionInAir = it->positionInAir + (it->direction * it->speed);
+
+			}
+		}
+
+		else {
+			it->positionInAir = it->positionInAir + (it->direction * it->speed);
+			it->life++;
+		}
+	}
+	bulletDelete();
+}
+
+void Effects::bulletDisplay()
+{
+
+	
+
+	
+	for (std::vector<BulletT>::iterator it = bullets.begin(); it != bullets.end(); ++it) {
+		if (!it->boom) {
+		
+			glEnable(GL_TEXTURE_2D);
+			glBindTexture(GL_TEXTURE_2D, bulletBitmap);
+			//glEnable(GL_BLEND);
+			
+
+			glPushMatrix();
+				glEnable(GL_TEXTURE_GEN_S); //enable texture coordinate generation
+				glEnable(GL_TEXTURE_GEN_T);
+			glTranslatef(it->positionInAir.x, it->positionInAir.y, it->positionInAir.z);
+			glScalef(it->size, it->size, it->size);
+			glColor3f(1, 1, 1);
+
+			glutSolidCube(2);
+			glPopMatrix();
+
+				glDisable(GL_TEXTURE_GEN_S); //disable texture coordinate generation
+				glDisable(GL_TEXTURE_GEN_T);
+			glDisable(GL_BLEND);
+			it->size += 0.5;
+		
+		}
+		else {
+			glDisable(GL_TEXTURE_2D);
+			glEnable(GL_BLEND);
+			glPushMatrix();
+			glTranslatef(it->positionInAir.x, it->positionInAir.y, it->positionInAir.z);
+			glScalef(it->size, it->size, it->size);
+			glColor4f(0.8, 0.8, 0.8, 1);
+			//	glEnable(GL_TEXTURE_GEN_S); //enable texture coordinate generation
+			//	glEnable(GL_TEXTURE_GEN_T);
+			//	glBindTexture(GL_TEXTURE_2D, bulletBitmap);
+			glutSolidCube(2);
+			//	glDisable(GL_TEXTURE_GEN_S); //enable texture coordinate generation
+			//	glDisable(GL_TEXTURE_GEN_T);
+			glPopMatrix();
+			glDisable(GL_BLEND);
+			it->size -= 0.01;
+		}
+	}
+	
+
+	
+
+	glEnable(GL_TEXTURE_2D);
+}
+
+void Effects::bulletDelete()
+{
+	std::vector<BulletT>::iterator it = bullets.begin();
+	while (it != bullets.end()) {
+		if (it->life > 100) {
+			it = bullets.erase(it);
+		}
+		else{
+			it++;
+		}
+	}
 }
 
 void Effects::initRain(particleSystemT *particleSystem, float GroundHeight, float maxParticleHeight, int maxParticleLifeTime, int width, int height, int number, float speed, float size)

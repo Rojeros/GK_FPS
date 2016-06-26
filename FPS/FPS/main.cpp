@@ -247,12 +247,16 @@ void update(void) {
 				//		b = player.getCamera()->getLocation();
 				vector<Enemy>::iterator it;
 				for (it = enemyList.begin(); it != enemyList.end(); ++it) {
-					if (collision::raysphere(it->getSphere()->center.x, it->getSphere()->center.y, it->getSphere()->center.z, direction.x, direction.y, direction.z, player.cam.getLocation().x, player.cam.getLocation().y, player.cam.getLocation().z, it->getSphere()->r))
+					float dist;
+					vector3d point;
+					
+					if (collision::raysphere(it->getSphere()->center.x, it->getSphere()->center.y, it->getSphere()->center.z, direction.x, direction.y, direction.z, player.cam.getLocation().x, player.cam.getLocation().y, player.cam.getLocation().z, it->getSphere()->r,&dist,&point))
 					{
 						it->decreaseHealth(player.getCurrentWeapon()->getPower());
-
+						
 
 					}
+					effects.addBullet(player.cam.getLocation(), point, direction, 100, 0.25,dist);
 				}
 				player.getCurrentWeapon()->nofire();
 			}
@@ -261,6 +265,8 @@ void update(void) {
 			}
 
 		}
+
+		effects.update();
 
 		//check bonuses and finish level
 		int h = bonuses.update(player.getCollisionSphere());
@@ -294,6 +300,7 @@ void Display(void) {
 
 	gluPerspective(45, 640.0 / 480.0, 0.1, 500.0);
 	glMatrixMode(GL_MODELVIEW);
+	
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);
 	glCullFace(GL_BACK);
@@ -302,7 +309,6 @@ void Display(void) {
 
 	glEnable(GL_TEXTURE_2D);
 	//glShadeModel(GL_SMOOTH);
-	
 
 
 	glEnable(GL_LIGHTING);
@@ -314,6 +320,7 @@ void Display(void) {
 	GLfloat cyan[] = { 1.f, .8f, .8f, 1.f };
 	glMaterialfv(GL_FRONT, GL_DIFFUSE, cyan);
 
+	
 	bonuses.show();
 
 	player.show();
@@ -328,11 +335,13 @@ void Display(void) {
 	
 	//Grid();
 	
-	effects.display();
+
 
 	glClear(GL_DEPTH_BUFFER_BIT);
+
 	glDisable(GL_LIGHTING);
 	glDisable(GL_LIGHT0);
+
 
 	informations.showTextInfo(player.getHealth(), player.getCurrentWeapon()->getAmmoClip(), player.getCurrentWeapon()->getAllBullets(), 0, player.getAllWeapon(), player.getIntCurrentWeapon(), player.getPoints(), g_viewport_width, g_viewport_height, levels[currentLevel]->getName());
 	informations.displayDiffrentText("FPS: " + std::to_string((int)(fpsCount)), g_viewport_width, g_viewport_height, 10, NW, -2, vector3d(0.8, 0.8, 0.8));
@@ -341,8 +350,9 @@ void Display(void) {
 	if (levels[currentLevel]->isEnd()) 		//player end level?
 		informations.displayDiffrentText("LEVEL SUCCES", g_viewport_width, g_viewport_height, 1.2, CENTER, 1, vector3d(0, 0, 1));//display information
 
-	
 
+	
+	effects.display();
 	glutSwapBuffers(); //swap the buffers
 
 }
