@@ -177,7 +177,7 @@ void processKeyboard(void)
 	}
 
 	if (g_key[32]) {
-		if (jumpTime < 6) {
+		if (jumpTime < 12) {
 			player.cam.fly(0.6);
 			jumpTime++;
 		}
@@ -339,35 +339,27 @@ void Display(void) {
 	timer->timeFrame();
 
 	glClearColor(0.0, 0.0, 0.0, 1.0); //clear the screen to black
-	glDepthMask(GL_TRUE);
+	glClearDepth(1.0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clear the color buffer and the depth buffer
 	glClearDepth(1.0);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
 	
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	gluPerspective(45, 640.0 / 480.0, 0.1, 500.0);
 	glMatrixMode(GL_MODELVIEW);
-	
 	glEnable(GL_DEPTH_TEST);
-	//glEnable(GL_CULL_FACE);
-	//glCullFace(GL_BACK);
-	
-
-
 	glEnable(GL_TEXTURE_2D);
-	glShadeModel(GL_SMOOTH);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+	/*glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHT0);
 
-	//glEnable(GL_LIGHTING);
-	//glEnable(GL_LIGHT0);
+	GLfloat lightpos[] = { .5, 1., 1., 0. };
+	glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
 
-	//GLfloat lightpos[] = { .5, 1., 1., 0. };
-	//glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
-
-	//GLfloat cyan[] = { 1.f, .8f, .8f, 1.f };
-	//glMaterialfv(GL_FRONT, GL_DIFFUSE, cyan);
+	GLfloat cyan[] = { 1.f, 1.f, 1.f, 1.f };
+	glMaterialfv(GL_FRONT, GL_DIFFUSE, cyan);*/
 
 	
 	bonuses.show();
