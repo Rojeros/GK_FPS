@@ -58,8 +58,26 @@ class ObjectLoader {
 	std::vector<material*> materials;
 	std::vector<texcoord*> texturecoordinate;
 	std::vector<coordinate*> vertexnormals;
+
 	bool ismaterial, isnormals, istexture, isvertexnormal;
+
 	unsigned int loadTexture(const char* filename);
+	GLuint loadTextureImage(const char * filename);
+
+	int parseFile(const std::string& filename);
+	int parseVertex(std::string* line);
+	int parseNormal(std::string* line);
+	int parseCollision(std::string* line, std::vector<collisionplane>* collplane);
+	int parseFace(std::string* line, int curmat);
+	int parseMaterial(std::string* line, const std::string& filename);
+	int parseMaterialFile(std::string* line, std::string path, std::vector<std::string>* tmp);
+	int parseTexture(std::string* line);
+	int parseFaces();
+	int parseFaces(int last, int i);
+	int parseQuads(int i);
+	int parseTriangles(int i);
+
+
 	void clean();
 	void smoothnormals();
 	std::vector<std::string> loadedTextures;
@@ -70,7 +88,5 @@ public:
 	~ObjectLoader();
 	int load(const std::string& filename, std::vector<collisionplane>* collisionplane);
 	void loadAnimation(std::vector<unsigned int>& anim, const std::string filename, int frames);
-	GLuint loadImage(const char * filename);
-	GLuint loadImage2(const char * filename);
-	GLuint loadImage3(const char* filename);
+	GLuint loadParticleImage(const char* filename);
 };
