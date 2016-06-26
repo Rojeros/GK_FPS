@@ -50,7 +50,7 @@ int currentLevel = 0;
 std::vector<collisionplane> level1_collision_planes;
 std::vector<collisionplane> level2_collision_planes;
 FpsTimer* timer = new FpsTimer(40);
-
+const GLfloat specStrength = 20.0;
 
 // Movement settings
 const float g_translation_speed = 0.2;
@@ -73,7 +73,8 @@ int main(int argc, char **argv) {
 	spawn_points.push_back(vector3d(3, 3, -4));
 	spawn_points.push_back(vector3d(-4, 3, -4));
 	spawn_points.push_back(vector3d(4, 3, -4));
-
+	
+	effects.setObjectLoader(objectLoader);
 	effects.initEffects();
 
 	//unsigned int levelId = objectLoader->load("testowa_scena.obj", &level_collision_planes);
@@ -351,16 +352,33 @@ void Display(void) {
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_2D);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glShadeModel(GL_SMOOTH);
 
-	/*glEnable(GL_LIGHTING);
+	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
 
-	GLfloat lightpos[] = { .5, 1., 1., 0. };
-	glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
+	//defining global ambient
+	GLfloat global_ambient[] = { 0.5f, 0.5f, 0.5f, 1.0f };
+	glLightModelfv(GL_LIGHT_MODEL_AMBIENT, global_ambient);
 
-	GLfloat cyan[] = { 1.f, 1.f, 1.f, 1.f };
-	glMaterialfv(GL_FRONT, GL_DIFFUSE, cyan);*/
+	// Create light components
+	GLfloat ambientLight[] = { 0.2f, 0.2f, 0.2f, 1.0f };
+	GLfloat diffuseLight[] = { 0.8f, 0.8f, 0.8, 1.0f };
+	GLfloat specularLight[] = { 0.5f, 0.5f, 0.5f, 1.0f };
+	GLfloat position[] = { -1.5f, 4.0f, 4.0f, 1.0f };
 
+	// Assign created components to GL_LIGHT0
+	glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
+	glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
+	glLightfv(GL_LIGHT0, GL_SPECULAR, specularLight);
+	glLightfv(GL_LIGHT0, GL_POSITION, position);
+
+	float specReflection[] = { 0.8f, 0.8f, 0.8f, 1.0f };
+	glMaterialfv(GL_FRONT, GL_SPECULAR, specReflection);
+	glMateriali(GL_FRONT, GL_SHININESS, 96);
+
+	glEnable(GL_COLOR_MATERIAL);
+	glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
 	
 	bonuses.show();
 
@@ -373,7 +391,7 @@ void Display(void) {
 	}
 
 	glClear(GL_DEPTH_BUFFER_BIT);
-
+	glDisable(GL_LIGHTING);
 	informations.showTextInfo(player.getHealth(), player.getCurrentWeapon()->getAmmoClip(), player.getCurrentWeapon()->getAllBullets(), 0, player.getAllWeapon(), player.getIntCurrentWeapon(), player.getPoints(), g_viewport_width, g_viewport_height, levels[currentLevel]->getName());
 	informations.displayDiffrentText("FPS: " + timer->getFps(), g_viewport_width, g_viewport_height, 10, NW, -2, vector3d(0.8, 0.8, 0.8));
 	if (player.isDead()) 

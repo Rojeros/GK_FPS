@@ -6,10 +6,14 @@ Effects::Effects()
 	rain=false;
 }
 
+void Effects::setObjectLoader(ObjectLoader* objL) {
+	objectLoader = objL;
+}
+
 void Effects::initEffects()
 {
-	rainBitmap = loadImage3("Assets\\Effects\\waterCircle.png");
-	bulletBitmap = loadImage3("Assets\\Effects\\fireball.png");
+	rainBitmap = objectLoader->loadImage3("Assets/Effects/waterCircle.png");
+	bulletBitmap = objectLoader->loadImage3("Assets/Effects/fireball.jpg");
 	initRain(&raining, 0, 100.0f, 75, 35, 35, 500, 1.0f, 1.5f);
 }
 
@@ -77,7 +81,7 @@ void Effects::bulletDisplay()
 		
 			glEnable(GL_TEXTURE_2D);
 			glBindTexture(GL_TEXTURE_2D, bulletBitmap);
-			//glEnable(GL_BLEND);
+			glEnable(GL_BLEND);
 			
 
 			glPushMatrix();
@@ -234,63 +238,4 @@ void Effects::renderRain(particleSystemT particleSystem)
 
 	glEnd();
 	glDisable(GL_BLEND);
-}
-GLuint Effects::loadImage3(const char* filename)
-{
-	//image format
-	FREE_IMAGE_FORMAT fif = FIF_UNKNOWN;
-	//pointer to the image, once loaded
-	FIBITMAP *dib(0);
-	//pointer to the image data
-	BYTE* bits(0);
-	//image width and height
-	unsigned int width(0), height(0);
-	//OpenGL's image ID to map to
-	GLuint texture;
-
-	//check the file signature and deduce its format
-	fif = FreeImage_GetFileType(filename, 0);
-	//if still unknown, try to guess the file format from the file extension
-	if (fif == FIF_UNKNOWN)
-		fif = FreeImage_GetFIFFromFilename(filename);
-	//if still unkown, return failure
-	if (fif == FIF_UNKNOWN)
-		return false;
-
-	std::cout << "FIF " << fif << std::endl;
-
-	//check that the plugin has reading capabilities and load the file
-	if (FreeImage_FIFSupportsReading(fif))
-		dib = FreeImage_Load(fif, filename);
-	//if the image failed to load, return failure
-	if (!dib)
-		return false;
-
-	//retrieve the image data
-	bits = FreeImage_GetBits(dib);
-	//get the image width and height
-	width = FreeImage_GetWidth(dib);
-	height = FreeImage_GetHeight(dib);
-	//if this somehow one of these failed (they shouldn't), return failure
-	if ((bits == 0) || (width == 0) || (height == 0))
-		return false;
-
-	//if this texture ID is in use, unload the current texture
-	try {
-	//generate an OpenGL texture ID for this texture
-	glGenTextures(1, &texture);
-	glBindTexture(GL_TEXTURE_2D, texture);
-	gluBuild2DMipmaps(GL_TEXTURE_2D, GL_RGBA, width, height, GL_RGBA, GL_UNSIGNED_BYTE, bits);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	//free(bits);
-	}
-	catch (...) {
-		return 100;
-	}
-	//Free FreeImage's copy of the data
-	FreeImage_Unload(dib);
-
-	//return successzz
-	return texture;
 }

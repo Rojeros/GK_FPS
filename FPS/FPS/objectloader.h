@@ -72,4 +72,5 @@ public:
 	void loadAnimation(std::vector<unsigned int>& anim, const std::string filename, int frames);
 	GLuint loadImage(const char * filename);
 	GLuint loadImage2(const char * filename);
+	GLuint loadImage3(const char* filename);
 };
