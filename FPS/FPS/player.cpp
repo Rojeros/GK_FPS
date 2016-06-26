@@ -29,7 +29,6 @@ Player::Player(std::string n, collisionsphere cs, Weapon* startWeapon, int hl, f
 	walk = predkosc;
 	setPosition(cs.center);
 	force.change(0.0, -0.1, 0.0);
-	//direction.change(0.0, 1, 0.0);
 	energy = 10;
 	sprint = false;
 	points = 0;
@@ -55,9 +54,6 @@ void Player::jump()
 	{
 		groundCollision = false;
 		direction.change(0.0, 2, 0.0);
-	}
-	else {
-		//direction.change(0.0, 30, 0.0);
 	}
 }
 
@@ -101,27 +97,19 @@ void Player::update(std::vector<collisionplane>& cp)
 		
 	}
 
-		
-
 	if (newpos.x > tmp.x)
 	{
-		//std::cout << "IS WALL" << std::endl;
 		wallCollision = true;
 	}
 	else 
 	{
 		wallCollision = false;
 	}
-	if (!groundCollision) {
-		//std::cout << "GROUND COLLISION LOST" << std::endl;
-	}
 
 	setPosition(newpos);
 	if (weapons.size() > 0) {
 		weapons[currentWeapon]->update(newpos);
 	}
-	//cam.refresh();
-	
 
 }
 

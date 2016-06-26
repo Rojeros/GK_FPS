@@ -29,8 +29,6 @@ Enemy::Enemy(std::vector<unsigned int>& f, unsigned int& w, unsigned int& at, un
 
 Enemy::Enemy(int health, float speed, int strength, unsigned int attackTime, collisionsphere c, vector3d rot, vector3d playerloc)
 {
-	//	if(frames.size()!=0)
-	//	{
 	this->attackTime = attackTime;
 	this->health = health;
 	this->speed = speed;
@@ -46,6 +44,27 @@ Enemy::Enemy(int health, float speed, int strength, unsigned int attackTime, col
 	timer = 0;
 }
 
+Enemy::Enemy(std::vector<unsigned int>& f, int health, float speed, int strength, unsigned int attackTime, collisionsphere c, vector3d rot, vector3d playerloc, std::vector<collisionplane> collisionPlanes)
+{
+	frames = f;
+	this->attackTime = attackTime;
+	this->health = health;
+	this->speed = speed;
+	this->strength = strength;
+	isattack = false;
+	iswalk = true;
+	isdead = false;
+	cs = c;
+	rotation = rot;
+	direction.change(playerloc - cs.center);
+	direction.normalize();
+	curframe = 0;
+	timer = 0;
+	this->collisionPlanes = collisionPlanes;
+
+	walk = 39;
+}
+
 bool Enemy::update(std::vector<collisionplane>& map2, vector3d playerpos, collisionsphere css)
 {
 		direction.change(playerpos - cs.center);
@@ -54,7 +73,6 @@ bool Enemy::update(std::vector<collisionplane>& map2, vector3d playerpos, collis
 		if (direction.x>0)
 			rotation.y = -rotation.y;
 		vector3d newpos(cs.center);
-		//		std::cout << direction;
 		newpos += direction*speed;
 		newpos.y -= 0.3;
 		for (int i = 0; i<map2.size(); i++)
@@ -63,26 +81,16 @@ bool Enemy::update(std::vector<collisionplane>& map2, vector3d playerpos, collis
 
 			boolean isCollision = spheresphere(cs.center, cs.r, css.center, css.r);
 
-			if (isCollision) {
-				//setLocation(vector3d(10, 50, 10));
-				
-			}
-			else {
+			if (!isCollision) {
 				setLocation(newpos);
 			}
-		//		std::cout << "collision" << std::endl;
-		
-		
 
-		
-		
+	iswalk = true;
+	curframe++;
+	if (iswalk && curframe >= walk)
+		curframe = 0;
 
-		
-	//	std::cout << "dir: " << direction;
-	//	std::cout << rotation.y*(180/M_PI) << std::endl;
-	//	std::cout << direction;
 	return 0;
-	//	std::cout << cs.center << " ----- " << iswalk << " " << isattack << " "  << curframe <<  "  ---- " << direction << std::endl;
 }
 
 void Enemy::show()
@@ -94,8 +102,10 @@ void Enemy::show()
 	glRotatef(rotation.x, 1, 0, 0);
 	glRotatef(-rotation.y*(180 / M_PI), 0, 1, 0);
 	glRotatef(rotation.z, 0, 0, 1);
-	glColor3ub(255, 0, 0);
-	glutSolidCube(0.5);
+	glScalef(1.5, 1.5, 1.5);
+	//glColor3ub(255, 0, 0);
+	//glutSolidCube(0.5);
+	glCallList(frames[curframe]);
 	glPopMatrix();
 	glDisable(GL_NORMALIZE);
 }
@@ -116,15 +126,32 @@ bool Enemy::setAttack(collisionsphere playerloc)
 	if (spheresphere(cs.center, cs.r, playerloc.center, playerloc.r) && !isdead && timer>attackTime)
 	{
 		isattack = true;
-		iswalk = false;
+		iswalk = true;
 		timer = 0;
 		return 1;
 	}
-	else if (!isdead) {
-		timer++;
-		iswalk = true;
-		isattack = false;
-		return 0;
+	else
+	{
+
+		//for (int i = 0; i < collisionPlanes.size(); i++)
+		//{
+		//	if (collision::sphereplane(playerloc.center, collisionPlanes[i].normal, collisionPlanes[i].p[0], collisionPlanes[i].p[1], collisionPlanes[i].p[2], collisionPlanes[i].p[3], playerloc.r))
+			//{
+			//	isattack = true;
+			//	iswalk = true;
+			//	timer = 0;
+			//	return 1;
+		//	}
+		//}
+
+
+		if (!isdead) {
+			timer++;
+			iswalk = true;
+			isattack = false;
+			return 0;
+		}
+	
 	}
 
 	return 0;
@@ -152,4 +179,9 @@ bool Enemy::isDead()
 		isdead = true;
 	}
 	return isdead;
+}
+
+std::vector<collisionplane> Enemy::getCollisionPlanes()
+{
+	return collisionPlanes;
 }

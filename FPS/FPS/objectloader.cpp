@@ -696,10 +696,10 @@ int ObjectLoader::load(const std::string& filename, std::vector<collisionplane>*
 	return num;
 }
 
-void ObjectLoader::loadAnimation(std::vector<unsigned int>& anim, const std::string filename, int frames) {
+void ObjectLoader::loadAnimation(std::vector<unsigned int>& anim, const std::string filename, int frames, std::vector<collisionplane>* collplane) {
 
 	char frameBuffer[7];
-
+	bool collisionAdded = false;
 	for (int i = 1; i <= frames; i++) {
 		std::string tempName(filename + "_");
 		std::string leadingZeros("");
@@ -711,10 +711,26 @@ void ObjectLoader::loadAnimation(std::vector<unsigned int>& anim, const std::str
 			leadingZeros += "0";
 		}
 		tempName += leadingZeros + std::to_string(i) + ".obj";
-		unsigned int index = load(tempName, NULL);
+		
 
-		if (index != -1)
-			anim.push_back(index);
+		if (collisionAdded == false && collplane != NULL) {
+			unsigned int index = load(tempName, collplane);
+			if (index != -1)
+			{
+				std::cout << "COLLISION ADDED " << collplane->size() << std::endl;
+				anim.push_back(index);
+				collisionAdded = true;
+			}
+			
+		}
+		else
+		{
+			unsigned int index = load(tempName, collplane);
+			if (index != -1)
+				anim.push_back(index);
+		}
+
+		
 	}
 
 

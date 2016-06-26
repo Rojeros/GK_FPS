@@ -17,6 +17,7 @@
 class Enemy : private collision
 {
 	static std::vector<unsigned int> frames;
+	std::vector<collisionplane> collisionPlanes;
 	static unsigned int walk;
 	static unsigned int attack;
 	static unsigned int die;
@@ -37,6 +38,7 @@ class Enemy : private collision
 public:
 	Enemy(std::vector<unsigned int>& f, unsigned int& w, unsigned int& at, unsigned int& di, int h, float s, int str, collisionsphere c, vector3d rot, vector3d playerloc);
 	Enemy(int h, float s, int str, unsigned int attackTime, collisionsphere c, vector3d rot, vector3d playerloc);
+	Enemy(std::vector<unsigned int>& f, int h, float s, int str, unsigned int attackTime, collisionsphere c, vector3d rot, vector3d playerloc, std::vector<collisionplane> collisionPlanes);
 	bool update(std::vector<collisionplane>&, vector3d, collisionsphere);
 	void show();
 	collisionsphere* getSphere();
@@ -46,6 +48,7 @@ public:
 	int getHealth();
 	int getStrength();
 	bool isDead();
+	std::vector<collisionplane> getCollisionPlanes();
 };
 
 #endif

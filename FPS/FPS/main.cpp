@@ -57,7 +57,8 @@ const float g_translation_speed = 0.2;
 const float g_rotation_speed = M_PI / 180 * 0.2;
 
 item bonuses;
-
+vector<unsigned int> enemyAnimation;
+std::vector<collisionplane> enemy_collision_planes;
 int main(int argc, char **argv) {
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
@@ -65,14 +66,14 @@ int main(int argc, char **argv) {
 	glutCreateWindow("FPS");
 	ObjectLoader* objectLoader = new ObjectLoader();
 	std::vector<vector3d> spawn_points;
-	spawn_points.push_back(vector3d(-2, 3, 4));
-	spawn_points.push_back(vector3d(3, 3, 4));
-	spawn_points.push_back(vector3d(-4, 3, 4));
-	spawn_points.push_back(vector3d(4, 3, 4));
-	spawn_points.push_back(vector3d(-2, 3, -4));
-	spawn_points.push_back(vector3d(3, 3, -4));
-	spawn_points.push_back(vector3d(-4, 3, -4));
-	spawn_points.push_back(vector3d(4, 3, -4));
+	spawn_points.push_back(vector3d(-6, 3, 4));
+	spawn_points.push_back(vector3d(10, 3, 4));
+	spawn_points.push_back(vector3d(-10, 3, 7));
+	spawn_points.push_back(vector3d(7, 3, 16));
+	spawn_points.push_back(vector3d(-5, 3, -14));
+	spawn_points.push_back(vector3d(7, 3, -6));
+	spawn_points.push_back(vector3d(-14, 3, -4));
+	spawn_points.push_back(vector3d(18, 3, -4));
 	
 	effects.setObjectLoader(objectLoader);
 	effects.initEffects();
@@ -89,21 +90,23 @@ int main(int argc, char **argv) {
 		);
 
 	vector<unsigned int> anim;
-	objectLoader->loadAnimation(anim, "Assets/Weapons/pistol/pistol", 47);
+	objectLoader->loadAnimation(anim, "Assets/Weapons/pistol/pistol", 47, NULL);
 	Weapon* weapon0 = createWeapon(anim, 0);
 
 	Player player_t(" ", collisionsphere(vector3d(0, 5, 0), 3), weapon0, 1500, 3, 3, 3);
 
 	//weapons for player
 	vector<unsigned int> anim2;
-	objectLoader->loadAnimation(anim2, "Assets/Weapons/ak/ak", 47);
+	objectLoader->loadAnimation(anim2, "Assets/Weapons/ak/ak", 47, NULL);
 	Weapon* weapon1 = createWeapon(anim2, 1);
 
 	vector<unsigned int> anim3;
-	objectLoader->loadAnimation(anim3, "Assets/Weapons/shotgun/shotgun", 37);
+	objectLoader->loadAnimation(anim3, "Assets/Weapons/shotgun/shotgun", 37, NULL);
 	Weapon* weapon2 = createWeapon(anim3, 2);
 	player_t.addWeapon(weapon1);
 	player_t.addWeapon(weapon2);
+
+	objectLoader->loadAnimation(enemyAnimation, "Assets/Creatures/MagmaElemental_1", 40, &enemy_collision_planes);
 
 
 	player = player_t;
@@ -245,7 +248,7 @@ void update(void) {
 			bonuses.clear();		//clear current level
 			enemyList.clear();
 			//new end platform on next level
-			bonuses.add(kind::finish, collisionsphere(levels[currentLevel]->getEndPoint(), 0.5), vector3d(0, 0, 0), vector3d(0, 0, 0), vector3d(1, 0.1, 1));
+			bonuses.add(kind::finish, collisionsphere(levels[currentLevel]->getEndPoint(), 1), vector3d(0, 0, 0), vector3d(0, 0, 0), vector3d(1, 0.1, 1));
 		
 		}
 	}
@@ -253,7 +256,7 @@ void update(void) {
 		player.update(levels[currentLevel]->getCollisionPlanes());
 
 		if (enemyList.size() <= 4) {
-			enemyList.push_back(Enemy(200, 0.03, 5,100, collisionsphere(levels[currentLevel]->getRandomSpawnPoint(), 1), vector3d(0, 0, 0), player.cam.getLocation()));
+			enemyList.push_back(Enemy(enemyAnimation, 200, 0.03, 5,100, collisionsphere(levels[currentLevel]->getRandomSpawnPoint(), 0.3), vector3d(0, 0, 0), player.cam.getLocation(), enemy_collision_planes));
 		}
 
 		vector<Enemy>::iterator it = enemyList.begin();
@@ -301,9 +304,23 @@ void update(void) {
 					if (collision::raysphere(it->getSphere()->center.x, it->getSphere()->center.y, it->getSphere()->center.z, direction.x, direction.y, direction.z, player.cam.getLocation().x, player.cam.getLocation().y, player.cam.getLocation().z, it->getSphere()->r,&dist,&point))
 					{
 						it->decreaseHealth(player.getCurrentWeapon()->getPower());
-						
-
 					}
+					else
+					{
+						std::vector<collisionplane> cp = it->getCollisionPlanes();
+						for (int i = 0; i < cp.size(); i++)
+						{
+							if (collision::rayplane(cp[i].normal.x, cp[i].normal.y, cp[i].normal.z, cp[i].p[0].x, cp[i].p[0].y, cp[i].p[0].z, direction.x, direction.y, direction.z, -cp[i].normal.x, -cp[i].normal.y, -cp[i].normal.z, cp[i].p[0], cp[i].p[1], cp[i].p[2], cp[i].p[3], &dist, &point))
+							{
+								it->decreaseHealth(player.getCurrentWeapon()->getPower());
+								break;
+
+							}
+						}
+					}
+
+
+
 					effects.addBullet(player.cam.getLocation(), point, direction, 100, 0.25,dist);
 				}
 				player.getCurrentWeapon()->nofire();
