@@ -1,5 +1,16 @@
 # Blender MTL File: 'level1.blend'
-# Material Count: 4
+# Material Count: 5
+
+newmtl Build10
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.640000 0.640000 0.640000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd Build10.jpg
 
 newmtl Material
 Ns 96.078431
@@ -23,7 +34,7 @@ d 1.000000
 illum 2
 map_Kd grass1_0.jpg
 
-newmtl Material.002
+newmtl Material.004
 Ns 96.078431
 Ka 1.000000 1.000000 1.000000
 Kd 0.640000 0.640000 0.640000

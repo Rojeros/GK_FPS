@@ -132,7 +132,6 @@ unsigned int Weapon::getLastShot() {
 void Weapon::update(vector3d newPosition) {
 
 	currentAnimationFrame++;
-	//std::cout << " CUR FRAME X " << currentAnimationFrame << std::endl;
 	lastshot++;
 	if (currentState == 1)
 	{
@@ -143,8 +142,6 @@ void Weapon::update(vector3d newPosition) {
 	{
 		if (currentAnimationFrame>normalStateAnimation + fireStateAnimation)
 		{
-			std::cout << "IS AUTO: " << isAutomatic << " IS FIRED: " << isFired << " CUR FRAME " << currentAnimationFrame << std::endl;
-			std::cout << (normalStateAnimation + fireStateAnimation) << std::endl;
 			if (isAutomatic && isFired)
 			{
 				currentAnimationFrame = normalStateAnimation;
