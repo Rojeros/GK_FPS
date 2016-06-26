@@ -8,7 +8,7 @@ Effects::Effects()
 
 void Effects::initEffects()
 {
-	rainBitmap = loadImage3("C:\\Users\\Rojeros\\Source\\Repos\\GK_FPS\\FPS\\FPS\\Effects\\waterCircle.png");
+	rainBitmap = loadImage3("Assets\EffectswaterCircle.png");
 
 	initRain(&raining, 0, 100.0f, 75, 35, 35, 500, 1.0f, 1.5f);
 }
