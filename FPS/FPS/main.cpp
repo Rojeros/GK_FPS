@@ -96,7 +96,7 @@ int main(int argc, char **argv) {
 
 	//weapons for player
 	vector<unsigned int> anim2;
-	objectLoader->loadAnimation(anim2, "Assets/Weapons/minigun/minigun", 37);
+	objectLoader->loadAnimation(anim2, "Assets/Weapons/ak/ak", 47);
 	Weapon* weapon1 = createWeapon(anim2, 1);
 
 	vector<unsigned int> anim3;
@@ -545,7 +545,7 @@ Weapon* createWeapon(std::vector<unsigned int> anim,int i) {
 		weapon->setAnimationFrames(anim);
 		weapon->setNormalStateAnimation(1);
 		weapon->setFireStateAnimation(15);
-		weapon->setReloadStateAnimation(20);
+		weapon->setReloadStateAnimation(31);
 		weapon->setPosition(vector3d(-0.06, 0.13, 0.13));
 		weapon->setRotation(vector3d(0, 0, 0));
 		weapon->setCurrentPosition(vector3d(-0.06, 0.13, 0.13));

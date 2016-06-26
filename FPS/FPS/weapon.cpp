@@ -231,7 +231,13 @@ void Weapon::show(float angleYaw, float anglePitch) {
 		//glRotatef(angle * 57.2957795, 1, 0, 0);
 		glRotatef(-angleYaw * 57.2957795, 0, 1, 0);
 		glRotatef(anglePitch * 57.2957795, 0, 0, 1);
-		glTranslatef(1.4, -0.45, 0.5);
+		if (name == "minigun") {
+			glTranslatef(1.5, -0.6, 0.5);
+		}
+		else {
+			glTranslatef(1.4, -0.45, 0.5);
+		}
+		
 
 		glCallList(animationFrames[currentAnimationFrame]);
 	glPopMatrix();
@@ -258,23 +264,5 @@ void Weapon::test(const char key) {
 	else if (key == 'o') {
 		currentPosition.y += 0.05;
 	}
-
-	std::cout << currentPosition.x << " " << currentPosition.y << " " << currentPosition.z << std::endl;
-
-	/*
-	if(keys[SDLK_j])
-			curpos.x-=0.01;
-		if(keys[SDLK_l])
-			curpos.x+=0.01;
-		if(keys[SDLK_k])
-			curpos.z-=0.01;
-		if(keys[SDLK_i])
-			curpos.z+=0.01;
-		if(keys[SDLK_u])
-			curpos.y-=0.01;
-		if(keys[SDLK_o])
-			curpos.y+=0.01;
-	*/
-
 
 }

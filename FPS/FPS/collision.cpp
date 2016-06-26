@@ -98,17 +98,12 @@ bool collision::sphereplane(vector3d& sp, vector3d pn, vector3d p1, vector3d p2,
 	{
 		if (dist1>r || dist2>r)
 		{
-			//std::cout << "returning false: " << pn;
 			return false;
 		}
-		//std::cout << "DIST " << dist1 << std::endl;
 		
 		if (dist1>0)	//if not zero
 		{
 
-			if (pn.y < 1) {
-				std::cout << pn.y << std::endl;
-			}
 			// if plane normal y dimension is lower than 1, it means we go "upstairs", it means we have to raise y dimension value by small value so we are not 
 			//forced to "stand in place"
 			sp.x = pn.y > 0 && pn.y < 1 ? sp.x : sp.x + pn.x*(r - dist1);	//calculate the point, and calculate our new location
@@ -117,8 +112,6 @@ bool collision::sphereplane(vector3d& sp, vector3d pn, vector3d p1, vector3d p2,
 		}
 		else	//else if we are in the opposite side, then the normal vector
 		{
-			std::cout << "COL " << std::endl;
-
 			sp.x = sp.x - pn.x*(r - dist2);
 			sp.y = sp.y - pn.y*(r - dist2);
 			sp.z = sp.z - pn.z*(r - dist2);
