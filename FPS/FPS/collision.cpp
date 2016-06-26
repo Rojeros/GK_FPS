@@ -111,9 +111,9 @@ bool collision::sphereplane(vector3d& sp, vector3d pn, vector3d p1, vector3d p2,
 			}
 			// if plane normal y dimension is lower than 1, it means we go "upstairs", it means we have to raise y dimension value by small value so we are not 
 			//forced to "stand in place"
-			sp.x = pn.y < 1 ? sp.x : sp.x + pn.x*(r - dist1);	//calculate the point, and calculate our new location
-			sp.y = pn.y < 1 ? sp.y + pn.y*(r - dist1) + 0.001 : sp.y + pn.y*(r - dist1);
-			sp.z = pn.y < 1 ? sp.z : sp.z + pn.z*(r - dist1);
+			sp.x = pn.y > 0 && pn.y < 1 ? sp.x : sp.x + pn.x*(r - dist1);	//calculate the point, and calculate our new location
+			sp.y = pn.y > 0 && pn.y < 1 ? sp.y + pn.y*(r - dist1) + 0.001 : sp.y + pn.y*(r - dist1);
+			sp.z = pn.y > 0 && pn.y < 1 ? sp.z : sp.z + pn.z*(r - dist1);
 		}
 		else	//else if we are in the opposite side, then the normal vector
 		{

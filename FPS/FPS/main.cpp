@@ -10,6 +10,7 @@
 #include "text.h"
 #include "item.h"
 #include "Effects.h"
+#include "FpsTimer.h"
 
 #define M_PI 1.57079632679489661923
 
@@ -24,7 +25,8 @@ void mouseWheel(int button, int dir, int x, int y);
 void Mouse(int button, int state, int x, int y);
 void Timer(int value);
 void Idle();
-void calculateFPS();
+void processKeyboard(void);
+void processMouse(void);
 Weapon* createWeapon(vector<unsigned int> anim, int i);
 bool isFired = false;
 void Grid();
@@ -47,24 +49,13 @@ vector<Level*> levels;
 int currentLevel = 0;
 std::vector<collisionplane> level1_collision_planes;
 std::vector<collisionplane> level2_collision_planes;
+FpsTimer* timer = new FpsTimer(40);
 
 
 // Movement settings
 const float g_translation_speed = 0.2;
 const float g_rotation_speed = M_PI / 180 * 0.2;
 
-//  The number of frames
-int frameCount = 0;
-
-//  Number of frames per second
-float fpsCount = 0;
-
-//  currentTime - previousTime is the time elapsed
-//  between every call of the Idle function
-int currentTime = 0, previousTime = 0;
-
-//vector3d a(0, 0, 0);
-//vector3d b(0, 0, 0);
 item bonuses;
 
 int main(int argc, char **argv) {
@@ -90,7 +81,6 @@ int main(int argc, char **argv) {
 	unsigned int levelId2 = objectLoader->load("Assets/Scenes/scena4.obj", &level2_collision_planes);
 
 	//level adding
-	cout << "LEVEL ID: " << levelId << endl;
 	levels.push_back(
 		new Level(levelId, level1_collision_planes, "mapa1", spawn_points, vector3d(-3, 5, -4), vector3d(-9, 1, -4)));
 	levels.push_back(
@@ -133,10 +123,7 @@ int main(int argc, char **argv) {
 	//ending platform for first level
 	bonuses.add(kind::finish, collisionsphere(levels[currentLevel]->getEndPoint(), 0.1), vector3d(0, 0, 0), vector3d(0, 0, 0), vector3d(1, 0.1, 1));
 
-
-
-
-	glutTimerFunc(100, Timer, 0);
+	Timer(0);
 	//sglutTimerFunc(1000/60, Display);
 	glutMainLoop();
 
@@ -169,8 +156,68 @@ void Grid()
 	glPopMatrix();
 }
 
+int jumpTime = 0;
+int z = 0;
+
+void processKeyboard(void)
+{
+	if (g_key['w'] || g_key['W']) {
+		player.cam.move(g_translation_speed);
+	}
+
+	if (g_key['s'] || g_key['S']) {
+		player.cam.move(-g_translation_speed);
+	}
+	if (g_key['d'] || g_key['D']) {
+		player.cam.strafe(g_translation_speed);
+	}
+	if (g_key['a'] || g_key['A']) {
+		player.cam.strafe(-g_translation_speed);
+
+	}
+
+	if (g_key[32]) {
+		if (jumpTime < 6) {
+			player.cam.fly(0.6);
+			jumpTime++;
+		}
+
+	}
+	else {
+		jumpTime = 0;
+	}
+
+	if (g_key['r'] || g_key['R']) {
+		player.getCurrentWeapon()->reload();
+	}
+	if (g_key['1']) {
+		effects.rain = true;
+	}
+
+	if (g_key['2']) {
+		effects.rain = false;
+	}
+}
+
+
+void processMouse(void) 
+{
+	
+	if (g_mouse_left_down) {
+		isFired = true;
+	}
+	if (!g_mouse_left_down) {
+		isFired = false;
+	}
+	if (g_mouse_right_down) {
+		//g_camera.Fly(g_translation_speed);
+	}
+}
+
 void update(void) {
 
+	processKeyboard();
+	processMouse();
 	//check player status
 	if (player.isDead()) {
 	//	informations.displayDiffrentText("GAME OVER", g_viewport_width, g_viewport_height, 1.2, CENTER, 1, vector3d(1, 0, 0));
@@ -289,6 +336,8 @@ void update(void) {
 
 void Display(void) {
 	update();
+	timer->timeFrame();
+
 	glClearColor(0.0, 0.0, 0.0, 1.0); //clear the screen to black
 	glDepthMask(GL_TRUE);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); //clear the color buffer and the depth buffer
@@ -302,23 +351,23 @@ void Display(void) {
 	glMatrixMode(GL_MODELVIEW);
 	
 	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
+	//glEnable(GL_CULL_FACE);
+	//glCullFace(GL_BACK);
 	
 
 
 	glEnable(GL_TEXTURE_2D);
-	//glShadeModel(GL_SMOOTH);
+	glShadeModel(GL_SMOOTH);
 
 
-	glEnable(GL_LIGHTING);
-	glEnable(GL_LIGHT0);
+	//glEnable(GL_LIGHTING);
+	//glEnable(GL_LIGHT0);
 
-	GLfloat lightpos[] = { .5, 1., 1., 0. };
-	glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
+	//GLfloat lightpos[] = { .5, 1., 1., 0. };
+	//glLightfv(GL_LIGHT0, GL_POSITION, lightpos);
 
-	GLfloat cyan[] = { 1.f, .8f, .8f, 1.f };
-	glMaterialfv(GL_FRONT, GL_DIFFUSE, cyan);
+	//GLfloat cyan[] = { 1.f, .8f, .8f, 1.f };
+	//glMaterialfv(GL_FRONT, GL_DIFFUSE, cyan);
 
 	
 	bonuses.show();
@@ -330,21 +379,11 @@ void Display(void) {
 	for (it = enemyList.begin(); it != enemyList.end(); ++it) {
 		it->show();
 	}
-	
-	//level_start = true;
-	
-	//Grid();
-	
-
 
 	glClear(GL_DEPTH_BUFFER_BIT);
 
-	glDisable(GL_LIGHTING);
-	glDisable(GL_LIGHT0);
-
-
 	informations.showTextInfo(player.getHealth(), player.getCurrentWeapon()->getAmmoClip(), player.getCurrentWeapon()->getAllBullets(), 0, player.getAllWeapon(), player.getIntCurrentWeapon(), player.getPoints(), g_viewport_width, g_viewport_height, levels[currentLevel]->getName());
-	informations.displayDiffrentText("FPS: " + std::to_string((int)(fpsCount)), g_viewport_width, g_viewport_height, 10, NW, -2, vector3d(0.8, 0.8, 0.8));
+	informations.displayDiffrentText("FPS: " + timer->getFps(), g_viewport_width, g_viewport_height, 10, NW, -2, vector3d(0.8, 0.8, 0.8));
 	if (player.isDead()) 
 		informations.displayDiffrentText("GAME OVER", g_viewport_width, g_viewport_height, 1.2, CENTER, 1, vector3d(1, 0, 0));
 	if (levels[currentLevel]->isEnd()) 		//player end level?
@@ -394,91 +433,19 @@ void KeyboardUp(unsigned char key, int x, int y)
 	g_key[key] = false;
 }
 
-int jumpTime = 0;
-int z = 0;
+
 void Timer(int value)
 {
+	glutPostRedisplay();
+	Sleep(1000 / 60);
+	glutTimerFunc(1, Timer, 0);
 
-		if (g_key['w'] || g_key['W']) {
-			z++;
-			std::cout << "WWWW " << z << std::endl;
-				player.cam.move(g_translation_speed);
-		}
-		
-		 if (g_key['s'] || g_key['S']) {
-				player.cam.move(-g_translation_speed);
-		}
-		 if (g_key['d'] || g_key['D']) {
-				player.cam.strafe(g_translation_speed);
-		}
-		if (g_key['a'] || g_key['A']) {
-				player.cam.strafe(-g_translation_speed);
-
-		}
-		if (g_mouse_left_down) {
-			isFired = true;
-		}
-		if (!g_mouse_left_down) {
-			isFired = false;
-		}
-		if (g_mouse_right_down) {
-			//g_camera.Fly(g_translation_speed);
-		}
-
-		if (g_key[32]) {
-			if (jumpTime < 6) {
-				player.cam.fly(0.6);
-				jumpTime++;
-			}
-			
-		}
-		else {
-			jumpTime = 0;
-		}
-
-		if (g_key['r'] || g_key['R']) {
-			player.getCurrentWeapon()->reload();
-		}
-		if (g_key['1']) {
-			effects.rain = !effects.rain;
-		}
-		Weapon* weapon = player.getCurrentWeapon();
-
-			if (weapon != NULL) {
-				if (g_key['i'] || g_key['I'])
-				{
-
-					weapon->test('i');
-				}
-				else if (g_key['k'] || g_key['K']) {
-					weapon->test('k');
-				}
-				else if (g_key['j'] || g_key['J']) {
-					weapon->test('j');
-				}
-				else if (g_key['l'] || g_key['L']) {
-					weapon->test('l');
-				}
-				else if (g_key['u'] || g_key['U']) {
-					weapon->test('u');
-				}
-				else if (g_key['o'] || g_key['O'])
-				{
-					weapon->test('o');
-				}
-		}
-		
-
-		
-	
-	
-	glutTimerFunc(1000/60, Timer, 0);
 }
 
 void Idle()
 {
 	Display();
-	calculateFPS();
+
 }
 
 void Mouse(int button, int state, int x, int y)
@@ -590,30 +557,5 @@ Weapon* createWeapon(std::vector<unsigned int> anim,int i) {
 
 
 		return weapon;
-	}
-}
-
-void calculateFPS()
-{
-	//  Increase frame count
-	frameCount++;
-
-	//  Get the number of milliseconds since glutInit called 
-	//  (or first call to glutGet(GLUT ELAPSED TIME)).
-	currentTime = glutGet(GLUT_ELAPSED_TIME);
-
-	//  Calculate time passed
-	int timeInterval = currentTime - previousTime;
-
-	if (timeInterval > 1000)
-	{
-		//  calculate the number of frames per second
-		fpsCount = frameCount / (timeInterval / 1000.0f);
-
-		//  Set time
-		previousTime = currentTime;
-
-		//  Reset frame count
-		frameCount = 0;
 	}
 }

@@ -16,6 +16,7 @@
     <ClCompile Include="text.cpp" />
     <ClCompile Include="particle.cpp" />
     <ClCompile Include="effects.cpp" />
+    <ClCompile Include="FpsTimer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="camera.h" />
@@ -32,5 +33,6 @@
     <ClInclude Include="text.h" />
     <ClInclude Include="particle.h" />
     <ClInclude Include="effects.h" />
+    <ClInclude Include="FpsTimer.h" />
   </ItemGroup>
 </Project>

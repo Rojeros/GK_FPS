@@ -132,6 +132,7 @@
     <ClCompile Include="collisionsphere.cpp" />
     <ClCompile Include="effects.cpp" />
     <ClCompile Include="enemy.cpp" />
+    <ClCompile Include="FpsTimer.cpp" />
     <ClCompile Include="level.cpp" />
     <ClCompile Include="particle.cpp" />
     <ClCompile Include="player.cpp" />
@@ -149,6 +150,7 @@
     <ClInclude Include="collisionsphere.h" />
     <ClInclude Include="effects.h" />
     <ClInclude Include="enemy.h" />
+    <ClInclude Include="FpsTimer.h" />
     <ClInclude Include="level.h" />
     <ClInclude Include="particle.h" />
     <ClInclude Include="player.h" />

@@ -8,13 +8,8 @@ Effects::Effects()
 
 void Effects::initEffects()
 {
-<<<<<<< HEAD
-	rainBitmap = loadImage3("Assets\EffectswaterCircle.png");
-
-=======
-	rainBitmap = loadImage3("Effects\\waterCircle.png");
-	bulletBitmap = loadImage3("Effects\\fireball.png");
->>>>>>> 2f4b8a3213610cea9ed9b4cc94d6b4f5e07532e2
+	rainBitmap = loadImage3("Assets\\Effects\\waterCircle.png");
+	bulletBitmap = loadImage3("Assets\\Effects\\fireball.png");
 	initRain(&raining, 0, 100.0f, 75, 35, 35, 500, 1.0f, 1.5f);
 }
 
