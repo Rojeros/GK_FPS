@@ -13,7 +13,7 @@ void Effects::setObjectLoader(ObjectLoader* objL) {
 void Effects::initEffects()
 {
 	rainBitmap = objectLoader->loadImage3("Assets/Effects/waterCircle.png");
-	bulletBitmap = objectLoader->loadImage3("Assets/Effects/fireball.jpg");
+	bulletBitmap = objectLoader->loadImage3("Assets/Effects/fireball.png");
 	initRain(&raining, 0, 100.0f, 75, 35, 35, 500, 1.0f, 1.5f);
 }
 

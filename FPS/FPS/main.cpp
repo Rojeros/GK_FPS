@@ -348,11 +348,14 @@ void Display(void) {
 	
 
 	gluPerspective(45, 640.0 / 480.0, 0.1, 500.0);
-	glMatrixMode(GL_MODELVIEW);
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_TEXTURE_2D);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glMatrixMode(GL_MODELVIEW); 
+	glEnable(GL_DEPTH_TEST); // Disables Depth Testing
+	glEnable(GL_TEXTURE_2D); 
 	glShadeModel(GL_SMOOTH);
+	glEnable(GL_BLEND);                         // Enable Blending
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);                  // Type Of Blending To Perform
+	glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);           // Really Nice Perspective Calculations
+	glHint(GL_POINT_SMOOTH_HINT, GL_NICEST);                 // Really Nice Point Smoothing
 
 	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
