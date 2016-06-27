@@ -76,7 +76,7 @@ bool Enemy::update(std::vector<collisionplane>& map2, vector3d playerpos, collis
 		newpos += direction*speed;
 		newpos.y -= 0.3;
 		for (int i = 0; i<map2.size(); i++)
-			sphereplane(newpos, map2[i].normal, map2[i].p[0], map2[i].p[1], map2[i].p[2], map2[i].p[3], cs.r);
+			sphereplane(newpos, map2[i].normal, map2[i].p[0], map2[i].p[1], map2[i].p[2], map2[i].p[3], cs.r-3.5);
 
 
 			boolean isCollision = spheresphere(cs.center, cs.r, css.center, css.r);
@@ -107,9 +107,12 @@ void Enemy::show()
 	//glutSolidCube(0.5);
 	glCallList(frames[curframe]);
 //	glScalef(1, 1, 1);
-//	glutSolidSphere(cs.r,10,10);
+//	glDisable(GL_TEXTURE_2D);
+//	glColor4f(1, 1, 1, 0.3);
+//	glutSolidSphere(cs.r, 10, 10);
 	glPopMatrix();
 	glDisable(GL_NORMALIZE);
+//	glEnable(GL_TEXTURE_2D);
 }
 
 collisionsphere* Enemy::getSphere()

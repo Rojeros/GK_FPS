@@ -256,7 +256,7 @@ void update(void) {
 		player.update(levels[currentLevel]->getCollisionPlanes());
 
 		if (enemyList.size() <= 4) {
-			enemyList.push_back(Enemy(enemyAnimation, 200, 0.03, 05,100, collisionsphere(levels[currentLevel]->getRandomSpawnPoint(), 3.5), vector3d(0, 0, 0), player.cam.getLocation(), enemy_collision_planes));
+			enemyList.push_back(Enemy(enemyAnimation, 200, 0.03, 05,100, collisionsphere(levels[currentLevel]->getRandomSpawnPoint(), 4), vector3d(0, 0, 0), player.cam.getLocation(), enemy_collision_planes));
 		}
 
 		vector<Enemy>::iterator it = enemyList.begin();
