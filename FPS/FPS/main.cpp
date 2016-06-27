@@ -97,12 +97,12 @@ int main(int argc, char **argv) {
 
 	//weapons for player
 	vector<unsigned int> anim2;
-//	objectLoader->loadAnimation(anim2, "Assets/Weapons/ak/ak", 47, NULL);
-	Weapon* weapon1 = createWeapon(anim, 1);
+	objectLoader->loadAnimation(anim2, "Assets/Weapons/ak/ak", 47, NULL);
+	Weapon* weapon1 = createWeapon(anim2, 1);
 
 	vector<unsigned int> anim3;
-//	objectLoader->loadAnimation(anim3, "Assets/Weapons/shotgun/shotgun", 37, NULL);
-	Weapon* weapon2 = createWeapon(anim, 2);
+	objectLoader->loadAnimation(anim3, "Assets/Weapons/shotgun/shotgun", 37, NULL);
+	Weapon* weapon2 = createWeapon(anim3, 2);
 	player_t.addWeapon(weapon1);
 	player_t.addWeapon(weapon2);
 
