@@ -7,6 +7,8 @@ class Effects {
 	GLuint rainBitmap;
 	
 	std::vector<BulletT> bullets;
+	std::vector<BulletT> destroy;
+	std::vector<BulletT> teleport;
 	GLuint bulletBitmap;
 	GLuint fireBitmap;
 	ObjectLoader* objectLoader;
@@ -27,5 +29,13 @@ public:
 	void bulletUpdate();
 	void bulletDisplay();
 	void bulletDelete();
+	void destroyEnemy(vector3d point);
+	void dispalyDestroy();
+	void updateDestroy();
+	void deleteDestroy();
+	void teleportEnemy(vector3d point,int ray);
+	void dispalyTeleport();
+	void updateTeleport();
+	void deleteTeleport();
 	bool rain;
 };

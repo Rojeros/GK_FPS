@@ -33,6 +33,7 @@ class Enemy : private collision
 	vector3d rotation;
 	unsigned int curframe;
 	bool isdead;
+	int deadTimer;
 
 
 public:
@@ -48,6 +49,8 @@ public:
 	int getHealth();
 	int getStrength();
 	bool isDead();
+	bool deadTimerTick();
+	int getDeadTimer();
 	std::vector<collisionplane> getCollisionPlanes();
 };
 

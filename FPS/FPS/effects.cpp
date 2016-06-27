@@ -21,13 +21,17 @@ void Effects::display()
 {
 	if (rain)
 	renderRain(raining);
-
+	
 	bulletDisplay();
+	dispalyDestroy();
+	dispalyTeleport();
 }
 
 void Effects::update()
 {
 	bulletUpdate();
+	updateDestroy();
+	updateTeleport();
 }
 
 void Effects::delEffects()
@@ -95,13 +99,13 @@ void Effects::bulletDisplay()
 			vector3d normal=(it->positionInAir - it->destination);
 			normal.normalize();
 			glTexCoord2f(0.0f, 0.0f);
-			glVertex3f((it->positionInAir.x - 0.1f*sizeFactor), (it->positionInAir.y + 0.1f*sizeFactor), (it->positionInAir.z));
+			glVertex3f((it->positionInAir.x - sizeFactor), (it->positionInAir.y + sizeFactor), (it->positionInAir.z));
 			glTexCoord2f(1.0f, 0.0f);
-			glVertex3f((it->positionInAir.x - 0.1f*sizeFactor), (it->positionInAir.y - 0.1f*sizeFactor), (it->positionInAir.z));
+			glVertex3f((it->positionInAir.x - sizeFactor), (it->positionInAir.y - sizeFactor), (it->positionInAir.z));
 			glTexCoord2f(1.0f, 1.0f);
-			glVertex3f((it->positionInAir.x + 0.1f*sizeFactor), (it->positionInAir.y - 0.1f*sizeFactor), (it->positionInAir.z ));
+			glVertex3f((it->positionInAir.x +sizeFactor), (it->positionInAir.y - sizeFactor), (it->positionInAir.z ));
 			glTexCoord2f(0.0f, 1.0f);
-			glVertex3f((it->positionInAir.x + 0.1f*sizeFactor), (it->positionInAir.y + 0.1f*sizeFactor), (it->positionInAir.z));
+			glVertex3f((it->positionInAir.x + sizeFactor), (it->positionInAir.y + sizeFactor), (it->positionInAir.z));
 		
 			glEnd();
 	//		glPopMatrix();
@@ -109,7 +113,7 @@ void Effects::bulletDisplay()
 	//			glDisable(GL_TEXTURE_GEN_S); //disable texture coordinate generation
 	//			glDisable(GL_TEXTURE_GEN_T);
 			glDisable(GL_BLEND);
-			it->size += 0.5;
+	//		it->size += 0.5;
 		
 		}
 		else {
@@ -127,7 +131,8 @@ void Effects::bulletDisplay()
 			//	glDisable(GL_TEXTURE_GEN_T);
 			glPopMatrix();
 			glDisable(GL_BLEND);
-			it->size -= 0.01;
+			
+			glEnable(GL_TEXTURE_2D);
 		}
 	}
 	
@@ -148,6 +153,138 @@ void Effects::bulletDelete()
 			it++;
 		}
 	}
+}
+
+void Effects::destroyEnemy(vector3d point)
+{
+	for (int i = 0; i < 500; i++) {
+		vector3d r(rand() % 100 - 50, rand() % 100 - 50, rand() % 100 - 50);
+		r.normalize();
+		destroy.push_back(BulletT(point, vector3d(0, 0, 0), r, 0.1, 1, false,30));
+	}
+	
+}
+
+void Effects::dispalyDestroy()
+{
+	for (std::vector<BulletT>::iterator it = destroy.begin(); it != destroy.end(); ++it) {
+		glPushMatrix();
+	
+		glDisable(GL_TEXTURE_2D);
+		glEnable(GL_BLEND);
+		glPushMatrix();
+		glTranslatef(it->positionInAir.x, it->positionInAir.y, it->positionInAir.z);
+		glScalef(it->size, it->size, it->size);
+		glColor3f(1,0,0);
+		//	glEnable(GL_TEXTURE_GEN_S); //enable texture coordinate generation
+		//	glEnable(GL_TEXTURE_GEN_T);
+		//	glBindTexture(GL_TEXTURE_2D, bulletBitmap);
+		glutSolidCube(1);
+		//	glDisable(GL_TEXTURE_GEN_S); //enable texture coordinate generation
+		//	glDisable(GL_TEXTURE_GEN_T);
+		glPopMatrix();
+		glDisable(GL_BLEND);
+		glEnable(GL_TEXTURE_2D);
+		if(it->size>0.02)
+		it->size -= 0.01;
+	
+	}
+
+}
+
+void Effects::updateDestroy()
+{
+	for (std::vector<BulletT>::iterator it = destroy.begin(); it != destroy.end(); ++it) {
+		it->positionInAir = it->positionInAir +it->direction* it->speed;
+		it->life++;
+		if (it->life > it->maxTimer)
+			it->boom = true;
+		if (it->positionInAir.y < 0) {
+			it->boom = true;
+		}
+	}
+	deleteDestroy();
+
+}
+
+void Effects::deleteDestroy()
+{
+	std::vector<BulletT>::iterator it = destroy.begin();
+	while (it != destroy.end()) {
+		if (it->boom==true) {
+			it = destroy.erase(it);
+		}
+		else {
+			it++;
+		}
+	}
+
+}
+
+void Effects::teleportEnemy(vector3d point,int ray)
+{
+	vector3d n(0, 1, 0);
+	n.normalize();
+	vector3d tmp;
+	for (int i = 0; i < 360; i++) {
+		tmp=vector3d(0, 0, 0);
+			tmp.x = sin(i)*ray+point.x;
+			tmp.z = cos(i)*ray+point.z;
+	
+			teleport.push_back(BulletT(tmp, vector3d(0, 0, 0), n, 0.05, 1, false, 40));
+	}
+}
+
+void Effects::dispalyTeleport()
+{
+	for (std::vector<BulletT>::iterator it = teleport.begin(); it != teleport.end(); ++it) {
+		glPushMatrix();
+
+		glDisable(GL_TEXTURE_2D);
+		glEnable(GL_BLEND);
+		glPushMatrix();
+		glTranslatef(it->positionInAir.x, it->positionInAir.y, it->positionInAir.z);
+		glScalef(it->size, it->size, it->size);
+		glColor3f(0.3, 0.3, 1);
+		//	glEnable(GL_TEXTURE_GEN_S); //enable texture coordinate generation
+		//	glEnable(GL_TEXTURE_GEN_T);
+		//	glBindTexture(GL_TEXTURE_2D, bulletBitmap);
+		glutSolidCube(1);
+		//	glDisable(GL_TEXTURE_GEN_S); //enable texture coordinate generation
+		//	glDisable(GL_TEXTURE_GEN_T);
+		glPopMatrix();
+		glDisable(GL_BLEND);
+		glEnable(GL_TEXTURE_2D);
+
+	}
+}
+
+void Effects::updateTeleport()
+{
+	for (std::vector<BulletT>::iterator it = teleport.begin(); it != teleport.end(); ++it) {
+		//it->positionInAir.x = (it->positionInAir.x + (rand()%20-10)*0.01)*0.01* it->speed*it->direction.z;
+		it->positionInAir.y = it->positionInAir.y + it->speed*(rand() % 20)*0.02*it->direction.y;
+		//it->positionInAir.z = (it->positionInAir.z + (rand() % 20 - 10)*0.01)* it->speed*it->direction.z;
+		it->life++;
+		if (it->life > it->maxTimer)
+			it->boom = true;
+		
+	}
+	deleteTeleport();
+}
+
+void Effects::deleteTeleport()
+{
+	std::vector<BulletT>::iterator it = teleport.begin();
+	while (it != teleport.end()) {
+		if (it->boom == true) {
+			it = teleport.erase(it);
+		}
+		else {
+			it++;
+		}
+	}
+
 }
 
 void Effects::initRain(particleSystemT *particleSystem, float GroundHeight, float maxParticleHeight, int maxParticleLifeTime, int width, int height, int number, float speed, float size)

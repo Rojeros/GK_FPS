@@ -25,6 +25,7 @@ Enemy::Enemy(std::vector<unsigned int>& f, unsigned int& w, unsigned int& at, un
 	curframe = 0;
 	timer = 0;
 	attackTime = 200;
+	deadTimer = 0;
 }
 
 Enemy::Enemy(int health, float speed, int strength, unsigned int attackTime, collisionsphere c, vector3d rot, vector3d playerloc)
@@ -42,6 +43,7 @@ Enemy::Enemy(int health, float speed, int strength, unsigned int attackTime, col
 	direction.normalize();
 	curframe = 0;
 	timer = 0;
+	deadTimer = 0;
 }
 
 Enemy::Enemy(std::vector<unsigned int>& f, int health, float speed, int strength, unsigned int attackTime, collisionsphere c, vector3d rot, vector3d playerloc, std::vector<collisionplane> collisionPlanes)
@@ -61,7 +63,7 @@ Enemy::Enemy(std::vector<unsigned int>& f, int health, float speed, int strength
 	curframe = 0;
 	timer = 0;
 	this->collisionPlanes = collisionPlanes;
-
+	deadTimer = 0;
 	walk = 39;
 }
 
@@ -185,6 +187,19 @@ bool Enemy::isDead()
 		isdead = true;
 	}
 	return isdead;
+}
+
+bool Enemy::deadTimerTick()
+{
+	deadTimer++;
+	if (deadTimer>10)
+	return true;
+	return false;
+}
+
+int Enemy::getDeadTimer()
+{
+	return deadTimer;
 }
 
 std::vector<collisionplane> Enemy::getCollisionPlanes()

@@ -258,8 +258,11 @@ void update(void) {
 		player.update(levels[currentLevel]->getCollisionPlanes());
 
 		if (enemyList.size() <= 4) {
-			enemyList.push_back(Enemy(enemyAnimation, 200, 0.03, 05,100, collisionsphere(levels[currentLevel]->getRandomSpawnPoint(), 4), vector3d(0, 0, 0), player.cam.getLocation(), enemy_collision_planes));
-		
+			vector3d spawn = levels[currentLevel]->getRandomSpawnPoint();
+			enemyList.push_back(Enemy(enemyAnimation, 200, 0.03, 05,100, collisionsphere(spawn, 4), vector3d(0, 0, 0), player.cam.getLocation(), enemy_collision_planes));
+			
+			effects.teleportEnemy(vector3d(spawn.x, spawn.y-4, spawn.z), 4);
+
 		}
 
 		vector<Enemy>::iterator it = enemyList.begin();
@@ -270,6 +273,9 @@ void update(void) {
 				player.decreaseHealth(it->getStrength());
 			}
 			if (it->isDead()) {
+				if(it->getDeadTimer()==1)
+					effects.destroyEnemy(vector3d(it->getSphere()->center.x, it->getSphere()->center.y- it->getSphere()->r, it->getSphere()->center.z));
+				if(it->deadTimerTick()){
 				player.addPoints(5);
 
 				//add ammo or  health bonus 
@@ -280,6 +286,7 @@ void update(void) {
 					bonuses.add(kind::health, collisionsphere(vector3d(it->getSphere()->center.x, it->getSphere()->center.y - it->getSphere()->r, it->getSphere()->center.z), 1.0));
 
 				it = enemyList.erase(it);
+				}
 			}
 			else {
 				it++;
@@ -324,7 +331,7 @@ void update(void) {
 
 
 
-					effects.addBullet(player.cam.getLocation(), point, direction, 100, 0.25,dist);
+					effects.addBullet(player.cam.getLocation(), point, direction, 100, 0.5,dist);
 				}
 				player.getCurrentWeapon()->nofire();
 			}
