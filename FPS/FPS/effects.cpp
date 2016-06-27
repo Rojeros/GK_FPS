@@ -10,11 +10,11 @@ void Effects::setObjectLoader(ObjectLoader* objL) {
 	objectLoader = objL;
 }
 
-void Effects::initEffects()
+void Effects::initEffects(int width,int height)
 {
 	rainBitmap = objectLoader->loadParticleImage("Assets/Effects/waterCircle.png");
 	bulletBitmap = objectLoader->loadParticleImage("Assets/Effects/fireball.png");
-	initRain(&raining, 0, 100.0f, 75, 35, 35, 500, 1.0f, 1.5f);
+	initRain(&raining, 0, 100.0f, 75, width, height, 500, 1.0f, 1.5f);
 }
 
 void Effects::display()
@@ -52,7 +52,7 @@ void Effects::bulletUpdate()
 		if (!it->boom) {
 			vector3d tmp;
 			tmp = vector3d(abs(it->destination.x) -abs( it->positionInAir.x), abs(it->destination.y) - abs(it->positionInAir.y), abs(it->destination.z) - abs(it->positionInAir.z));
-			if (abs(tmp.x)<1 &&abs(tmp.y)<1 &&abs(tmp.z)<1) {
+			if (abs(tmp.x)<2 &&abs(tmp.y)<2 &&abs(tmp.z)<4) {
 				it->life++;
 
 			}
@@ -83,19 +83,31 @@ void Effects::bulletDisplay()
 			glBindTexture(GL_TEXTURE_2D, bulletBitmap);
 			glEnable(GL_BLEND);
 			
+			glBegin(GL_QUADS);
+	//		glPushMatrix();
+	//			glEnable(GL_TEXTURE_GEN_S); //enable texture coordinate generation
+	//			glEnable(GL_TEXTURE_GEN_T);
+	//		glTranslatef(it->positionInAir.x, it->positionInAir.y, it->positionInAir.z);
+	//		glScalef(it->size, it->size, it->size);
+			float sizeFactor = it->size*10;
+			glColor3f(1, 0, 0);
+	
+			vector3d normal=(it->positionInAir - it->destination);
+			normal.normalize();
+			glTexCoord2f(0.0f, 0.0f);
+			glVertex3f((it->positionInAir.x - 0.1f*sizeFactor), (it->positionInAir.y + 0.1f*sizeFactor), (it->positionInAir.z));
+			glTexCoord2f(1.0f, 0.0f);
+			glVertex3f((it->positionInAir.x - 0.1f*sizeFactor), (it->positionInAir.y - 0.1f*sizeFactor), (it->positionInAir.z));
+			glTexCoord2f(1.0f, 1.0f);
+			glVertex3f((it->positionInAir.x + 0.1f*sizeFactor), (it->positionInAir.y - 0.1f*sizeFactor), (it->positionInAir.z ));
+			glTexCoord2f(0.0f, 1.0f);
+			glVertex3f((it->positionInAir.x + 0.1f*sizeFactor), (it->positionInAir.y + 0.1f*sizeFactor), (it->positionInAir.z));
+		
+			glEnd();
+	//		glPopMatrix();
 
-			glPushMatrix();
-				glEnable(GL_TEXTURE_GEN_S); //enable texture coordinate generation
-				glEnable(GL_TEXTURE_GEN_T);
-			glTranslatef(it->positionInAir.x, it->positionInAir.y, it->positionInAir.z);
-			glScalef(it->size, it->size, it->size);
-			glColor3f(1, 1, 1);
-
-			glutSolidCube(2);
-			glPopMatrix();
-
-				glDisable(GL_TEXTURE_GEN_S); //disable texture coordinate generation
-				glDisable(GL_TEXTURE_GEN_T);
+	//			glDisable(GL_TEXTURE_GEN_S); //disable texture coordinate generation
+	//			glDisable(GL_TEXTURE_GEN_T);
 			glDisable(GL_BLEND);
 			it->size += 0.5;
 		

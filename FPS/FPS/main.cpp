@@ -76,7 +76,7 @@ int main(int argc, char **argv) {
 	spawn_points.push_back(vector3d(18, 3, -4));
 	
 	effects.setObjectLoader(objectLoader);
-	effects.initEffects();
+	
 
 	//unsigned int levelId = objectLoader->load("testowa_scena.obj", &level_collision_planes);
 	unsigned int levelId = objectLoader->load("Assets/Scenes/level_1/level1.obj", &level1_collision_planes);
@@ -84,9 +84,9 @@ int main(int argc, char **argv) {
 
 	//level adding
 	levels.push_back(
-		new Level(levelId, level1_collision_planes, "mapa1", spawn_points, vector3d(-3, 5, -4), vector3d(-9, 1, -4)));
+		new Level(levelId, level1_collision_planes, "mapa1", spawn_points, vector3d(-3, 5, -4), vector3d(-9, 1, -4),95,95));
 	levels.push_back(
-		new Level(levelId2, level2_collision_planes, "mapa2", spawn_points, vector3d(3, 5, 4), vector3d(9, 1, 4))
+		new Level(levelId2, level2_collision_planes, "mapa2", spawn_points, vector3d(3, 5, 4), vector3d(9, 1, 4),35,35)
 		);
 
 	vector<unsigned int> anim;
@@ -97,18 +97,18 @@ int main(int argc, char **argv) {
 
 	//weapons for player
 	vector<unsigned int> anim2;
-	objectLoader->loadAnimation(anim2, "Assets/Weapons/ak/ak", 47, NULL);
-	Weapon* weapon1 = createWeapon(anim2, 1);
+//	objectLoader->loadAnimation(anim2, "Assets/Weapons/ak/ak", 47, NULL);
+	Weapon* weapon1 = createWeapon(anim, 1);
 
 	vector<unsigned int> anim3;
-	objectLoader->loadAnimation(anim3, "Assets/Weapons/shotgun/shotgun", 37, NULL);
-	Weapon* weapon2 = createWeapon(anim3, 2);
+//	objectLoader->loadAnimation(anim3, "Assets/Weapons/shotgun/shotgun", 37, NULL);
+	Weapon* weapon2 = createWeapon(anim, 2);
 	player_t.addWeapon(weapon1);
 	player_t.addWeapon(weapon2);
 
 	objectLoader->loadAnimation(enemyAnimation, "Assets/Creatures/MagmaElemental_1", 40, &enemy_collision_planes);
 
-
+	effects.initEffects(levels[currentLevel]->getWidth(), levels[currentLevel]->getHeight());
 	player = player_t;
 	glutSetCursor(GLUT_CURSOR_NONE);
 	glutIgnoreKeyRepeat(1);
@@ -247,6 +247,8 @@ void update(void) {
 			player.addPoints(p);
 			bonuses.clear();		//clear current level
 			enemyList.clear();
+			effects.delEffects();
+			effects.initEffects(levels[currentLevel]->getWidth(), levels[currentLevel]->getHeight());
 			//new end platform on next level
 			bonuses.add(kind::finish, collisionsphere(levels[currentLevel]->getEndPoint(), 1), vector3d(0, 0, 0), vector3d(0, 0, 0), vector3d(1, 0.1, 1));
 		
@@ -257,6 +259,7 @@ void update(void) {
 
 		if (enemyList.size() <= 4) {
 			enemyList.push_back(Enemy(enemyAnimation, 200, 0.03, 05,100, collisionsphere(levels[currentLevel]->getRandomSpawnPoint(), 4), vector3d(0, 0, 0), player.cam.getLocation(), enemy_collision_planes));
+		
 		}
 
 		vector<Enemy>::iterator it = enemyList.begin();
@@ -272,9 +275,9 @@ void update(void) {
 				//add ammo or  health bonus 
 				int g = rand() % 10;
 				if (g == 1)
-					bonuses.add(kind::ammo, collisionsphere(it->getSphere()->center, 1.0));
+					bonuses.add(kind::ammo, collisionsphere(vector3d(it->getSphere()->center.x, it->getSphere()->center.y-it->getSphere()->r, it->getSphere()->center.z), 1.0));
 				else if (g == 2)
-					bonuses.add(kind::health, collisionsphere(it->getSphere()->center, 1.0));
+					bonuses.add(kind::health, collisionsphere(vector3d(it->getSphere()->center.x, it->getSphere()->center.y - it->getSphere()->r, it->getSphere()->center.z), 1.0));
 
 				it = enemyList.erase(it);
 			}
@@ -301,7 +304,7 @@ void update(void) {
 					float dist=0;
 					vector3d point=vector3d(0,0,0);
 					
-					if (collision::raysphere(it->getSphere()->center.x, it->getSphere()->center.y, it->getSphere()->center.z, direction.x, direction.y, direction.z, player.cam.getLocation().x, player.cam.getLocation().y, player.cam.getLocation().z, it->getSphere()->r,&dist,&point))
+					if (collision::raysphere(it->getSphere()->center.x, it->getSphere()->center.y-it->getSphere()->r, it->getSphere()->center.z, direction.x, direction.y, direction.z, player.cam.getLocation().x, player.cam.getLocation().y, player.cam.getLocation().z, it->getSphere()->r,&dist,&point))
 					{
 						it->decreaseHealth(player.getCurrentWeapon()->getPower());
 					}
@@ -332,7 +335,7 @@ void update(void) {
 		}
 
 		effects.update();
-
+	
 		//check bonuses and finish level
 		int h = bonuses.update(player.getCollisionSphere());
 		switch (h) {
@@ -557,7 +560,7 @@ Weapon* createWeapon(std::vector<unsigned int> anim,int i) {
 		return weapon;
 	}
 	if (i == 1) {
-		Weapon* weapon = new Weapon("minigun", 10, false, 5, 500, 5, 100, 80, 80);
+		Weapon* weapon = new Weapon("AK", 10, false, 5, 500, 5, 100, 80, 80);
 
 		weapon->setAnimationFrames(anim);
 		weapon->setNormalStateAnimation(1);

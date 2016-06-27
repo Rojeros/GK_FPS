@@ -67,6 +67,7 @@ Enemy::Enemy(std::vector<unsigned int>& f, int health, float speed, int strength
 
 bool Enemy::update(std::vector<collisionplane>& map2, vector3d playerpos, collisionsphere css)
 {
+	
 		direction.change(playerpos - cs.center);
 		direction.normalize();
 		rotation.y = std::acos(direction.z);
@@ -76,7 +77,7 @@ bool Enemy::update(std::vector<collisionplane>& map2, vector3d playerpos, collis
 		newpos += direction*speed;
 		newpos.y -= 0.3;
 		for (int i = 0; i<map2.size(); i++)
-			sphereplane(newpos, map2[i].normal, map2[i].p[0], map2[i].p[1], map2[i].p[2], map2[i].p[3], cs.r-3.5);
+			sphereplane(newpos, map2[i].normal, map2[i].p[0], map2[i].p[1], map2[i].p[2], map2[i].p[3], cs.r);
 
 
 			boolean isCollision = spheresphere(cs.center, cs.r, css.center, css.r);
@@ -98,16 +99,16 @@ void Enemy::show()
 	glEnable(GL_NORMALIZE);
 
 	glPushMatrix();
-	glTranslatef(cs.center.x, cs.center.y, cs.center.z);
+	glTranslatef(cs.center.x, cs.center.y-cs.r, cs.center.z);
 	glRotatef(rotation.x, 1, 0, 0);
 	glRotatef(-rotation.y*(180 / M_PI), 0, 1, 0);
 	glRotatef(rotation.z, 0, 0, 1);
-	glScalef(1.5, 1.5, 1.5);
+	//glScalef(1.5, 1.5, 1.5);
 	//glColor3ub(255, 0, 0);
 	//glutSolidCube(0.5);
 	glCallList(frames[curframe]);
-//	glScalef(1, 1, 1);
-//	glDisable(GL_TEXTURE_2D);
+	//glScalef(1, 1, 1);
+	//glDisable(GL_TEXTURE_2D);
 //	glColor4f(1, 1, 1, 0.3);
 //	glutSolidSphere(cs.r, 10, 10);
 	glPopMatrix();

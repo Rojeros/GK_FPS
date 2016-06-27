@@ -1,7 +1,7 @@
 #include "level.h"
 
 
-Level::Level(unsigned int lId, std::vector<collisionplane>& cplane, std::string n, std::vector<vector3d>& sp,vector3d pStartPoint,vector3d endp) // std::vector<std::string>& skyImages, 
+Level::Level(unsigned int lId, std::vector<collisionplane>& cplane, std::string n, std::vector<vector3d>& sp,vector3d pStartPoint,vector3d endp,int width,int height) // std::vector<std::string>& skyImages, 
 {
 	levelId = lId;
 	cp = cplane;
@@ -11,6 +11,8 @@ Level::Level(unsigned int lId, std::vector<collisionplane>& cplane, std::string 
 	playerSpawnPoint = pStartPoint;
 	endPoint = endp;
 	end = false;
+	this->width = width;
+	this->height = height;
 }
 void Level::update()
 {
@@ -70,4 +72,14 @@ void Level::setEnd(bool i)
 bool Level::isEnd()
 {
 	return end;
+}
+
+int Level::getWidth()
+{
+	return width;
+}
+
+int Level::getHeight()
+{
+	return height;
 }

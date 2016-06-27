@@ -18,7 +18,7 @@ class Effects {
 
 public:
 	Effects();
-	void initEffects();
+	void initEffects(int width,int height);
 	void display();
 	void update();
 	void delEffects();

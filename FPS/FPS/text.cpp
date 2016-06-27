@@ -59,8 +59,12 @@ void text::showTextInfo(int health, int ammo, int allammo, int point, std::vecto
 	endText();
 
 	startText(g_viewport_width, g_viewport_height);
-	glLineWidth(5);
-	displayText("+", g_viewport_width, g_viewport_height, 8, CENTER, 0);
+	glLineWidth(2);
+	displayText("-", g_viewport_width, g_viewport_height, 14, CENTER, 0);
+	endText();
+	startText(g_viewport_width, g_viewport_height);
+	glLineWidth(2);
+	displayText("|", g_viewport_width, g_viewport_height, 14, CENTER, 0);
 	endText();
 }
 

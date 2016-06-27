@@ -13,9 +13,11 @@ class Level {
 	vector3d endPoint;
 	std::string name;
 	bool end;
+	int width;
+	int height;
 	//skybox* sky;
 public:
-	Level(unsigned int lId, std::vector<collisionplane>& cplane, std::string n,std::vector<vector3d>& sp,vector3d pStartPoint,vector3d endp); // std::vector<std::string>& skyImages, 
+	Level(unsigned int lId, std::vector<collisionplane>& cplane, std::string n,std::vector<vector3d>& sp,vector3d pStartPoint,vector3d endp,int width,int height); // std::vector<std::string>& skyImages, 
 	void update();
 	void show();
 	std::vector<collisionplane>& getCollisionPlanes();
@@ -28,4 +30,6 @@ public:
 	vector3d getEndPoint();
 	void setEnd(bool i);
 	bool isEnd();
+	int getWidth();
+	int getHeight();
 };
