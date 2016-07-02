@@ -1,0 +1,548 @@
+.TH "ObjectLoader" 3 "Sat Jul 2 2016" "Version 1.00" "3D FPS Game" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+ObjectLoader \- An object loader\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <objectloader\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBObjectLoader\fP ()"
+.br
+.RI "\fIDefault constructor\&. \fP"
+.ti -1c
+.RI "\fB~ObjectLoader\fP ()"
+.br
+.RI "\fIDestructor\&. \fP"
+.ti -1c
+.RI "int \fBload\fP (const std::string &filename, std::vector< \fBcollisionplane\fP > *\fBcollisionplane\fP)"
+.br
+.RI "\fILoads the given file\&. \fP"
+.ti -1c
+.RI "void \fBloadAnimation\fP (std::vector< unsigned int > &anim, const std::string filename, int frames, std::vector< \fBcollisionplane\fP > *collplane)"
+.br
+.RI "\fILoads an animation\&. \fP"
+.ti -1c
+.RI "GLuint \fBloadParticleImage\fP (const char *filename)"
+.br
+.RI "\fILoads particle image\&. \fP"
+.in -1c
+.SS "Private Member Functions"
+
+.in +1c
+.ti -1c
+.RI "unsigned int \fBloadTexture\fP (const char *filename)"
+.br
+.RI "\fILoads a texture\&. \fP"
+.ti -1c
+.RI "GLuint \fBloadTextureImage\fP (const char *filename)"
+.br
+.RI "\fILoads texture image\&. \fP"
+.ti -1c
+.RI "int \fBparseFile\fP (const std::string &filename)"
+.br
+.RI "\fIParse file\&. \fP"
+.ti -1c
+.RI "int \fBparseVertex\fP (std::string *line)"
+.br
+.RI "\fIParse vertex\&. \fP"
+.ti -1c
+.RI "int \fBparseNormal\fP (std::string *line)"
+.br
+.RI "\fIParse normal\&. \fP"
+.ti -1c
+.RI "int \fBparseCollision\fP (std::string *line, std::vector< \fBcollisionplane\fP > *collplane)"
+.br
+.RI "\fIParse collision\&. \fP"
+.ti -1c
+.RI "int \fBparseFace\fP (std::string *line, int curmat)"
+.br
+.RI "\fIParse face\&. \fP"
+.ti -1c
+.RI "int \fBparseMaterial\fP (std::string *line, const std::string &filename)"
+.br
+.RI "\fIParse material\&. \fP"
+.ti -1c
+.RI "int \fBparseMaterialFile\fP (std::string *line, std::string path, std::vector< std::string > *tmp)"
+.br
+.RI "\fIParse material file\&. \fP"
+.ti -1c
+.RI "int \fBparseTexture\fP (std::string *line)"
+.br
+.RI "\fIParse texture\&. \fP"
+.ti -1c
+.RI "int \fBparseFaces\fP ()"
+.br
+.RI "\fIParse faces\&. \fP"
+.ti -1c
+.RI "int \fBparseFaces\fP (int last, int i)"
+.br
+.RI "\fIParse faces\&. \fP"
+.ti -1c
+.RI "int \fBparseQuads\fP (int i)"
+.br
+.RI "\fIParse quads\&. \fP"
+.ti -1c
+.RI "int \fBparseTriangles\fP (int i)"
+.br
+.RI "\fIParse triangles\&. \fP"
+.ti -1c
+.RI "void \fBclean\fP ()"
+.br
+.RI "\fICleans this object\&. \fP"
+.ti -1c
+.RI "void \fBsmoothnormals\fP ()"
+.br
+.RI "\fISmoothnormals this object\&. \fP"
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "std::vector< std::string * > \fBcoord\fP"
+.br
+.RI "\fIThe coordinate\&. \fP"
+.ti -1c
+.RI "std::vector< \fBcoordinate\fP * > \fBvertex\fP"
+.br
+.RI "\fIThe vertex\&. \fP"
+.ti -1c
+.RI "std::vector< \fBface\fP * > \fBfaces\fP"
+.br
+.RI "\fIThe faces\&. \fP"
+.ti -1c
+.RI "std::vector< \fBcoordinate\fP * > \fBnormals\fP"
+.br
+.RI "\fIThe normals\&. \fP"
+.ti -1c
+.RI "std::vector< unsigned int > \fBtexture\fP"
+.br
+.RI "\fIThe texture\&. \fP"
+.ti -1c
+.RI "std::vector< unsigned int > \fBlists\fP"
+.br
+.RI "\fIThe lists\&. \fP"
+.ti -1c
+.RI "std::vector< \fBmaterial\fP * > \fBmaterials\fP"
+.br
+.RI "\fIThe materials\&. \fP"
+.ti -1c
+.RI "std::vector< \fBtexcoord\fP * > \fBtexturecoordinate\fP"
+.br
+.RI "\fIThe texturecoordinate\&. \fP"
+.ti -1c
+.RI "std::vector< \fBcoordinate\fP * > \fBvertexnormals\fP"
+.br
+.RI "\fIThe vertexnormals\&. \fP"
+.ti -1c
+.RI "bool \fBismaterial\fP"
+.br
+.RI "\fIGets the isvertexnormal\&. \fP"
+.ti -1c
+.RI "bool \fBisnormals\fP"
+.br
+.ti -1c
+.RI "bool \fBistexture\fP"
+.br
+.ti -1c
+.RI "bool \fBisvertexnormal\fP"
+.br
+.ti -1c
+.RI "std::vector< std::string > \fBloadedTextures\fP"
+.br
+.RI "\fIThe loaded textures\&. \fP"
+.ti -1c
+.RI "std::vector< int > \fBloadedTexturesNum\fP"
+.br
+.RI "\fIThe loaded textures number\&. \fP"
+.ti -1c
+.RI "std::ofstream \fBout\fP"
+.br
+.RI "\fIThe out\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+An object loader\&. 
+
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "ObjectLoader::ObjectLoader ()"
+
+.PP
+Default constructor\&. 
+.SS "ObjectLoader::~ObjectLoader ()"
+
+.PP
+Destructor\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "void ObjectLoader::clean ()\fC [private]\fP"
+
+.PP
+Cleans this object\&. 
+.SS "int ObjectLoader::load (const std::string & filename, std::vector< \fBcollisionplane\fP > * collisionplane)"
+
+.PP
+Loads the given file\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfilename\fP Filename of the file\&. 
+.br
+\fIcollisionplane\fP [in,out] If non-null, the collisionplane\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+An int\&. 
+.RE
+.PP
+
+.SS "void ObjectLoader::loadAnimation (std::vector< unsigned int > & anim, const std::string filename, int frames, std::vector< \fBcollisionplane\fP > * collplane)"
+
+.PP
+Loads an animation\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIanim\fP [in,out] The animation\&. 
+.br
+\fIfilename\fP Filename of the file\&. 
+.br
+\fIframes\fP The frames\&. 
+.br
+\fIcollplane\fP [in,out] If non-null, the collplane\&. 
+.RE
+.PP
+
+.SS "GLuint ObjectLoader::loadParticleImage (const char * filename)"
+
+.PP
+Loads particle image\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfilename\fP Filename of the file\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+The particle image\&. 
+.RE
+.PP
+
+.SS "unsigned int ObjectLoader::loadTexture (const char * filename)\fC [private]\fP"
+
+.PP
+Loads a texture\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfilename\fP Filename of the file\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+The texture\&. 
+.RE
+.PP
+
+.SS "GLuint ObjectLoader::loadTextureImage (const char * filename)\fC [private]\fP"
+
+.PP
+Loads texture image\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfilename\fP Filename of the file\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+The texture image\&. 
+.RE
+.PP
+
+.SS "int ObjectLoader::parseCollision (std::string * line, std::vector< \fBcollisionplane\fP > * collplane)\fC [private]\fP"
+
+.PP
+Parse collision\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIline\fP [in,out] If non-null, the line\&. 
+.br
+\fIcollplane\fP [in,out] If non-null, the collplane\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+An int\&. 
+.RE
+.PP
+
+.SS "int ObjectLoader::parseFace (std::string * line, int curmat)\fC [private]\fP"
+
+.PP
+Parse face\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIline\fP [in,out] If non-null, the line\&. 
+.br
+\fIcurmat\fP The curmat\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+An int\&. 
+.RE
+.PP
+
+.SS "int ObjectLoader::parseFaces ()\fC [private]\fP"
+
+.PP
+Parse faces\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+An int\&. 
+.RE
+.PP
+
+.SS "int ObjectLoader::parseFaces (int last, int i)\fC [private]\fP"
+
+.PP
+Parse faces\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIlast\fP The last\&. 
+.br
+\fIi\fP Zero-based index of the\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+An int\&. 
+.RE
+.PP
+
+.SS "int ObjectLoader::parseFile (const std::string & filename)\fC [private]\fP"
+
+.PP
+Parse file\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfilename\fP Filename of the file\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+An int\&. 
+.RE
+.PP
+
+.SS "int ObjectLoader::parseMaterial (std::string * line, const std::string & filename)\fC [private]\fP"
+
+.PP
+Parse material\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIline\fP [in,out] If non-null, the line\&. 
+.br
+\fIfilename\fP Filename of the file\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+An int\&. 
+.RE
+.PP
+
+.SS "int ObjectLoader::parseMaterialFile (std::string * line, std::string path, std::vector< std::string > * tmp)\fC [private]\fP"
+
+.PP
+Parse material file\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIline\fP [in,out] If non-null, the line\&. 
+.br
+\fIpath\fP Full pathname of the file\&. 
+.br
+\fItmp\fP [in,out] If non-null, the temporary\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+An int\&. 
+.RE
+.PP
+
+.SS "int ObjectLoader::parseNormal (std::string * line)\fC [private]\fP"
+
+.PP
+Parse normal\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIline\fP [in,out] If non-null, the line\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+An int\&. 
+.RE
+.PP
+
+.SS "int ObjectLoader::parseQuads (int i)\fC [private]\fP"
+
+.PP
+Parse quads\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIi\fP Zero-based index of the\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+An int\&. 
+.RE
+.PP
+
+.SS "int ObjectLoader::parseTexture (std::string * line)\fC [private]\fP"
+
+.PP
+Parse texture\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIline\fP [in,out] If non-null, the line\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+An int\&. 
+.RE
+.PP
+
+.SS "int ObjectLoader::parseTriangles (int i)\fC [private]\fP"
+
+.PP
+Parse triangles\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIi\fP Zero-based index of the\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+An int\&. 
+.RE
+.PP
+
+.SS "int ObjectLoader::parseVertex (std::string * line)\fC [private]\fP"
+
+.PP
+Parse vertex\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIline\fP [in,out] If non-null, the line\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+An int\&. 
+.RE
+.PP
+
+.SS "void ObjectLoader::smoothnormals ()\fC [private]\fP"
+
+.PP
+Smoothnormals this object\&. 
+.SH "Member Data Documentation"
+.PP 
+.SS "std::vector<std::string*> ObjectLoader::coord\fC [private]\fP"
+
+.PP
+The coordinate\&. 
+.SS "std::vector<\fBface\fP*> ObjectLoader::faces\fC [private]\fP"
+
+.PP
+The faces\&. 
+.SS "bool ObjectLoader::ismaterial\fC [private]\fP"
+
+.PP
+Gets the isvertexnormal\&. The isvertexnormal\&. 
+.SS "std::vector<unsigned int> ObjectLoader::lists\fC [private]\fP"
+
+.PP
+The lists\&. 
+.SS "std::vector<std::string> ObjectLoader::loadedTextures\fC [private]\fP"
+
+.PP
+The loaded textures\&. 
+.SS "std::vector<int> ObjectLoader::loadedTexturesNum\fC [private]\fP"
+
+.PP
+The loaded textures number\&. 
+.SS "std::vector<\fBmaterial\fP*> ObjectLoader::materials\fC [private]\fP"
+
+.PP
+The materials\&. 
+.SS "std::vector<\fBcoordinate\fP*> ObjectLoader::normals\fC [private]\fP"
+
+.PP
+The normals\&. 
+.SS "std::ofstream ObjectLoader::out\fC [private]\fP"
+
+.PP
+The out\&. 
+.SS "std::vector<unsigned int> ObjectLoader::texture\fC [private]\fP"
+
+.PP
+The texture\&. 
+.SS "std::vector<\fBtexcoord\fP*> ObjectLoader::texturecoordinate\fC [private]\fP"
+
+.PP
+The texturecoordinate\&. 
+.SS "std::vector<\fBcoordinate\fP*> ObjectLoader::vertex\fC [private]\fP"
+
+.PP
+The vertex\&. 
+.SS "std::vector<\fBcoordinate\fP*> ObjectLoader::vertexnormals\fC [private]\fP"
+
+.PP
+The vertexnormals\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for 3D FPS Game from the source code\&.

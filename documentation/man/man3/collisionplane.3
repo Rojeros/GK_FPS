@@ -1,0 +1,183 @@
+.TH "collisionplane" 3 "Sat Jul 2 2016" "Version 1.00" "3D FPS Game" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+collisionplane \- A collisionplane\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <collisionplane\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBcollisionplane\fP (float n1, float n2, float n3, float a, float b, float c, float d, float e, float f, float g, float h, float i, float j, float k, float l)"
+.br
+.RI "\fIConstructor\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP \fBget1point\fP ()"
+.br
+.RI "\fIGets the 1point\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP \fBget2point\fP ()"
+.br
+.RI "\fIGets the 2point\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP \fBget3point\fP ()"
+.br
+.RI "\fIGets the 3point\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP \fBget4point\fP ()"
+.br
+.RI "\fIGets the 4point\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP \fBgetnormal\fP ()"
+.br
+.RI "\fIGets the getnormal\&. \fP"
+.ti -1c
+.RI "bool \fBisok\fP ()"
+.br
+.RI "\fIQuery if this object isok\&. \fP"
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBvector3d\fP \fBp\fP [4]"
+.br
+.RI "\fIThe p[ 4]\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP \fBnormal\fP"
+.br
+.RI "\fIThe normal\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+A collisionplane\&. 
+
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "collisionplane::collisionplane (float n1, float n2, float n3, float a, float b, float c, float d, float e, float f, float g, float h, float i, float j, float k, float l)"
+
+.PP
+Constructor\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIn1\fP The first float\&. 
+.br
+\fIn2\fP The second float\&. 
+.br
+\fIn3\fP The third float\&. 
+.br
+\fIa\fP The float to process\&. 
+.br
+\fIb\fP The float to process\&. 
+.br
+\fIc\fP The float to process\&. 
+.br
+\fId\fP The float to process\&. 
+.br
+\fIe\fP The float to process\&. 
+.br
+\fIf\fP The float to process\&. 
+.br
+\fIg\fP The float to process\&. 
+.br
+\fIh\fP The height\&. 
+.br
+\fIi\fP Zero-based index of the\&. 
+.br
+\fIj\fP The float to process\&. 
+.br
+\fIk\fP The float to process\&. 
+.br
+\fIl\fP The float to process\&. 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "\fBvector3d\fP collisionplane::get1point ()"
+
+.PP
+Gets the 1point\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The 1point\&. 
+.RE
+.PP
+
+.SS "\fBvector3d\fP collisionplane::get2point ()"
+
+.PP
+Gets the 2point\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The 2point\&. 
+.RE
+.PP
+
+.SS "\fBvector3d\fP collisionplane::get3point ()"
+
+.PP
+Gets the 3point\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The 3point\&. 
+.RE
+.PP
+
+.SS "\fBvector3d\fP collisionplane::get4point ()"
+
+.PP
+Gets the 4point\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The 4point\&. 
+.RE
+.PP
+
+.SS "\fBvector3d\fP collisionplane::getnormal ()"
+
+.PP
+Gets the getnormal\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+A \fBvector3d\fP\&. 
+.RE
+.PP
+
+.SS "bool collisionplane::isok ()"
+
+.PP
+Query if this object isok\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+true if it succeeds, false if it fails\&. 
+.RE
+.PP
+
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBvector3d\fP collisionplane::normal"
+
+.PP
+The normal\&. 
+.SS "\fBvector3d\fP collisionplane::p[4]"
+
+.PP
+The p[ 4]\&. The p[ 4]\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for 3D FPS Game from the source code\&.

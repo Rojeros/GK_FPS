@@ -1,0 +1,540 @@
+.TH "vector3d" 3 "Sat Jul 2 2016" "Version 1.00" "3D FPS Game" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+vector3d \- A vector 3d\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <vector\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBvector3d\fP ()"
+.br
+.RI "\fIDefault constructor\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP (float a, float b)"
+.br
+.RI "\fIConstructor\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP (float a, float b, float c)"
+.br
+.RI "\fIConstructor\&. \fP"
+.ti -1c
+.RI "\fB~vector3d\fP ()"
+.br
+.RI "\fIDestructor\&. \fP"
+.ti -1c
+.RI "float \fBdotproduct\fP (const \fBvector3d\fP &vec2)"
+.br
+.RI "\fIDotproducts the given vector 2\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP \fBcrossproduct\fP (const \fBvector3d\fP &vec2)"
+.br
+.RI "\fICrossproducts the given vector 2\&. \fP"
+.ti -1c
+.RI "float \fBlength\fP ()"
+.br
+.RI "\fIGets the length\&. \fP"
+.ti -1c
+.RI "void \fBchange\fP (float a, float b, float c)"
+.br
+.RI "\fIChanges\&. \fP"
+.ti -1c
+.RI "void \fBchange\fP (\fBvector3d\fP &)"
+.br
+.RI "\fIChanges the given parameter 1\&. \fP"
+.ti -1c
+.RI "void \fBchange\fP (\fBvector3d\fP)"
+.br
+.RI "\fIChanges the given parameter 1\&. \fP"
+.ti -1c
+.RI "void \fBchangeX\fP (float a)"
+.br
+.RI "\fIChange x coordinate\&. \fP"
+.ti -1c
+.RI "void \fBchangeY\fP (float b)"
+.br
+.RI "\fIChange y coordinate\&. \fP"
+.ti -1c
+.RI "void \fBchangeZ\fP (float c)"
+.br
+.RI "\fIChange z coordinate\&. \fP"
+.ti -1c
+.RI "void \fBnormalize\fP ()"
+.br
+.RI "\fINormalizes this object\&. \fP"
+.ti -1c
+.RI "bool \fBoperator==\fP (const \fBvector3d\fP &vec2)"
+.br
+.RI "\fIEquality operator\&. \fP"
+.ti -1c
+.RI "bool \fBoperator!=\fP (const \fBvector3d\fP &vec2)"
+.br
+.RI "\fIInequality operator\&. \fP"
+.ti -1c
+.RI "bool \fBoperator>=\fP (const \fBvector3d\fP &vec2)"
+.br
+.RI "\fIGreater-than-or-equal comparison operator\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP \fBoperator+\fP (const \fBvector3d\fP &vec2)"
+.br
+.RI "\fIAddition operator\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP \fBoperator+\fP (const float vec2)"
+.br
+.RI "\fIAddition operator\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP \fBoperator\-\fP (const \fBvector3d\fP &vec2)"
+.br
+.RI "\fISubtraction operator\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP \fBoperator*\fP (const float &num)"
+.br
+.RI "\fIMultiplication operator\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP \fBoperator/\fP (const float &num)"
+.br
+.RI "\fIDivision operator\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP & \fBoperator+=\fP (const \fBvector3d\fP &vec2)"
+.br
+.RI "\fIAddition assignment operator\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP & \fBoperator\-=\fP (const \fBvector3d\fP &vec2)"
+.br
+.RI "\fISubtraction assignment operator\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP & \fBoperator*=\fP (const float &num)"
+.br
+.RI "\fIMultiplication assignment operator\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP & \fBoperator/=\fP (const float &num)"
+.br
+.RI "\fIDivision assignment operator\&. \fP"
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "float \fBx\fP"
+.br
+.RI "\fIGets the z coordinate\&. \fP"
+.ti -1c
+.RI "float \fBy\fP"
+.br
+.ti -1c
+.RI "float \fBz\fP"
+.br
+.in -1c
+.SS "Friends"
+
+.in +1c
+.ti -1c
+.RI "std::ostream & \fBoperator<<\fP (std::ostream &out, \fBvector3d\fP vec2)"
+.br
+.RI "\fIStream insertion operator\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+A vector 3d\&. 
+
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "vector3d::vector3d ()"
+
+.PP
+Default constructor\&. 
+.SS "vector3d::vector3d (float a, float b)"
+
+.PP
+Constructor\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIa\fP The float to process\&. 
+.br
+\fIb\fP The float to process\&. 
+.RE
+.PP
+
+.SS "vector3d::vector3d (float a, float b, float c)"
+
+.PP
+Constructor\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIa\fP The float to process\&. 
+.br
+\fIb\fP The float to process\&. 
+.br
+\fIc\fP The float to process\&. 
+.RE
+.PP
+
+.SS "vector3d::~vector3d ()\fC [inline]\fP"
+
+.PP
+Destructor\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "void vector3d::change (float a, float b, float c)"
+
+.PP
+Changes\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIa\fP The float to process\&. 
+.br
+\fIb\fP The float to process\&. 
+.br
+\fIc\fP The float to process\&. 
+.RE
+.PP
+
+.SS "void vector3d::change (\fBvector3d\fP & vec)"
+
+.PP
+Changes the given parameter 1\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIparameter1\fP [in,out] The first parameter\&. 
+.RE
+.PP
+
+.SS "void vector3d::change (\fBvector3d\fP vec)"
+
+.PP
+Changes the given parameter 1\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIparameter1\fP The first parameter\&. 
+.RE
+.PP
+
+.SS "void vector3d::changeX (float a)"
+
+.PP
+Change x coordinate\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIa\fP The float to process\&. 
+.RE
+.PP
+
+.SS "void vector3d::changeY (float b)"
+
+.PP
+Change y coordinate\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIb\fP The float to process\&. 
+.RE
+.PP
+
+.SS "void vector3d::changeZ (float c)"
+
+.PP
+Change z coordinate\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIc\fP The float to process\&. 
+.RE
+.PP
+
+.SS "\fBvector3d\fP vector3d::crossproduct (const \fBvector3d\fP & vec2)"
+
+.PP
+Crossproducts the given vector 2\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvec2\fP The second vector\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+A \fBvector3d\fP\&. 
+.RE
+.PP
+
+.SS "float vector3d::dotproduct (const \fBvector3d\fP & vec2)"
+
+.PP
+Dotproducts the given vector 2\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvec2\fP The second vector\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+A float\&. 
+.RE
+.PP
+
+.SS "float vector3d::length ()"
+
+.PP
+Gets the length\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+A float\&. 
+.RE
+.PP
+
+.SS "void vector3d::normalize ()"
+
+.PP
+Normalizes this object\&. 
+.SS "bool vector3d::operator!= (const \fBvector3d\fP & vec2)"
+
+.PP
+Inequality operator\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvec2\fP The second vector\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+true if the parameters are not considered equivalent\&. 
+.RE
+.PP
+
+.SS "\fBvector3d\fP vector3d::operator* (const float & num)"
+
+.PP
+Multiplication operator\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fInum\fP Number of\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+The result of the operation\&. 
+.RE
+.PP
+
+.SS "\fBvector3d\fP & vector3d::operator*= (const float & num)"
+
+.PP
+Multiplication assignment operator\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fInum\fP Number of\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+The result of the operation\&. 
+.RE
+.PP
+
+.SS "\fBvector3d\fP vector3d::operator+ (const \fBvector3d\fP & vec2)"
+
+.PP
+Addition operator\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvec2\fP The second vector\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+The result of the operation\&. 
+.RE
+.PP
+
+.SS "\fBvector3d\fP vector3d::operator+ (const float vec2)"
+
+.PP
+Addition operator\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvec2\fP The second vector\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+The result of the operation\&. 
+.RE
+.PP
+
+.SS "\fBvector3d\fP & vector3d::operator+= (const \fBvector3d\fP & vec2)"
+
+.PP
+Addition assignment operator\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvec2\fP The second vector\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+The result of the operation\&. 
+.RE
+.PP
+
+.SS "\fBvector3d\fP vector3d::operator\- (const \fBvector3d\fP & vec2)"
+
+.PP
+Subtraction operator\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvec2\fP The second vector\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+The result of the operation\&. 
+.RE
+.PP
+
+.SS "\fBvector3d\fP & vector3d::operator\-= (const \fBvector3d\fP & vec2)"
+
+.PP
+Subtraction assignment operator\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvec2\fP The second vector\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+The result of the operation\&. 
+.RE
+.PP
+
+.SS "\fBvector3d\fP vector3d::operator/ (const float & num)"
+
+.PP
+Division operator\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fInum\fP Number of\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+The result of the operation\&. 
+.RE
+.PP
+
+.SS "\fBvector3d\fP & vector3d::operator/= (const float & num)"
+
+.PP
+Division assignment operator\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fInum\fP Number of\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+The result of the operation\&. 
+.RE
+.PP
+
+.SS "bool vector3d::operator== (const \fBvector3d\fP & vec2)"
+
+.PP
+Equality operator\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvec2\fP The second vector\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+true if the parameters are considered equivalent\&. 
+.RE
+.PP
+
+.SS "bool vector3d::operator>= (const \fBvector3d\fP & vec2)"
+
+.PP
+Greater-than-or-equal comparison operator\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIvec2\fP The second vector\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+true if the first parameter is greater than or equal to the second\&. 
+.RE
+.PP
+
+.SH "Friends And Related Function Documentation"
+.PP 
+.SS "std::ostream& operator<< (std::ostream & out, \fBvector3d\fP vec2)\fC [friend]\fP"
+
+.PP
+Stream insertion operator\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIout\fP [in,out] The out\&. 
+.br
+\fIvec2\fP The second vector\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+The shifted result\&. 
+.RE
+.PP
+
+.SH "Member Data Documentation"
+.PP 
+.SS "float vector3d::x"
+
+.PP
+Gets the z coordinate\&. The z coordinate\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for 3D FPS Game from the source code\&.

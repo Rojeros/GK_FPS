@@ -1,0 +1,841 @@
+.TH "Weapon" 3 "Sat Jul 2 2016" "Version 1.00" "3D FPS Game" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Weapon \- A weapon\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <weapon\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBWeapon\fP (string \fBname\fP, unsigned int \fBspeed\fP, bool \fBisAutomatic\fP, unsigned int \fBpower\fP, unsigned int \fBallBullets\fP, unsigned int \fBammoClip\fP, unsigned int \fBmaxMagazineBullets\fP, float \fBprecision\fP, float \fBaimprecision\fP)"
+.br
+.RI "\fIConstructor\&. \fP"
+.ti -1c
+.RI "void \fBsetName\fP (string name_p)"
+.br
+.RI "\fISets a name\&. \fP"
+.ti -1c
+.RI "void \fBsetAnimationFrames\fP (vector< unsigned int > animationFrames_p)"
+.br
+.RI "\fISets animation frames\&. \fP"
+.ti -1c
+.RI "void \fBsetModelId\fP (unsigned int modelId_p)"
+.br
+.RI "\fISets model identifier\&. \fP"
+.ti -1c
+.RI "void \fBsetNormalStateAnimation\fP (unsigned int normalStateAnimation_p)"
+.br
+.RI "\fISets normal state animation\&. \fP"
+.ti -1c
+.RI "void \fBsetFireStateAnimation\fP (unsigned int fireStateAnimation_p)"
+.br
+.RI "\fISets fire state animation\&. \fP"
+.ti -1c
+.RI "void \fBsetReloadStateAnimation\fP (unsigned int reloadStateAnimation_p)"
+.br
+.RI "\fISets reload state animation\&. \fP"
+.ti -1c
+.RI "void \fBsetCurrentPosition\fP (\fBvector3d\fP currentPosition_p)"
+.br
+.RI "\fISets current position\&. \fP"
+.ti -1c
+.RI "void \fBsetCurrentRotation\fP (\fBvector3d\fP currentRotation_p)"
+.br
+.RI "\fISets current rotation\&. \fP"
+.ti -1c
+.RI "void \fBsetPosition\fP (\fBvector3d\fP position_p)"
+.br
+.RI "\fISets a position\&. \fP"
+.ti -1c
+.RI "void \fBsetRotation\fP (\fBvector3d\fP rotation_p)"
+.br
+.RI "\fISets a rotation\&. \fP"
+.ti -1c
+.RI "void \fBsetMaxMagazineBullets\fP (unsigned int maxMagazineBullets_p)"
+.br
+.RI "\fISets maximum magazine bullets\&. \fP"
+.ti -1c
+.RI "void \fBsetAllBullets\fP (unsigned int ammoClip_p)"
+.br
+.RI "\fISets all bullets\&. \fP"
+.ti -1c
+.RI "void \fBsetAmmoClip\fP (unsigned int ammoClip_p)"
+.br
+.RI "\fISets ammo clip\&. \fP"
+.ti -1c
+.RI "void \fBsetCurrentState\fP (unsigned int currentState_p)"
+.br
+.RI "\fISets current state\&. \fP"
+.ti -1c
+.RI "void \fBsetCurrentAnimationFrame\fP (unsigned int currentAnimationFrame_p)"
+.br
+.RI "\fISets current animation frame\&. \fP"
+.ti -1c
+.RI "void \fBsetLastShot\fP (unsigned int lastShot_p)"
+.br
+.RI "\fISets last shot\&. \fP"
+.ti -1c
+.RI "void \fBaddAllBullets\fP (unsigned int ammoClip_p)"
+.br
+.RI "\fIAdds all bullets\&. \fP"
+.ti -1c
+.RI "string \fBgetName\fP ()"
+.br
+.RI "\fIGets the name\&. \fP"
+.ti -1c
+.RI "vector< unsigned int > & \fBgetAnimationFrames\fP ()"
+.br
+.RI "\fIGets animation frames\&. \fP"
+.ti -1c
+.RI "unsigned int \fBgetNormalStateAnimation\fP ()"
+.br
+.RI "\fIGets normal state animation\&. \fP"
+.ti -1c
+.RI "unsigned int \fBgetFireStateAnimation\fP ()"
+.br
+.RI "\fIGets fire state animation\&. \fP"
+.ti -1c
+.RI "unsigned int \fBgetReloadStateAnimation\fP ()"
+.br
+.RI "\fIGets reload state animation\&. \fP"
+.ti -1c
+.RI "unsigned int \fBgetPower\fP ()"
+.br
+.RI "\fIGets the power\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP \fBgetCurrentPosition\fP ()"
+.br
+.RI "\fIGets current position\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP \fBgetCurrentRotation\fP ()"
+.br
+.RI "\fIGets current rotation\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP \fBgetPosition\fP ()"
+.br
+.RI "\fIGets the position\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP \fBgetRotation\fP ()"
+.br
+.RI "\fIGets the rotation\&. \fP"
+.ti -1c
+.RI "unsigned int \fBgetMaxMagazineBullets\fP ()"
+.br
+.RI "\fIGets maximum magazine bullets\&. \fP"
+.ti -1c
+.RI "unsigned int \fBgetAmmoClip\fP ()"
+.br
+.RI "\fIGets ammo clip\&. \fP"
+.ti -1c
+.RI "unsigned int \fBgetAllBullets\fP ()"
+.br
+.RI "\fIGets all bullets\&. \fP"
+.ti -1c
+.RI "unsigned int \fBgetCurrentState\fP ()"
+.br
+.RI "\fIGets current state\&. \fP"
+.ti -1c
+.RI "unsigned int \fBgetCurrentAnimationFrame\fP ()"
+.br
+.RI "\fIGets current animation frame\&. \fP"
+.ti -1c
+.RI "unsigned int \fBgetLastShot\fP ()"
+.br
+.RI "\fIGets the last shot\&. \fP"
+.ti -1c
+.RI "void \fBupdate\fP (\fBvector3d\fP newPosition)"
+.br
+.RI "\fIUpdates the given newPosition\&. \fP"
+.ti -1c
+.RI "bool \fBfire\fP (\fBvector3d\fP &direction, \fBvector3d\fP &camdirection)"
+.br
+.RI "\fIFires\&. \fP"
+.ti -1c
+.RI "void \fBnofire\fP ()"
+.br
+.RI "\fINofires this object\&. \fP"
+.ti -1c
+.RI "void \fBreload\fP ()"
+.br
+.RI "\fIReloads this object\&. \fP"
+.ti -1c
+.RI "void \fBshow\fP (float angleYaw, float anglePitch)"
+.br
+.RI "\fIShows\&. \fP"
+.ti -1c
+.RI "void \fBtest\fP (const char key)"
+.br
+.RI "\fITests the given key\&. \fP"
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "string \fBname\fP"
+.br
+.RI "\fIThe name\&. \fP"
+.ti -1c
+.RI "vector< unsigned int > \fBanimationFrames\fP"
+.br
+.RI "\fIThe animation frames\&. \fP"
+.ti -1c
+.RI "unsigned int \fBmodelId\fP"
+.br
+.RI "\fIIdentifier for the model\&. \fP"
+.ti -1c
+.RI "unsigned int \fBnormalStateAnimation\fP"
+.br
+.RI "\fI2,3,4\&. \fP"
+.ti -1c
+.RI "unsigned int \fBfireStateAnimation\fP"
+.br
+.RI "\fI0,1\&. \fP"
+.ti -1c
+.RI "unsigned int \fBreloadStateAnimation\fP"
+.br
+.RI "\fI2,3,4\&. \fP"
+.ti -1c
+.RI "unsigned int \fBallBullets\fP"
+.br
+.RI "\fIall bullets\&. \fP"
+.ti -1c
+.RI "bool \fBisFired\fP"
+.br
+.RI "\fItrue if this object is fired\&. \fP"
+.ti -1c
+.RI "bool \fBisRealoading\fP"
+.br
+.RI "\fItrue if this object is realoading\&. \fP"
+.ti -1c
+.RI "bool \fBisAim\fP"
+.br
+.RI "\fItrue if this object is aim\&. \fP"
+.ti -1c
+.RI "bool \fBisAutomatic\fP"
+.br
+.RI "\fItrue if this object is automatic\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP \fBcurrentPosition\fP"
+.br
+.ti -1c
+.RI "\fBvector3d\fP \fBcurrentRotation\fP"
+.br
+.RI "\fIThe current rotation\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP \fBposition\fP"
+.br
+.RI "\fIThe position\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP \fBrotation\fP"
+.br
+.RI "\fIThe rotation\&. \fP"
+.ti -1c
+.RI "int \fBmaxMagazineBullets\fP"
+.br
+.RI "\fIThe maximum magazine bullets\&. \fP"
+.ti -1c
+.RI "int \fBammoClip\fP"
+.br
+.RI "\fIThe ammo clip\&. \fP"
+.ti -1c
+.RI "unsigned int \fBlastshot\fP"
+.br
+.RI "\fIThe lastshot\&. \fP"
+.ti -1c
+.RI "unsigned int \fBspeed\fP"
+.br
+.RI "\fIThe speed\&. \fP"
+.ti -1c
+.RI "float \fBprecision\fP"
+.br
+.RI "\fIThe precision\&. \fP"
+.ti -1c
+.RI "float \fBaimprecision\fP"
+.br
+.RI "\fIThe aimprecision\&. \fP"
+.ti -1c
+.RI "unsigned int \fBpower\fP"
+.br
+.RI "\fIThe power\&. \fP"
+.ti -1c
+.RI "unsigned int \fBcurrentState\fP"
+.br
+.RI "\fIThe current state\&. \fP"
+.ti -1c
+.RI "unsigned int \fBcurrentAnimationFrame\fP"
+.br
+.RI "\fIThe current animation frame\&. \fP"
+.ti -1c
+.RI "unsigned int \fBlastShot\fP"
+.br
+.RI "\fIThe last shot\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+A weapon\&. 
+
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "Weapon::Weapon (string name, unsigned int speed, bool isAutomatic, unsigned int power, unsigned int allBullets, unsigned int ammoClip, unsigned int maxMagazineBullets, float precision, float aimprecision)"
+
+.PP
+Constructor\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIname\fP The name\&. 
+.br
+\fIspeed\fP The speed\&. 
+.br
+\fIisAutomatic\fP true if this object is automatic\&. 
+.br
+\fIpower\fP The power\&. 
+.br
+\fIallBullets\fP all bullets\&. 
+.br
+\fIammoClip\fP The ammo clip\&. 
+.br
+\fImaxMagazineBullets\fP The maximum magazine bullets\&. 
+.br
+\fIprecision\fP The precision\&. 
+.br
+\fIaimprecision\fP The aimprecision\&. 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void Weapon::addAllBullets (unsigned int ammoClip_p)"
+
+.PP
+Adds all bullets\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIammoClip_p\fP The ammo clip\&. 
+.RE
+.PP
+
+.SS "bool Weapon::fire (\fBvector3d\fP & direction, \fBvector3d\fP & camdirection)"
+
+.PP
+Fires\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIdirection\fP [in,out] The direction\&. 
+.br
+\fIcamdirection\fP [in,out] The camdirection\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+true if it succeeds, false if it fails\&. 
+.RE
+.PP
+
+.SS "unsigned int Weapon::getAllBullets ()"
+
+.PP
+Gets all bullets\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+all bullets\&. 
+.RE
+.PP
+
+.SS "unsigned int Weapon::getAmmoClip ()"
+
+.PP
+Gets ammo clip\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The ammo clip\&. 
+.RE
+.PP
+
+.SS "vector< unsigned int > & Weapon::getAnimationFrames ()"
+
+.PP
+Gets animation frames\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The animation frames\&. 
+.RE
+.PP
+
+.SS "unsigned int Weapon::getCurrentAnimationFrame ()"
+
+.PP
+Gets current animation frame\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The current animation frame\&. 
+.RE
+.PP
+
+.SS "\fBvector3d\fP Weapon::getCurrentPosition ()"
+
+.PP
+Gets current position\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The current position\&. 
+.RE
+.PP
+
+.SS "\fBvector3d\fP Weapon::getCurrentRotation ()"
+
+.PP
+Gets current rotation\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The current rotation\&. 
+.RE
+.PP
+
+.SS "unsigned int Weapon::getCurrentState ()"
+
+.PP
+Gets current state\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The current state\&. 
+.RE
+.PP
+
+.SS "unsigned int Weapon::getFireStateAnimation ()"
+
+.PP
+Gets fire state animation\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The fire state animation\&. 
+.RE
+.PP
+
+.SS "unsigned int Weapon::getLastShot ()"
+
+.PP
+Gets the last shot\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The last shot\&. 
+.RE
+.PP
+
+.SS "unsigned int Weapon::getMaxMagazineBullets ()"
+
+.PP
+Gets maximum magazine bullets\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The maximum magazine bullets\&. 
+.RE
+.PP
+
+.SS "string Weapon::getName ()"
+
+.PP
+Gets the name\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The name\&. 
+.RE
+.PP
+
+.SS "unsigned int Weapon::getNormalStateAnimation ()"
+
+.PP
+Gets normal state animation\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The normal state animation\&. 
+.RE
+.PP
+
+.SS "\fBvector3d\fP Weapon::getPosition ()"
+
+.PP
+Gets the position\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The position\&. 
+.RE
+.PP
+
+.SS "unsigned int Weapon::getPower ()"
+
+.PP
+Gets the power\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The power\&. 
+.RE
+.PP
+
+.SS "unsigned int Weapon::getReloadStateAnimation ()"
+
+.PP
+Gets reload state animation\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The reload state animation\&. 
+.RE
+.PP
+
+.SS "\fBvector3d\fP Weapon::getRotation ()"
+
+.PP
+Gets the rotation\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The rotation\&. 
+.RE
+.PP
+
+.SS "void Weapon::nofire ()"
+
+.PP
+Nofires this object\&. 
+.SS "void Weapon::reload ()"
+
+.PP
+Reloads this object\&. 
+.SS "void Weapon::setAllBullets (unsigned int ammoClip_p)"
+
+.PP
+Sets all bullets\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIammoClip_p\fP The ammo clip\&. 
+.RE
+.PP
+
+.SS "void Weapon::setAmmoClip (unsigned int ammoClip_p)"
+
+.PP
+Sets ammo clip\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIammoClip_p\fP The ammo clip\&. 
+.RE
+.PP
+
+.SS "void Weapon::setAnimationFrames (vector< unsigned int > animationFrames_p)"
+
+.PP
+Sets animation frames\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIanimationFrames_p\fP The animation frames p\&. 
+.RE
+.PP
+
+.SS "void Weapon::setCurrentAnimationFrame (unsigned int currentAnimationFrame_p)"
+
+.PP
+Sets current animation frame\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIcurrentAnimationFrame_p\fP The current animation frame p\&. 
+.RE
+.PP
+
+.SS "void Weapon::setCurrentPosition (\fBvector3d\fP currentPosition_p)"
+
+.PP
+Sets current position\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIcurrentPosition_p\fP The current position p\&. 
+.RE
+.PP
+
+.SS "void Weapon::setCurrentRotation (\fBvector3d\fP currentRotation_p)"
+
+.PP
+Sets current rotation\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIcurrentRotation_p\fP The current rotation p\&. 
+.RE
+.PP
+
+.SS "void Weapon::setCurrentState (unsigned int currentState_p)"
+
+.PP
+Sets current state\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIcurrentState_p\fP The current state p\&. 
+.RE
+.PP
+
+.SS "void Weapon::setFireStateAnimation (unsigned int fireStateAnimation_p)"
+
+.PP
+Sets fire state animation\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIfireStateAnimation_p\fP The fire state animation p\&. 
+.RE
+.PP
+
+.SS "void Weapon::setLastShot (unsigned int lastShot_p)"
+
+.PP
+Sets last shot\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIlastShot_p\fP The last shot p\&. 
+.RE
+.PP
+
+.SS "void Weapon::setMaxMagazineBullets (unsigned int maxMagazineBullets_p)"
+
+.PP
+Sets maximum magazine bullets\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fImaxMagazineBullets_p\fP The maximum magazine bullets p\&. 
+.RE
+.PP
+
+.SS "void Weapon::setModelId (unsigned int modelId_p)"
+
+.PP
+Sets model identifier\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fImodelId_p\fP The model identifier p\&. 
+.RE
+.PP
+
+.SS "void Weapon::setName (string name_p)"
+
+.PP
+Sets a name\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIname_p\fP The name p\&. 
+.RE
+.PP
+
+.SS "void Weapon::setNormalStateAnimation (unsigned int normalStateAnimation_p)"
+
+.PP
+Sets normal state animation\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fInormalStateAnimation_p\fP The normal state animation p\&. 
+.RE
+.PP
+
+.SS "void Weapon::setPosition (\fBvector3d\fP position_p)"
+
+.PP
+Sets a position\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIposition_p\fP The position p\&. 
+.RE
+.PP
+
+.SS "void Weapon::setReloadStateAnimation (unsigned int reloadStateAnimation_p)"
+
+.PP
+Sets reload state animation\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIreloadStateAnimation_p\fP The reload state animation p\&. 
+.RE
+.PP
+
+.SS "void Weapon::setRotation (\fBvector3d\fP rotation_p)"
+
+.PP
+Sets a rotation\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIrotation_p\fP The rotation p\&. 
+.RE
+.PP
+
+.SS "void Weapon::show (float angleYaw, float anglePitch)"
+
+.PP
+Shows\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIangleYaw\fP The angle yaw\&. 
+.br
+\fIanglePitch\fP The angle pitch\&. 
+.RE
+.PP
+
+.SS "void Weapon::test (const char key)"
+
+.PP
+Tests the given key\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIkey\fP The key\&. 
+.RE
+.PP
+
+.SS "void Weapon::update (\fBvector3d\fP newPosition)"
+
+.PP
+Updates the given newPosition\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fInewPosition\fP The new position\&. 
+.RE
+.PP
+
+.SH "Member Data Documentation"
+.PP 
+.SS "float Weapon::aimprecision\fC [private]\fP"
+
+.PP
+The aimprecision\&. 
+.SS "unsigned int Weapon::allBullets\fC [private]\fP"
+
+.PP
+all bullets\&. 
+.SS "int Weapon::ammoClip\fC [private]\fP"
+
+.PP
+The ammo clip\&. 
+.SS "vector<unsigned int> Weapon::animationFrames\fC [private]\fP"
+
+.PP
+The animation frames\&. 
+.SS "unsigned int Weapon::currentAnimationFrame\fC [private]\fP"
+
+.PP
+The current animation frame\&. 
+.SS "\fBvector3d\fP Weapon::currentRotation\fC [private]\fP"
+
+.PP
+The current rotation\&. 
+.SS "unsigned int Weapon::currentState\fC [private]\fP"
+
+.PP
+The current state\&. 
+.SS "unsigned int Weapon::fireStateAnimation\fC [private]\fP"
+
+.PP
+0,1\&. 
+.SS "bool Weapon::isAim\fC [private]\fP"
+
+.PP
+true if this object is aim\&. 
+.SS "bool Weapon::isAutomatic\fC [private]\fP"
+
+.PP
+true if this object is automatic\&. 
+.SS "bool Weapon::isFired\fC [private]\fP"
+
+.PP
+true if this object is fired\&. 
+.SS "bool Weapon::isRealoading\fC [private]\fP"
+
+.PP
+true if this object is realoading\&. 
+.SS "unsigned int Weapon::lastshot\fC [private]\fP"
+
+.PP
+The lastshot\&. 
+.SS "unsigned int Weapon::lastShot\fC [private]\fP"
+
+.PP
+The last shot\&. 
+.SS "int Weapon::maxMagazineBullets\fC [private]\fP"
+
+.PP
+The maximum magazine bullets\&. 
+.SS "unsigned int Weapon::modelId\fC [private]\fP"
+
+.PP
+Identifier for the model\&. 
+.SS "string Weapon::name\fC [private]\fP"
+
+.PP
+The name\&. 
+.SS "unsigned int Weapon::normalStateAnimation\fC [private]\fP"
+
+.PP
+2,3,4\&. 
+.SS "\fBvector3d\fP Weapon::position\fC [private]\fP"
+
+.PP
+The position\&. 
+.SS "unsigned int Weapon::power\fC [private]\fP"
+
+.PP
+The power\&. 
+.SS "float Weapon::precision\fC [private]\fP"
+
+.PP
+The precision\&. 
+.SS "unsigned int Weapon::reloadStateAnimation\fC [private]\fP"
+
+.PP
+2,3,4\&. 
+.SS "\fBvector3d\fP Weapon::rotation\fC [private]\fP"
+
+.PP
+The rotation\&. 
+.SS "unsigned int Weapon::speed\fC [private]\fP"
+
+.PP
+The speed\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for 3D FPS Game from the source code\&.

@@ -1,0 +1,115 @@
+.TH "material" 3 "Sat Jul 2 2016" "Version 1.00" "3D FPS Game" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+material \- A material\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <objectloader\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBmaterial\fP (const char *na, float al, float n, float ni2, float *d, float *a, float *s, int i, int t)"
+.br
+.RI "\fIConstructor\&. \fP"
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "std::string \fBname\fP"
+.br
+.RI "\fIThe name\&. \fP"
+.ti -1c
+.RI "float \fBalpha\fP"
+.br
+.RI "\fIGets the ni\&. \fP"
+.ti -1c
+.RI "float \fBns\fP"
+.br
+.ti -1c
+.RI "float \fBni\fP"
+.br
+.ti -1c
+.RI "float \fBdif\fP [3]"
+.br
+.RI "\fIGets the spec[ 3]\&. \fP"
+.ti -1c
+.RI "float \fBamb\fP [3]"
+.br
+.ti -1c
+.RI "float \fBspec\fP [3]"
+.br
+.ti -1c
+.RI "int \fBillum\fP"
+.br
+.RI "\fIThe illum\&. \fP"
+.ti -1c
+.RI "int \fBtexture\fP"
+.br
+.RI "\fIThe texture\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+A material\&. 
+
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "material::material (const char * na, float al, float n, float ni2, float * d, float * a, float * s, int i, int t)"
+
+.PP
+Constructor\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIna\fP The na\&. 
+.br
+\fIal\fP The al\&. 
+.br
+\fIn\fP The float to process\&. 
+.br
+\fIni2\fP The second ni\&. 
+.br
+\fId\fP [in,out] If non-null, the float to process\&. 
+.br
+\fIa\fP [in,out] If non-null, the float to process\&. 
+.br
+\fIs\fP [in,out] If non-null, the float to process\&. 
+.br
+\fIi\fP Zero-based index of the\&. 
+.br
+\fIt\fP The int to process\&. 
+.RE
+.PP
+
+.SH "Member Data Documentation"
+.PP 
+.SS "float material::alpha"
+
+.PP
+Gets the ni\&. The ni\&. 
+.SS "float material::dif[3]"
+
+.PP
+Gets the spec[ 3]\&. The spec[ 3]\&. 
+.SS "int material::illum"
+
+.PP
+The illum\&. 
+.SS "std::string material::name"
+
+.PP
+The name\&. 
+.SS "int material::texture"
+
+.PP
+The texture\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for 3D FPS Game from the source code\&.

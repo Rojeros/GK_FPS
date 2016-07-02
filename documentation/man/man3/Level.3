@@ -1,0 +1,320 @@
+.TH "Level" 3 "Sat Jul 2 2016" "Version 1.00" "3D FPS Game" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Level \- A level\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <level\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBLevel\fP (unsigned int lId, std::vector< \fBcollisionplane\fP > &cplane, std::string n, std::vector< \fBvector3d\fP > &sp, \fBvector3d\fP pStartPoint, \fBvector3d\fP endp, int \fBwidth\fP, int \fBheight\fP)"
+.br
+.RI "\fIConstructor\&. \fP"
+.ti -1c
+.RI "void \fBupdate\fP ()"
+.br
+.RI "\fIUpdates this object\&. \fP"
+.ti -1c
+.RI "void \fBshow\fP ()"
+.br
+.RI "\fIShows this object\&. \fP"
+.ti -1c
+.RI "std::vector< \fBcollisionplane\fP > & \fBgetCollisionPlanes\fP ()"
+.br
+.RI "\fIGets collision planes\&. \fP"
+.ti -1c
+.RI "std::string & \fBgetName\fP ()"
+.br
+.RI "\fIGets the name\&. \fP"
+.ti -1c
+.RI "void \fBchange\fP (unsigned int m, std::vector< \fBcollisionplane\fP > &cplane, std::string n)"
+.br
+.RI "\fIChanges\&. \fP"
+.ti -1c
+.RI "std::vector< \fBvector3d\fP > * \fBgetSpawnPoints\fP ()"
+.br
+.RI "\fIGets spawn points\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP \fBgetRandomSpawnPoint\fP ()"
+.br
+.RI "\fIGets random spawn point\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP \fBgetPlayerSpawnPoint\fP ()"
+.br
+.RI "\fIGets player spawn point\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP \fBgetEndPoint\fP ()"
+.br
+.RI "\fIGets end point\&. \fP"
+.ti -1c
+.RI "void \fBsetEnd\fP (bool i)"
+.br
+.RI "\fISets an end\&. \fP"
+.ti -1c
+.RI "bool \fBisEnd\fP ()"
+.br
+.RI "\fIQuery if this object is end\&. \fP"
+.ti -1c
+.RI "int \fBgetWidth\fP ()"
+.br
+.RI "\fIGets the width\&. \fP"
+.ti -1c
+.RI "int \fBgetHeight\fP ()"
+.br
+.RI "\fIGets the height\&. \fP"
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "unsigned int \fBlevelId\fP"
+.br
+.RI "\fIIdentifier for the level\&. \fP"
+.ti -1c
+.RI "std::vector< \fBcollisionplane\fP > \fBcp\fP"
+.br
+.RI "\fIThe cp\&. \fP"
+.ti -1c
+.RI "std::vector< \fBvector3d\fP > \fBspawnPoints\fP"
+.br
+.RI "\fIThe spawn points\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP \fBplayerSpawnPoint\fP"
+.br
+.RI "\fIThe player spawn point\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP \fBendPoint\fP"
+.br
+.RI "\fIThe end point\&. \fP"
+.ti -1c
+.RI "std::string \fBname\fP"
+.br
+.RI "\fIThe name\&. \fP"
+.ti -1c
+.RI "bool \fBend\fP"
+.br
+.RI "\fItrue to end\&. \fP"
+.ti -1c
+.RI "int \fBwidth\fP"
+.br
+.RI "\fIThe width\&. \fP"
+.ti -1c
+.RI "int \fBheight\fP"
+.br
+.RI "\fIThe height\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+A level\&. 
+
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "Level::Level (unsigned int lId, std::vector< \fBcollisionplane\fP > & cplane, std::string n, std::vector< \fBvector3d\fP > & sp, \fBvector3d\fP pStartPoint, \fBvector3d\fP endp, int width, int height)"
+
+.PP
+Constructor\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIlId\fP The identifier\&. 
+.br
+\fIcplane\fP [in,out] The cplane\&. 
+.br
+\fIn\fP The std::string to process\&. 
+.br
+\fIsp\fP [in,out] The sp\&. 
+.br
+\fIpStartPoint\fP The start point\&. 
+.br
+\fIendp\fP The endp\&. 
+.br
+\fIwidth\fP The width\&. 
+.br
+\fIheight\fP The height\&. 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void Level::change (unsigned int m, std::vector< \fBcollisionplane\fP > & cplane, std::string n)"
+
+.PP
+Changes\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIm\fP The int to process\&. 
+.br
+\fIcplane\fP [in,out] The cplane\&. 
+.br
+\fIn\fP The std::string to process\&. 
+.RE
+.PP
+
+.SS "std::vector< \fBcollisionplane\fP > & Level::getCollisionPlanes ()"
+
+.PP
+Gets collision planes\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The collision planes\&. 
+.RE
+.PP
+
+.SS "\fBvector3d\fP Level::getEndPoint ()"
+
+.PP
+Gets end point\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The end point\&. 
+.RE
+.PP
+
+.SS "int Level::getHeight ()"
+
+.PP
+Gets the height\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The height\&. 
+.RE
+.PP
+
+.SS "std::string & Level::getName ()"
+
+.PP
+Gets the name\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The name\&. 
+.RE
+.PP
+
+.SS "\fBvector3d\fP Level::getPlayerSpawnPoint ()"
+
+.PP
+Gets player spawn point\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The player spawn point\&. 
+.RE
+.PP
+
+.SS "\fBvector3d\fP Level::getRandomSpawnPoint ()"
+
+.PP
+Gets random spawn point\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The random spawn point\&. 
+.RE
+.PP
+
+.SS "std::vector< \fBvector3d\fP > * Level::getSpawnPoints ()"
+
+.PP
+Gets spawn points\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+null if it fails, else the spawn points\&. 
+.RE
+.PP
+
+.SS "int Level::getWidth ()"
+
+.PP
+Gets the width\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The width\&. 
+.RE
+.PP
+
+.SS "bool Level::isEnd ()"
+
+.PP
+Query if this object is end\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+true if end, false if not\&. 
+.RE
+.PP
+
+.SS "void Level::setEnd (bool i)"
+
+.PP
+Sets an end\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIi\fP true to i\&. 
+.RE
+.PP
+
+.SS "void Level::show ()"
+
+.PP
+Shows this object\&. 
+.SS "void Level::update ()"
+
+.PP
+Updates this object\&. 
+.SH "Member Data Documentation"
+.PP 
+.SS "std::vector<\fBcollisionplane\fP> Level::cp\fC [private]\fP"
+
+.PP
+The cp\&. 
+.SS "bool Level::end\fC [private]\fP"
+
+.PP
+true to end\&. 
+.SS "\fBvector3d\fP Level::endPoint\fC [private]\fP"
+
+.PP
+The end point\&. 
+.SS "int Level::height\fC [private]\fP"
+
+.PP
+The height\&. 
+.SS "unsigned int Level::levelId\fC [private]\fP"
+
+.PP
+Identifier for the level\&. 
+.SS "std::string Level::name\fC [private]\fP"
+
+.PP
+The name\&. 
+.SS "\fBvector3d\fP Level::playerSpawnPoint\fC [private]\fP"
+
+.PP
+The player spawn point\&. 
+.SS "std::vector<\fBvector3d\fP> Level::spawnPoints\fC [private]\fP"
+
+.PP
+The spawn points\&. 
+.SS "int Level::width\fC [private]\fP"
+
+.PP
+The width\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for 3D FPS Game from the source code\&.

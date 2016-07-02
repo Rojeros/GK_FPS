@@ -1,0 +1,316 @@
+.TH "Camera" 3 "Sat Jul 2 2016" "Version 1.00" "3D FPS Game" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Camera \- A camera class, display eye of user  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <camera\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBinit\fP ()"
+.br
+.RI "\fIinit cameras position \fP"
+.ti -1c
+.RI "void \fBrefresh\fP ()"
+.br
+.RI "\fIRefreshes this object\&. \fP"
+.ti -1c
+.RI "void \fBsetPosition\fP (float x, float y, float z)"
+.br
+.RI "\fISets a position\&. \fP"
+.ti -1c
+.RI "void \fBsetLocation\fP (const \fBvector3d\fP &newPosition)"
+.br
+.RI "\fISets a location\&. \fP"
+.ti -1c
+.RI "void \fBgetPosition\fP (float &x, float &y, float &z)"
+.br
+.RI "\fIGets a position of camera location \fP"
+.ti -1c
+.RI "void \fBgetDirectionVector\fP (float &x, float &y, float &z)"
+.br
+.RI "\fIGets direction vector pf camera \fP"
+.ti -1c
+.RI "\fBvector3d\fP \fBgetDirectionVector\fP ()"
+.br
+.RI "\fIGets direction vector of camera\&. \fP"
+.ti -1c
+.RI "void \fBsetYaw\fP (float angle)"
+.br
+.RI "\fISets a yaw for camera\&. \fP"
+.ti -1c
+.RI "void \fBsetPitch\fP (float angle)"
+.br
+.RI "\fISets a pitch for camera \fP"
+.ti -1c
+.RI "\fBvector3d\fP \fBgetLocation\fP ()"
+.br
+.RI "\fIGets the location of camera \fP"
+.ti -1c
+.RI "void \fBmove\fP (float incr)"
+.br
+.RI "\fIMoves\&. \fP"
+.ti -1c
+.RI "void \fBstrafe\fP (float incr)"
+.br
+.RI "\fIslide camera into side \fP"
+.ti -1c
+.RI "void \fBfly\fP (float incr)"
+.br
+.RI "\fIslide camera to up \fP"
+.ti -1c
+.RI "void \fBrotateYaw\fP (float angle)"
+.br
+.RI "\fIRotate yaw\&. \fP"
+.ti -1c
+.RI "void \fBrotatePitch\fP (float angle)"
+.br
+.RI "\fIRotate pitch\&. \fP"
+.ti -1c
+.RI "float \fBgetYaw\fP ()"
+.br
+.RI "\fIGets the yaw\&. \fP"
+.ti -1c
+.RI "float \fBgetPitch\fP ()"
+.br
+.RI "\fIGets the pitch\&. \fP"
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "float \fBm_x\fP"
+.br
+.ti -1c
+.RI "float \fBm_y\fP"
+.br
+.ti -1c
+.RI "float \fBm_z\fP"
+.br
+.ti -1c
+.RI "float \fBm_lx\fP"
+.br
+.ti -1c
+.RI "float \fBm_ly\fP"
+.br
+.ti -1c
+.RI "float \fBm_lz\fP"
+.br
+.ti -1c
+.RI "float \fBm_yaw\fP"
+.br
+.ti -1c
+.RI "float \fBm_pitch\fP"
+.br
+.ti -1c
+.RI "float \fBm_strafe_lx\fP"
+.br
+.ti -1c
+.RI "float \fBm_strafe_lz\fP"
+.br
+.ti -1c
+.RI "\fBvector3d\fP \fBlocation\fP"
+.br
+.in -1c
+.SH "Detailed Description"
+.PP 
+A camera class, display eye of user 
+
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void Camera::fly (float incr)"
+
+.PP
+slide camera to up 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIincr\fP Amount to increment y\&. 
+.RE
+.PP
+
+.SS "void Camera::getDirectionVector (float & x, float & y, float & z)"
+
+.PP
+Gets direction vector pf camera 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIx\fP [in,out] The x float to process\&. 
+.br
+\fIy\fP [in,out] The y float to process\&. 
+.br
+\fIz\fP [in,out] The z float to process\&. 
+.RE
+.PP
+
+.SS "\fBvector3d\fP Camera::getDirectionVector ()"
+
+.PP
+Gets direction vector of camera\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The direction vector\&. 
+.RE
+.PP
+
+.SS "\fBvector3d\fP Camera::getLocation ()"
+
+.PP
+Gets the location of camera 
+.PP
+\fBReturns:\fP
+.RS 4
+The location\&. 
+.RE
+.PP
+
+.SS "float Camera::getPitch ()"
+
+.PP
+Gets the pitch\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The pitch\&. 
+.RE
+.PP
+
+.SS "void Camera::getPosition (float & x, float & y, float & z)"
+
+.PP
+Gets a position of camera location 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIx\fP [in,out] The x float to process\&. 
+.br
+\fIy\fP [in,out] The y float to process\&. 
+.br
+\fIz\fP [in,out] The z float to process\&. 
+.RE
+.PP
+
+.SS "float Camera::getYaw ()"
+
+.PP
+Gets the yaw\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The yaw\&. 
+.RE
+.PP
+
+.SS "void Camera::init ()"
+
+.PP
+init cameras position 
+.SS "void Camera::move (float incr)"
+
+.PP
+Moves\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIincr\fP Amount to increment by\&. 
+.RE
+.PP
+
+.SS "void Camera::refresh ()"
+
+.PP
+Refreshes this object\&. 
+.SS "void Camera::rotatePitch (float angle)"
+
+.PP
+Rotate pitch\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIangle\fP The angle\&. 
+.RE
+.PP
+
+.SS "void Camera::rotateYaw (float angle)"
+
+.PP
+Rotate yaw\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIangle\fP The angle\&. 
+.RE
+.PP
+
+.SS "void Camera::setLocation (const \fBvector3d\fP & newPosition)"
+
+.PP
+Sets a location\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fInewPosition\fP The new position for camera 
+.RE
+.PP
+
+.SS "void Camera::setPitch (float angle)"
+
+.PP
+Sets a pitch for camera 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIangle\fP The angle of pitch\&. 
+.RE
+.PP
+
+.SS "void Camera::setPosition (float x, float y, float z)"
+
+.PP
+Sets a position\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIx\fP The x coordinate\&. 
+.br
+\fIy\fP The y coordinate\&. 
+.br
+\fIz\fP The z coordinate\&. 
+.RE
+.PP
+
+.SS "void Camera::setYaw (float angle)"
+
+.PP
+Sets a yaw for camera\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIangle\fP The angle of yaw 
+.RE
+.PP
+
+.SS "void Camera::strafe (float incr)"
+
+.PP
+slide camera into side 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIincr\fP Amount to increment z and x\&. 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for 3D FPS Game from the source code\&.

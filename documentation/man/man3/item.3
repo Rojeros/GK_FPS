@@ -1,0 +1,164 @@
+.TH "item" 3 "Sat Jul 2 2016" "Version 1.00" "3D FPS Game" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+item \- An item\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <item\&.h>\fP
+.PP
+Inherits \fBcollision\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBitem\fP (kind i, unsigned int mesh, \fBcollisionsphere\fP &c)"
+.br
+.RI "\fIConstructor\&. \fP"
+.ti -1c
+.RI "\fBitem\fP ()"
+.br
+.RI "\fIDefault constructor\&. \fP"
+.ti -1c
+.RI "int \fBupdate\fP (\fBcollisionsphere\fP playerloc)"
+.br
+.RI "\fIUpdates the given playerloc\&. \fP"
+.ti -1c
+.RI "void \fBshow\fP ()"
+.br
+.RI "\fIShows this object\&. \fP"
+.ti -1c
+.RI "void \fBadd\fP (kind i, \fBcollisionsphere\fP c)"
+.br
+.RI "\fIAdds i\&. \fP"
+.ti -1c
+.RI "void \fBadd\fP (kind i, \fBcollisionsphere\fP c, \fBvector3d\fP rotation, \fBvector3d\fP speed, \fBvector3d\fP scale)"
+.br
+.RI "\fIAdds i\&. \fP"
+.ti -1c
+.RI "void \fBdel\fP (kind id)"
+.br
+.RI "\fIDeletes the given ID\&. \fP"
+.ti -1c
+.RI "void \fBclear\fP ()"
+.br
+.RI "\fIClears this object to its blank/initial state\&. \fP"
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "std::vector< \fBoneItem\fP > \fBitems\fP"
+.br
+.RI "\fIThe items\&. \fP"
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Detailed Description"
+.PP 
+An item\&. 
+
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "item::item (kind i, unsigned int mesh, \fBcollisionsphere\fP & c)"
+
+.PP
+Constructor\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIi\fP Zero-based index of the\&. 
+.br
+\fImesh\fP The mesh\&. 
+.br
+\fIc\fP [in,out] The collisionsphere to process\&. 
+.RE
+.PP
+
+.SS "item::item ()"
+
+.PP
+Default constructor\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "void item::add (kind i, \fBcollisionsphere\fP c)"
+
+.PP
+Adds i\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIi\fP Zero-based index of the\&. 
+.br
+\fIc\fP The collisionsphere to process\&. 
+.RE
+.PP
+
+.SS "void item::add (kind i, \fBcollisionsphere\fP c, \fBvector3d\fP rotation, \fBvector3d\fP speed, \fBvector3d\fP scale)"
+
+.PP
+Adds i\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIi\fP Zero-based index of the\&. 
+.br
+\fIc\fP The collisionsphere to process\&. 
+.br
+\fIrotation\fP The rotation\&. 
+.br
+\fIspeed\fP The speed\&. 
+.br
+\fIscale\fP The scale\&. 
+.RE
+.PP
+
+.SS "void item::clear ()"
+
+.PP
+Clears this object to its blank/initial state\&. 
+.SS "void item::del (kind id)"
+
+.PP
+Deletes the given ID\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIid\fP The identifier\&. 
+.RE
+.PP
+
+.SS "void item::show ()"
+
+.PP
+Shows this object\&. 
+.SS "int item::update (\fBcollisionsphere\fP playerloc)"
+
+.PP
+Updates the given playerloc\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIplayerloc\fP The playerloc\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+An int\&. 
+.RE
+.PP
+
+.SH "Member Data Documentation"
+.PP 
+.SS "std::vector<\fBoneItem\fP> item::items\fC [private]\fP"
+
+.PP
+The items\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for 3D FPS Game from the source code\&.

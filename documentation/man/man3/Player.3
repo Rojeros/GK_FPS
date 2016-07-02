@@ -1,0 +1,599 @@
+.TH "Player" 3 "Sat Jul 2 2016" "Version 1.00" "3D FPS Game" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Player \- A player\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <player\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBPlayer\fP ()"
+.br
+.RI "\fIDefault constructor\&. \fP"
+.ti -1c
+.RI "\fBPlayer\fP (std::string n, float predkosc, float \fBsprint\fP, float looks)"
+.br
+.RI "\fIConstructor\&. \fP"
+.ti -1c
+.RI "\fBPlayer\fP (std::string n, \fBcollisionsphere\fP cs, \fBWeapon\fP *startWeapon, int hl, float predkosc, float \fBsprint\fP, float looks)"
+.br
+.RI "\fIConstructor\&. \fP"
+.ti -1c
+.RI "\fBCamera\fP * \fBgetCamera\fP ()"
+.br
+.RI "\fIGets the camera\&. \fP"
+.ti -1c
+.RI "void \fBupdate\fP (std::vector< \fBcollisionplane\fP > &cp)"
+.br
+.RI "\fIUpdates the given cp\&. \fP"
+.ti -1c
+.RI "void \fBshow\fP ()"
+.br
+.RI "\fIShows this object\&. \fP"
+.ti -1c
+.RI "void \fBjump\fP ()"
+.br
+.RI "\fIJumps this object\&. \fP"
+.ti -1c
+.RI "std::string \fBgetName\fP ()"
+.br
+.RI "\fIGets the name\&. \fP"
+.ti -1c
+.RI "void \fBdecreaseHealth\fP (int num)"
+.br
+.RI "\fIDecrease health\&. \fP"
+.ti -1c
+.RI "int \fBgetHealth\fP ()"
+.br
+.RI "\fIGets the health\&. \fP"
+.ti -1c
+.RI "void \fBsetHealth\fP (int h)"
+.br
+.RI "\fISets a health\&. \fP"
+.ti -1c
+.RI "void \fBaddHealth\fP (int h)"
+.br
+.RI "\fIAdds a health\&. \fP"
+.ti -1c
+.RI "void \fBaddWeapon\fP (\fBWeapon\fP *gun)"
+.br
+.RI "\fIAdds a weapon\&. \fP"
+.ti -1c
+.RI "void \fBsetSprint\fP (bool b)"
+.br
+.RI "\fISets a sprint\&. \fP"
+.ti -1c
+.RI "void \fBsetStartPosition\fP (\fBvector3d\fP pos)"
+.br
+.RI "\fISets start position\&. \fP"
+.ti -1c
+.RI "bool \fBgetSprint\fP ()"
+.br
+.RI "\fIGets the sprint\&. \fP"
+.ti -1c
+.RI "void \fBaddPoints\fP (int num)"
+.br
+.RI "\fIAdds the points\&. \fP"
+.ti -1c
+.RI "bool \fBisWallCollision\fP ()"
+.br
+.RI "\fIQuery if this object is wall collision\&. \fP"
+.ti -1c
+.RI "bool \fBisGroundCollision\fP ()"
+.br
+.RI "\fIQuery if this object is ground collision\&. \fP"
+.ti -1c
+.RI "bool \fBisDead\fP ()"
+.br
+.RI "\fIQuery if this object is dead\&. \fP"
+.ti -1c
+.RI "int \fBgetPoints\fP ()"
+.br
+.RI "\fIGets the points\&. \fP"
+.ti -1c
+.RI "void \fBteleport\fP ()"
+.br
+.RI "\fITeleports this object\&. \fP"
+.ti -1c
+.RI "void \fBsetPosition\fP (\fBvector3d\fP position)"
+.br
+.RI "\fISets a position\&. \fP"
+.ti -1c
+.RI "void \fBresetPlayer\fP ()"
+.br
+.RI "\fIResets the player\&. \fP"
+.ti -1c
+.RI "\fBWeapon\fP * \fBgetCurrentWeapon\fP ()"
+.br
+.RI "\fIGets current weapon\&. \fP"
+.ti -1c
+.RI "\fBWeapon\fP * \fBgetRandomWeapon\fP ()"
+.br
+.RI "\fIGets random weapon\&. \fP"
+.ti -1c
+.RI "void \fBchangeWeapon\fP (bool up)"
+.br
+.RI "\fIChange weapon\&. \fP"
+.ti -1c
+.RI "\fBcollisionsphere\fP \fBgetCollisionSphere\fP ()"
+.br
+.RI "\fIGets collision sphere\&. \fP"
+.ti -1c
+.RI "std::vector< \fBWeapon\fP * > \fBgetAllWeapon\fP ()"
+.br
+.RI "\fIGets all weapon\&. \fP"
+.ti -1c
+.RI "int \fBgetIntCurrentWeapon\fP ()"
+.br
+.RI "\fIGets int current weapon\&. \fP"
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBCamera\fP \fBcam\fP"
+.br
+.RI "\fIThe camera\&. \fP"
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "std::vector< \fBWeapon\fP * > \fBweapons\fP"
+.br
+.RI "\fIThe weapons\&. \fP"
+.ti -1c
+.RI "int \fBcurrentWeapon\fP"
+.br
+.RI "\fIThe current weapon\&. \fP"
+.ti -1c
+.RI "\fBcollisionsphere\fP \fBcollisionSp\fP"
+.br
+.RI "\fIThe collision sp\&. \fP"
+.ti -1c
+.RI "std::string \fBname\fP"
+.br
+.RI "\fIThe name\&. \fP"
+.ti -1c
+.RI "int \fBhealth\fP"
+.br
+.RI "\fIThe health\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP \fBforce\fP"
+.br
+.RI "\fIThe force\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP \fBdirection\fP"
+.br
+.RI "\fIThe direction\&. \fP"
+.ti -1c
+.RI "bool \fBgroundCollision\fP"
+.br
+.RI "\fItrue to ground collision\&. \fP"
+.ti -1c
+.RI "float \fBsprint\fP"
+.br
+.RI "\fIThe sprint\&. \fP"
+.ti -1c
+.RI "float \fBwalk\fP"
+.br
+.RI "\fIThe walk\&. \fP"
+.ti -1c
+.RI "bool \fBisSprint\fP"
+.br
+.RI "\fItrue if this object is sprint\&. \fP"
+.ti -1c
+.RI "float \fBenergy\fP"
+.br
+.RI "\fIThe energy\&. \fP"
+.ti -1c
+.RI "int \fBpoints\fP"
+.br
+.RI "\fIThe points\&. \fP"
+.ti -1c
+.RI "bool \fBwallCollision\fP"
+.br
+.RI "\fItrue to wall collision\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP \fBstartPoint\fP"
+.br
+.RI "\fIThe start point\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+A player\&. 
+
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "Player::Player ()"
+
+.PP
+Default constructor\&. 
+.SS "Player::Player (std::string n, float predkosc, float sprint, float looks)"
+
+.PP
+Constructor\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIn\fP The std::string to process\&. 
+.br
+\fIpredkosc\fP The predkosc\&. 
+.br
+\fIsprint\fP The sprint\&. 
+.br
+\fIlooks\fP The looks\&. 
+.RE
+.PP
+
+.SS "Player::Player (std::string n, \fBcollisionsphere\fP cs, \fBWeapon\fP * startWeapon, int hl, float predkosc, float sprint, float looks)"
+
+.PP
+Constructor\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIn\fP The std::string to process\&. 
+.br
+\fIcs\fP The create struct\&. 
+.br
+\fIstartWeapon\fP [in,out] If non-null, the start weapon\&. 
+.br
+\fIhl\fP The hl\&. 
+.br
+\fIpredkosc\fP The predkosc\&. 
+.br
+\fIsprint\fP The sprint\&. 
+.br
+\fIlooks\fP The looks\&. 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void Player::addHealth (int h)"
+
+.PP
+Adds a health\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIh\fP The height\&. 
+.RE
+.PP
+
+.SS "void Player::addPoints (int num)"
+
+.PP
+Adds the points\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fInum\fP Number of\&. 
+.RE
+.PP
+
+.SS "void Player::addWeapon (\fBWeapon\fP * gun)"
+
+.PP
+Adds a weapon\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIgun\fP [in,out] If non-null, the gun\&. 
+.RE
+.PP
+
+.SS "void Player::changeWeapon (bool up)"
+
+.PP
+Change weapon\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIup\fP true to up\&. 
+.RE
+.PP
+
+.SS "void Player::decreaseHealth (int num)"
+
+.PP
+Decrease health\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fInum\fP Number of\&. 
+.RE
+.PP
+
+.SS "std::vector< \fBWeapon\fP * > Player::getAllWeapon ()"
+
+.PP
+Gets all weapon\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+null if it fails, else all weapon\&. 
+.RE
+.PP
+
+.SS "\fBCamera\fP * Player::getCamera ()"
+
+.PP
+Gets the camera\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+null if it fails, else the camera\&. 
+.RE
+.PP
+
+.SS "\fBcollisionsphere\fP Player::getCollisionSphere ()"
+
+.PP
+Gets collision sphere\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The collision sphere\&. 
+.RE
+.PP
+
+.SS "\fBWeapon\fP * Player::getCurrentWeapon ()"
+
+.PP
+Gets current weapon\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+null if it fails, else the current weapon\&. 
+.RE
+.PP
+
+.SS "int Player::getHealth ()"
+
+.PP
+Gets the health\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The health\&. 
+.RE
+.PP
+
+.SS "int Player::getIntCurrentWeapon ()"
+
+.PP
+Gets int current weapon\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The int current weapon\&. 
+.RE
+.PP
+
+.SS "std::string Player::getName ()"
+
+.PP
+Gets the name\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The name\&. 
+.RE
+.PP
+
+.SS "int Player::getPoints ()"
+
+.PP
+Gets the points\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The points\&. 
+.RE
+.PP
+
+.SS "\fBWeapon\fP * Player::getRandomWeapon ()"
+
+.PP
+Gets random weapon\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+null if it fails, else the random weapon\&. 
+.RE
+.PP
+
+.SS "bool Player::getSprint ()"
+
+.PP
+Gets the sprint\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+true if it succeeds, false if it fails\&. 
+.RE
+.PP
+
+.SS "bool Player::isDead ()"
+
+.PP
+Query if this object is dead\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+true if dead, false if not\&. 
+.RE
+.PP
+
+.SS "bool Player::isGroundCollision ()"
+
+.PP
+Query if this object is ground collision\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+true if ground collision, false if not\&. 
+.RE
+.PP
+
+.SS "bool Player::isWallCollision ()"
+
+.PP
+Query if this object is wall collision\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+true if wall collision, false if not\&. 
+.RE
+.PP
+
+.SS "void Player::jump ()"
+
+.PP
+Jumps this object\&. 
+.SS "void Player::resetPlayer ()"
+
+.PP
+Resets the player\&. 
+.SS "void Player::setHealth (int h)"
+
+.PP
+Sets a health\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIh\fP The height\&. 
+.RE
+.PP
+
+.SS "void Player::setPosition (\fBvector3d\fP position)"
+
+.PP
+Sets a position\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIposition\fP The position\&. 
+.RE
+.PP
+
+.SS "void Player::setSprint (bool b)"
+
+.PP
+Sets a sprint\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIb\fP true to b\&. 
+.RE
+.PP
+
+.SS "void Player::setStartPosition (\fBvector3d\fP pos)"
+
+.PP
+Sets start position\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIpos\fP The position\&. 
+.RE
+.PP
+
+.SS "void Player::show ()"
+
+.PP
+Shows this object\&. 
+.SS "void Player::teleport ()"
+
+.PP
+Teleports this object\&. 
+.SS "void Player::update (std::vector< \fBcollisionplane\fP > & cp)"
+
+.PP
+Updates the given cp\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIcp\fP [in,out] The cp\&. 
+.RE
+.PP
+
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBCamera\fP Player::cam"
+
+.PP
+The camera\&. 
+.SS "\fBcollisionsphere\fP Player::collisionSp\fC [private]\fP"
+
+.PP
+The collision sp\&. 
+.SS "int Player::currentWeapon\fC [private]\fP"
+
+.PP
+The current weapon\&. 
+.SS "\fBvector3d\fP Player::direction\fC [private]\fP"
+
+.PP
+The direction\&. 
+.SS "float Player::energy\fC [private]\fP"
+
+.PP
+The energy\&. 
+.SS "\fBvector3d\fP Player::force\fC [private]\fP"
+
+.PP
+The force\&. 
+.SS "bool Player::groundCollision\fC [private]\fP"
+
+.PP
+true to ground collision\&. 
+.SS "int Player::health\fC [private]\fP"
+
+.PP
+The health\&. 
+.SS "bool Player::isSprint\fC [private]\fP"
+
+.PP
+true if this object is sprint\&. 
+.SS "std::string Player::name\fC [private]\fP"
+
+.PP
+The name\&. 
+.SS "int Player::points\fC [private]\fP"
+
+.PP
+The points\&. 
+.SS "float Player::sprint\fC [private]\fP"
+
+.PP
+The sprint\&. 
+.SS "\fBvector3d\fP Player::startPoint\fC [private]\fP"
+
+.PP
+The start point\&. 
+.SS "float Player::walk\fC [private]\fP"
+
+.PP
+The walk\&. 
+.SS "bool Player::wallCollision\fC [private]\fP"
+
+.PP
+true to wall collision\&. 
+.SS "std::vector<\fBWeapon\fP*> Player::weapons\fC [private]\fP"
+
+.PP
+The weapons\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for 3D FPS Game from the source code\&.

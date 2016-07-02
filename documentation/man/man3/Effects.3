@@ -1,0 +1,368 @@
+.TH "Effects" 3 "Sat Jul 2 2016" "Version 1.00" "3D FPS Game" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Effects \- An effects\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <effects\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBEffects\fP ()"
+.br
+.RI "\fIDefault constructor\&. \fP"
+.ti -1c
+.RI "void \fBinitEffects\fP (int width, int height)"
+.br
+.RI "\fIInit effects\&. \fP"
+.ti -1c
+.RI "void \fBdisplay\fP ()"
+.br
+.RI "\fIDisplays this object\&. \fP"
+.ti -1c
+.RI "void \fBupdate\fP ()"
+.br
+.RI "\fIUpdates this object\&. \fP"
+.ti -1c
+.RI "void \fBdelEffects\fP ()"
+.br
+.RI "\fIDeletes the effects\&. \fP"
+.ti -1c
+.RI "void \fBsetObjectLoader\fP (\fBObjectLoader\fP *objL)"
+.br
+.RI "\fISets object loader\&. \fP"
+.ti -1c
+.RI "void \fBaddBullet\fP (\fBvector3d\fP start, \fBvector3d\fP end, \fBvector3d\fP direction, float speed, float size, float dist)"
+.br
+.RI "\fIAdds a bullet\&. \fP"
+.ti -1c
+.RI "void \fBbulletUpdate\fP ()"
+.br
+.RI "\fIBullet update\&. \fP"
+.ti -1c
+.RI "void \fBbulletDisplay\fP ()"
+.br
+.RI "\fIBullet display\&. \fP"
+.ti -1c
+.RI "void \fBbulletDelete\fP ()"
+.br
+.RI "\fIBullet delete\&. \fP"
+.ti -1c
+.RI "void \fBdestroyEnemy\fP (\fBvector3d\fP point)"
+.br
+.RI "\fIDestroys the enemy described by point\&. \fP"
+.ti -1c
+.RI "void \fBdispalyDestroy\fP ()"
+.br
+.RI "\fIDispaly destroy\&. \fP"
+.ti -1c
+.RI "void \fBupdateDestroy\fP ()"
+.br
+.RI "\fIUpdates the destroy\&. \fP"
+.ti -1c
+.RI "void \fBdeleteDestroy\fP ()"
+.br
+.RI "\fIDeletes the destroy\&. \fP"
+.ti -1c
+.RI "void \fBteleportEnemy\fP (\fBvector3d\fP point, int ray)"
+.br
+.RI "\fITeleport enemy\&. \fP"
+.ti -1c
+.RI "void \fBdispalyTeleport\fP ()"
+.br
+.RI "\fIDispaly teleport\&. \fP"
+.ti -1c
+.RI "void \fBupdateTeleport\fP ()"
+.br
+.RI "\fIUpdates the teleport\&. \fP"
+.ti -1c
+.RI "void \fBdeleteTeleport\fP ()"
+.br
+.RI "\fIDeletes the teleport\&. \fP"
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "bool \fBrain\fP"
+.br
+.RI "\fItrue to rain\&. \fP"
+.in -1c
+.SS "Private Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBinitRain\fP (\fBparticleSystemT\fP *particleSystem, float GroundHeight, float maxParticleHeight, int maxParticleLifeTime, int width, int height, int number, float speed, float size)"
+.br
+.RI "\fIInit rain\&. \fP"
+.ti -1c
+.RI "void \fBfreeRain\fP (\fBparticleSystemT\fP *particleSystem)"
+.br
+.RI "\fIFree rain\&. \fP"
+.ti -1c
+.RI "void \fBrenderRain\fP (\fBparticleSystemT\fP particleSystem)"
+.br
+.RI "\fIRenders the rain described by particleSystem\&. \fP"
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "\fBparticleSystemT\fP \fBraining\fP"
+.br
+.RI "\fIThe raining\&. \fP"
+.ti -1c
+.RI "GLuint \fBrainBitmap\fP"
+.br
+.RI "\fIThe rain bitmap\&. \fP"
+.ti -1c
+.RI "std::vector< \fBBulletT\fP > \fBbullets\fP"
+.br
+.RI "\fIThe bullets\&. \fP"
+.ti -1c
+.RI "std::vector< \fBBulletT\fP > \fBdestroy\fP"
+.br
+.RI "\fIThe destroy\&. \fP"
+.ti -1c
+.RI "std::vector< \fBBulletT\fP > \fBteleport\fP"
+.br
+.RI "\fIThe teleport\&. \fP"
+.ti -1c
+.RI "GLuint \fBbulletBitmap\fP"
+.br
+.RI "\fIThe bullet bitmap\&. \fP"
+.ti -1c
+.RI "GLuint \fBfireBitmap\fP"
+.br
+.RI "\fIThe fire bitmap\&. \fP"
+.ti -1c
+.RI "\fBObjectLoader\fP * \fBobjectLoader\fP"
+.br
+.RI "\fIThe object loader\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+An effects\&. 
+
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "Effects::Effects ()"
+
+.PP
+Default constructor\&. 
+.SH "Member Function Documentation"
+.PP 
+.SS "void Effects::addBullet (\fBvector3d\fP start, \fBvector3d\fP end, \fBvector3d\fP direction, float speed, float size, float dist)"
+
+.PP
+Adds a bullet\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIstart\fP The start\&. 
+.br
+\fIend\fP The end\&. 
+.br
+\fIdirection\fP The direction\&. 
+.br
+\fIspeed\fP The speed\&. 
+.br
+\fIsize\fP The size\&. 
+.br
+\fIdist\fP The distance\&. 
+.RE
+.PP
+
+.SS "void Effects::bulletDelete ()"
+
+.PP
+Bullet delete\&. 
+.SS "void Effects::bulletDisplay ()"
+
+.PP
+Bullet display\&. 
+.SS "void Effects::bulletUpdate ()"
+
+.PP
+Bullet update\&. 
+.SS "void Effects::delEffects ()"
+
+.PP
+Deletes the effects\&. 
+.SS "void Effects::deleteDestroy ()"
+
+.PP
+Deletes the destroy\&. 
+.SS "void Effects::deleteTeleport ()"
+
+.PP
+Deletes the teleport\&. 
+.SS "void Effects::destroyEnemy (\fBvector3d\fP point)"
+
+.PP
+Destroys the enemy described by point\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIpoint\fP The point\&. 
+.RE
+.PP
+
+.SS "void Effects::dispalyDestroy ()"
+
+.PP
+Dispaly destroy\&. 
+.SS "void Effects::dispalyTeleport ()"
+
+.PP
+Dispaly teleport\&. 
+.SS "void Effects::display ()"
+
+.PP
+Displays this object\&. 
+.SS "void Effects::freeRain (\fBparticleSystemT\fP * particleSystem)\fC [private]\fP"
+
+.PP
+Free rain\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIparticleSystem\fP [in,out] If non-null, the particle system\&. 
+.RE
+.PP
+
+.SS "void Effects::initEffects (int width, int height)"
+
+.PP
+Init effects\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIwidth\fP The width\&. 
+.br
+\fIheight\fP The height\&. 
+.RE
+.PP
+
+.SS "void Effects::initRain (\fBparticleSystemT\fP * particleSystem, float GroundHeight, float maxParticleHeight, int maxParticleLifeTime, int width, int height, int number, float speed, float size)\fC [private]\fP"
+
+.PP
+Init rain\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIparticleSystem\fP [in,out] If non-null, the particle system\&. 
+.br
+\fIGroundHeight\fP Height of the ground\&. 
+.br
+\fImaxParticleHeight\fP The maximum particle height\&. 
+.br
+\fImaxParticleLifeTime\fP The maximum particle life time\&. 
+.br
+\fIwidth\fP The width\&. 
+.br
+\fIheight\fP The height\&. 
+.br
+\fInumber\fP Number of\&. 
+.br
+\fIspeed\fP The speed\&. 
+.br
+\fIsize\fP The size\&. 
+.RE
+.PP
+
+.SS "void Effects::renderRain (\fBparticleSystemT\fP particleSystem)\fC [private]\fP"
+
+.PP
+Renders the rain described by particleSystem\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIparticleSystem\fP The particle system\&. 
+.RE
+.PP
+
+.SS "void Effects::setObjectLoader (\fBObjectLoader\fP * objL)"
+
+.PP
+Sets object loader\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIobjL\fP [in,out] If non-null, the object l\&. 
+.RE
+.PP
+
+.SS "void Effects::teleportEnemy (\fBvector3d\fP point, int ray)"
+
+.PP
+Teleport enemy\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIpoint\fP The point\&. 
+.br
+\fIray\fP The ray\&. 
+.RE
+.PP
+
+.SS "void Effects::update ()"
+
+.PP
+Updates this object\&. 
+.SS "void Effects::updateDestroy ()"
+
+.PP
+Updates the destroy\&. 
+.SS "void Effects::updateTeleport ()"
+
+.PP
+Updates the teleport\&. 
+.SH "Member Data Documentation"
+.PP 
+.SS "GLuint Effects::bulletBitmap\fC [private]\fP"
+
+.PP
+The bullet bitmap\&. 
+.SS "std::vector<\fBBulletT\fP> Effects::bullets\fC [private]\fP"
+
+.PP
+The bullets\&. 
+.SS "std::vector<\fBBulletT\fP> Effects::destroy\fC [private]\fP"
+
+.PP
+The destroy\&. 
+.SS "GLuint Effects::fireBitmap\fC [private]\fP"
+
+.PP
+The fire bitmap\&. 
+.SS "\fBObjectLoader\fP* Effects::objectLoader\fC [private]\fP"
+
+.PP
+The object loader\&. 
+.SS "bool Effects::rain"
+
+.PP
+true to rain\&. 
+.SS "GLuint Effects::rainBitmap\fC [private]\fP"
+
+.PP
+The rain bitmap\&. 
+.SS "\fBparticleSystemT\fP Effects::raining\fC [private]\fP"
+
+.PP
+The raining\&. 
+.SS "std::vector<\fBBulletT\fP> Effects::teleport\fC [private]\fP"
+
+.PP
+The teleport\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for 3D FPS Game from the source code\&.

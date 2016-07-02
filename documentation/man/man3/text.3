@@ -1,0 +1,167 @@
+.TH "text" 3 "Sat Jul 2 2016" "Version 1.00" "3D FPS Game" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+text \- A text\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <text\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBshowTextInfo\fP (int health, int ammo, int allammo, int point, std::vector< \fBWeapon\fP * > weaponName, int currentWeapon, int points, int g_viewport_width, int g_viewport_height, std::string level)"
+.br
+.RI "\fIShows the text information\&. \fP"
+.ti -1c
+.RI "void \fBdisplayDiffrentText\fP (std::string \fBtext\fP, int g_viewport_width, int g_viewport_height, double size, coordinates coord, int line, \fBvector3d\fP color)"
+.br
+.RI "\fIDisplays a diffrent text\&. \fP"
+.in -1c
+.SS "Private Member Functions"
+
+.in +1c
+.ti -1c
+.RI "void \fBdisplayText\fP (std::string \fBtext\fP, int g_viewport_width, int g_viewport_height, double size, coordinates coord, int line)"
+.br
+.RI "\fIDisplays a text\&. \fP"
+.ti -1c
+.RI "void \fBstartText\fP (int g_viewport_width, int g_viewport_height)"
+.br
+.RI "\fIStarts a text\&. \fP"
+.ti -1c
+.RI "void \fBdisplayText\fP (std::string \fBtext\fP, int g_viewport_width, int g_viewport_height, double size, coordinates coord, int line, \fBvector3d\fP color)"
+.br
+.RI "\fIDisplays a text\&. \fP"
+.ti -1c
+.RI "void \fBendText\fP ()"
+.br
+.RI "\fIEnds a text\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+A text\&. 
+
+
+.SH "Member Function Documentation"
+.PP 
+.SS "void text::displayDiffrentText (std::string text, int g_viewport_width, int g_viewport_height, double size, coordinates coord, int line, \fBvector3d\fP color)"
+
+.PP
+Displays a diffrent text\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fItext\fP The text\&. 
+.br
+\fIg_viewport_width\fP Width of the viewport\&. 
+.br
+\fIg_viewport_height\fP Height of the viewport\&. 
+.br
+\fIsize\fP The size\&. 
+.br
+\fIcoord\fP The coordinate\&. 
+.br
+\fIline\fP The line\&. 
+.br
+\fIcolor\fP The color\&. 
+.RE
+.PP
+
+.SS "void text::displayText (std::string text, int g_viewport_width, int g_viewport_height, double size, coordinates coord, int line)\fC [private]\fP"
+
+.PP
+Displays a text\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fItext\fP The text\&. 
+.br
+\fIg_viewport_width\fP Width of the viewport\&. 
+.br
+\fIg_viewport_height\fP Height of the viewport\&. 
+.br
+\fIsize\fP The size\&. 
+.br
+\fIcoord\fP The coordinate\&. 
+.br
+\fIline\fP The line\&. 
+.RE
+.PP
+
+.SS "void text::displayText (std::string text, int g_viewport_width, int g_viewport_height, double size, coordinates coord, int line, \fBvector3d\fP color)\fC [private]\fP"
+
+.PP
+Displays a text\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fItext\fP The text\&. 
+.br
+\fIg_viewport_width\fP Width of the viewport\&. 
+.br
+\fIg_viewport_height\fP Height of the viewport\&. 
+.br
+\fIsize\fP The size\&. 
+.br
+\fIcoord\fP The coordinate\&. 
+.br
+\fIline\fP The line\&. 
+.br
+\fIcolor\fP The color\&. 
+.RE
+.PP
+
+.SS "void text::endText ()\fC [private]\fP"
+
+.PP
+Ends a text\&. 
+.SS "void text::showTextInfo (int health, int ammo, int allammo, int point, std::vector< \fBWeapon\fP * > weaponName, int currentWeapon, int points, int g_viewport_width, int g_viewport_height, std::string level)"
+
+.PP
+Shows the text information\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIhealth\fP The health\&. 
+.br
+\fIammo\fP The ammo\&. 
+.br
+\fIallammo\fP The allammo\&. 
+.br
+\fIpoint\fP The point\&. 
+.br
+\fIweaponName\fP [in,out] If non-null, name of the weapon\&. 
+.br
+\fIcurrentWeapon\fP The current weapon\&. 
+.br
+\fIpoints\fP The points\&. 
+.br
+\fIg_viewport_width\fP Width of the viewport\&. 
+.br
+\fIg_viewport_height\fP Height of the viewport\&. 
+.br
+\fIlevel\fP The level\&. 
+.RE
+.PP
+
+.SS "void text::startText (int g_viewport_width, int g_viewport_height)\fC [private]\fP"
+
+.PP
+Starts a text\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIg_viewport_width\fP Width of the viewport\&. 
+.br
+\fIg_viewport_height\fP Height of the viewport\&. 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for 3D FPS Game from the source code\&.

@@ -1,0 +1,491 @@
+.TH "Enemy" 3 "Sat Jul 2 2016" "Version 1.00" "3D FPS Game" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+Enemy \- An enemy\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <enemy\&.h>\fP
+.PP
+Inherits \fBcollision\fP\&.
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBEnemy\fP (std::vector< unsigned int > &f, unsigned int &w, unsigned int &at, unsigned int &di, int h, float s, int str, \fBcollisionsphere\fP c, \fBvector3d\fP rot, \fBvector3d\fP playerloc)"
+.br
+.RI "\fIConstructor\&. \fP"
+.ti -1c
+.RI "\fBEnemy\fP (int h, float s, int str, unsigned int \fBattackTime\fP, \fBcollisionsphere\fP c, \fBvector3d\fP rot, \fBvector3d\fP playerloc)"
+.br
+.RI "\fIConstructor\&. \fP"
+.ti -1c
+.RI "\fBEnemy\fP (std::vector< unsigned int > &f, int h, float s, int str, unsigned int \fBattackTime\fP, \fBcollisionsphere\fP c, \fBvector3d\fP rot, \fBvector3d\fP playerloc, std::vector< \fBcollisionplane\fP > \fBcollisionPlanes\fP)"
+.br
+.RI "\fIConstructor\&. \fP"
+.ti -1c
+.RI "bool \fBupdate\fP (std::vector< \fBcollisionplane\fP > &, \fBvector3d\fP, \fBcollisionsphere\fP)"
+.br
+.RI "\fIUpdates this object\&. \fP"
+.ti -1c
+.RI "void \fBshow\fP ()"
+.br
+.RI "\fIShows this object\&. \fP"
+.ti -1c
+.RI "\fBcollisionsphere\fP * \fBgetSphere\fP ()"
+.br
+.RI "\fIGets the sphere\&. \fP"
+.ti -1c
+.RI "void \fBsetLocation\fP (\fBvector3d\fP &loc)"
+.br
+.RI "\fISets a location\&. \fP"
+.ti -1c
+.RI "bool \fBsetAttack\fP (\fBcollisionsphere\fP playerloc)"
+.br
+.RI "\fISets an attack\&. \fP"
+.ti -1c
+.RI "void \fBdecreaseHealth\fP (int num)"
+.br
+.RI "\fIDecrease health\&. \fP"
+.ti -1c
+.RI "int \fBgetHealth\fP ()"
+.br
+.RI "\fIGets the health\&. \fP"
+.ti -1c
+.RI "int \fBgetStrength\fP ()"
+.br
+.RI "\fIGets the strength\&. \fP"
+.ti -1c
+.RI "bool \fBisDead\fP ()"
+.br
+.RI "\fIQuery if this object is dead\&. \fP"
+.ti -1c
+.RI "bool \fBdeadTimerTick\fP ()"
+.br
+.RI "\fIDetermines if we can dead timer tick\&. \fP"
+.ti -1c
+.RI "int \fBgetDeadTimer\fP ()"
+.br
+.RI "\fIGets dead timer\&. \fP"
+.ti -1c
+.RI "std::vector< \fBcollisionplane\fP > \fBgetCollisionPlanes\fP ()"
+.br
+.RI "\fIGets collision planes\&. \fP"
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "std::vector< \fBcollisionplane\fP > \fBcollisionPlanes\fP"
+.br
+.RI "\fIThe collision planes\&. \fP"
+.ti -1c
+.RI "unsigned int \fBtimer\fP"
+.br
+.RI "\fIThe timer\&. \fP"
+.ti -1c
+.RI "unsigned int \fBattackTime\fP"
+.br
+.RI "\fIThe attack time\&. \fP"
+.ti -1c
+.RI "int \fBhealth\fP"
+.br
+.RI "\fIThe health\&. \fP"
+.ti -1c
+.RI "float \fBspeed\fP"
+.br
+.RI "\fIThe speed\&. \fP"
+.ti -1c
+.RI "int \fBstrength\fP"
+.br
+.RI "\fIThe strength\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP \fBdirection\fP"
+.br
+.RI "\fIThe direction\&. \fP"
+.ti -1c
+.RI "bool \fBisattack\fP"
+.br
+.RI "\fItrue to isattack\&. \fP"
+.ti -1c
+.RI "bool \fBiswalk\fP"
+.br
+.RI "\fItrue to iswalk\&. \fP"
+.ti -1c
+.RI "\fBcollisionsphere\fP \fBcs\fP"
+.br
+.RI "\fIThe create struct\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP \fBrotation\fP"
+.br
+.RI "\fIThe rotation\&. \fP"
+.ti -1c
+.RI "unsigned int \fBcurframe\fP"
+.br
+.RI "\fIThe curframe\&. \fP"
+.ti -1c
+.RI "bool \fBisdead\fP"
+.br
+.RI "\fItrue to isdead\&. \fP"
+.ti -1c
+.RI "int \fBdeadTimer\fP"
+.br
+.RI "\fIThe dead timer\&. \fP"
+.in -1c
+.SS "Static Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "static std::vector< unsigned int > \fBframes\fP"
+.br
+.RI "\fIThe frames\&. \fP"
+.ti -1c
+.RI "static unsigned int \fBwalk\fP = 0"
+.br
+.RI "\fIThe walk\&. \fP"
+.ti -1c
+.RI "static unsigned int \fBattack\fP = 0"
+.br
+.RI "\fIThe attack\&. \fP"
+.ti -1c
+.RI "static unsigned int \fBdie\fP = 0"
+.br
+.RI "\fIThe die\&. \fP"
+.in -1c
+.SS "Additional Inherited Members"
+.SH "Detailed Description"
+.PP 
+An enemy\&. 
+
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "Enemy::Enemy (std::vector< unsigned int > & f, unsigned int & w, unsigned int & at, unsigned int & di, int h, float s, int str, \fBcollisionsphere\fP c, \fBvector3d\fP rot, \fBvector3d\fP playerloc)"
+
+.PP
+Constructor\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIf\fP [in,out] The std::vector<unsignedint> to process\&. 
+.br
+\fIw\fP [in,out] The int to process\&. 
+.br
+\fIat\fP [in,out] at\&. 
+.br
+\fIdi\fP [in,out] The di\&. 
+.br
+\fIh\fP The height\&. 
+.br
+\fIs\fP The float to process\&. 
+.br
+\fIstr\fP The string\&. 
+.br
+\fIc\fP The collisionsphere to process\&. 
+.br
+\fIrot\fP The rot\&. 
+.br
+\fIplayerloc\fP The playerloc\&. 
+.RE
+.PP
+.PP
+Constructor\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIf\fP [in,out] The std::vector<unsignedint> to process\&. 
+.br
+\fIw\fP [in,out] The int to process\&. 
+.br
+\fIat\fP [in,out] at\&. 
+.br
+\fIdi\fP [in,out] The di\&. 
+.br
+\fIh\fP The height\&. 
+.br
+\fIs\fP The float to process\&. 
+.br
+\fIstr\fP The string\&. 
+.br
+\fIc\fP The collisionsphere to process\&. 
+.br
+\fIrot\fP The rot\&. 
+.br
+\fIplayerloc\fP The playerloc\&. 
+.RE
+.PP
+
+.SS "Enemy::Enemy (int h, float s, int str, unsigned int attackTime, \fBcollisionsphere\fP c, \fBvector3d\fP rot, \fBvector3d\fP playerloc)"
+
+.PP
+Constructor\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIh\fP The height\&. 
+.br
+\fIs\fP The float to process\&. 
+.br
+\fIstr\fP The string\&. 
+.br
+\fIattackTime\fP The attack time\&. 
+.br
+\fIc\fP The collisionsphere to process\&. 
+.br
+\fIrot\fP The rot\&. 
+.br
+\fIplayerloc\fP The playerloc\&. 
+.RE
+.PP
+
+.SS "Enemy::Enemy (std::vector< unsigned int > & f, int h, float s, int str, unsigned int attackTime, \fBcollisionsphere\fP c, \fBvector3d\fP rot, \fBvector3d\fP playerloc, std::vector< \fBcollisionplane\fP > collisionPlanes)"
+
+.PP
+Constructor\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIf\fP [in,out] The std::vector<unsignedint> to process\&. 
+.br
+\fIh\fP The height\&. 
+.br
+\fIs\fP The float to process\&. 
+.br
+\fIstr\fP The string\&. 
+.br
+\fIattackTime\fP The attack time\&. 
+.br
+\fIc\fP The collisionsphere to process\&. 
+.br
+\fIrot\fP The rot\&. 
+.br
+\fIplayerloc\fP The playerloc\&. 
+.br
+\fIcollisionPlanes\fP The collision planes\&. 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "bool Enemy::deadTimerTick ()"
+
+.PP
+Determines if we can dead timer tick\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+true if it succeeds, false if it fails\&. 
+.RE
+.PP
+
+.SS "void Enemy::decreaseHealth (int num)"
+
+.PP
+Decrease health\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fInum\fP Number of\&. 
+.RE
+.PP
+
+.SS "std::vector< \fBcollisionplane\fP > Enemy::getCollisionPlanes ()"
+
+.PP
+Gets collision planes\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The collision planes\&. 
+.RE
+.PP
+
+.SS "int Enemy::getDeadTimer ()"
+
+.PP
+Gets dead timer\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The dead timer\&. 
+.RE
+.PP
+
+.SS "int Enemy::getHealth ()"
+
+.PP
+Gets the health\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The health\&. 
+.RE
+.PP
+
+.SS "\fBcollisionsphere\fP * Enemy::getSphere ()"
+
+.PP
+Gets the sphere\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+null if it fails, else the sphere\&. 
+.RE
+.PP
+
+.SS "int Enemy::getStrength ()"
+
+.PP
+Gets the strength\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The strength\&. 
+.RE
+.PP
+
+.SS "bool Enemy::isDead ()"
+
+.PP
+Query if this object is dead\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+true if dead, false if not\&. 
+.RE
+.PP
+
+.SS "bool Enemy::setAttack (\fBcollisionsphere\fP playerloc)"
+
+.PP
+Sets an attack\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIplayerloc\fP The playerloc\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+true if it succeeds, false if it fails\&. 
+.RE
+.PP
+
+.SS "void Enemy::setLocation (\fBvector3d\fP & loc)"
+
+.PP
+Sets a location\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIloc\fP [in,out] The location\&. 
+.RE
+.PP
+
+.SS "void Enemy::show ()"
+
+.PP
+Shows this object\&. 
+.SS "bool Enemy::update (std::vector< \fBcollisionplane\fP > & map2, \fBvector3d\fP playerpos, \fBcollisionsphere\fP css)"
+
+.PP
+Updates this object\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIparameter1\fP [in,out] The first parameter\&. 
+.br
+\fIparameter2\fP The second parameter\&. 
+.br
+\fIparameter3\fP The third parameter\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+true if it succeeds, false if it fails\&. 
+.RE
+.PP
+
+.SH "Member Data Documentation"
+.PP 
+.SS "unsigned int Enemy::attack = 0\fC [static]\fP, \fC [private]\fP"
+
+.PP
+The attack\&. 
+.SS "unsigned int Enemy::attackTime\fC [private]\fP"
+
+.PP
+The attack time\&. 
+.SS "std::vector<\fBcollisionplane\fP> Enemy::collisionPlanes\fC [private]\fP"
+
+.PP
+The collision planes\&. 
+.SS "\fBcollisionsphere\fP Enemy::cs\fC [private]\fP"
+
+.PP
+The create struct\&. 
+.SS "unsigned int Enemy::curframe\fC [private]\fP"
+
+.PP
+The curframe\&. 
+.SS "int Enemy::deadTimer\fC [private]\fP"
+
+.PP
+The dead timer\&. 
+.SS "unsigned int Enemy::die = 0\fC [static]\fP, \fC [private]\fP"
+
+.PP
+The die\&. 
+.SS "\fBvector3d\fP Enemy::direction\fC [private]\fP"
+
+.PP
+The direction\&. 
+.SS "std::vector< unsigned int > Enemy::frames\fC [static]\fP, \fC [private]\fP"
+
+.PP
+The frames\&. 
+.SS "int Enemy::health\fC [private]\fP"
+
+.PP
+The health\&. 
+.SS "bool Enemy::isattack\fC [private]\fP"
+
+.PP
+true to isattack\&. 
+.SS "bool Enemy::isdead\fC [private]\fP"
+
+.PP
+true to isdead\&. 
+.SS "bool Enemy::iswalk\fC [private]\fP"
+
+.PP
+true to iswalk\&. 
+.SS "\fBvector3d\fP Enemy::rotation\fC [private]\fP"
+
+.PP
+The rotation\&. 
+.SS "float Enemy::speed\fC [private]\fP"
+
+.PP
+The speed\&. 
+.SS "int Enemy::strength\fC [private]\fP"
+
+.PP
+The strength\&. 
+.SS "unsigned int Enemy::timer\fC [private]\fP"
+
+.PP
+The timer\&. 
+.SS "unsigned int Enemy::walk = 0\fC [static]\fP, \fC [private]\fP"
+
+.PP
+The walk\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for 3D FPS Game from the source code\&.

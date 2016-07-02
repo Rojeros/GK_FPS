@@ -1,0 +1,138 @@
+.TH "oneItem" 3 "Sat Jul 2 2016" "Version 1.00" "3D FPS Game" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+oneItem \- An one item\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <item\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBoneItem\fP (kind i, \fBcollisionsphere\fP c)"
+.br
+.RI "\fIConstructor\&. \fP"
+.ti -1c
+.RI "\fBoneItem\fP (kind i, \fBcollisionsphere\fP c, \fBvector3d\fP \fBrotation\fP, \fBvector3d\fP \fBspeed\fP, \fBvector3d\fP \fBscale\fP, \fBvector3d\fP \fBcolour\fP)"
+.br
+.RI "\fIConstructor\&. \fP"
+.in -1c
+.SS "Public Attributes"
+
+.in +1c
+.ti -1c
+.RI "kind \fBid\fP"
+.br
+.RI "\fIThe identifier\&. \fP"
+.ti -1c
+.RI "unsigned int \fBmesh\fP"
+.br
+.RI "\fIThe mesh\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP \fBrotation\fP"
+.br
+.RI "\fIThe rotation\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP \fBspeed\fP"
+.br
+.RI "\fIThe speed\&. \fP"
+.ti -1c
+.RI "bool \fBdirection\fP"
+.br
+.RI "\fItrue to direction\&. \fP"
+.ti -1c
+.RI "\fBcollisionsphere\fP \fBcs\fP"
+.br
+.RI "\fIThe create struct\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP \fBscale\fP"
+.br
+.RI "\fIThe scale\&. \fP"
+.ti -1c
+.RI "\fBvector3d\fP \fBcolour\fP"
+.br
+.RI "\fIThe colour\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+An one item\&. 
+
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "oneItem::oneItem (kind i, \fBcollisionsphere\fP c)"
+
+.PP
+Constructor\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIi\fP Zero-based index of the\&. 
+.br
+\fIc\fP The collisionsphere to process\&. 
+.RE
+.PP
+
+.SS "oneItem::oneItem (kind i, \fBcollisionsphere\fP c, \fBvector3d\fP rotation, \fBvector3d\fP speed, \fBvector3d\fP scale, \fBvector3d\fP colour)"
+
+.PP
+Constructor\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIi\fP Zero-based index of the\&. 
+.br
+\fIc\fP The collisionsphere to process\&. 
+.br
+\fIrotation\fP The rotation\&. 
+.br
+\fIspeed\fP The speed\&. 
+.br
+\fIscale\fP The scale\&. 
+.br
+\fIcolour\fP The colour\&. 
+.RE
+.PP
+
+.SH "Member Data Documentation"
+.PP 
+.SS "\fBvector3d\fP oneItem::colour"
+
+.PP
+The colour\&. 
+.SS "\fBcollisionsphere\fP oneItem::cs"
+
+.PP
+The create struct\&. 
+.SS "bool oneItem::direction"
+
+.PP
+true to direction\&. 
+.SS "kind oneItem::id"
+
+.PP
+The identifier\&. 
+.SS "unsigned int oneItem::mesh"
+
+.PP
+The mesh\&. 
+.SS "\fBvector3d\fP oneItem::rotation"
+
+.PP
+The rotation\&. 
+.SS "\fBvector3d\fP oneItem::scale"
+
+.PP
+The scale\&. 
+.SS "\fBvector3d\fP oneItem::speed"
+
+.PP
+The speed\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for 3D FPS Game from the source code\&.

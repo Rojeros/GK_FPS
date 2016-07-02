@@ -1,0 +1,123 @@
+.TH "FpsTimer" 3 "Sat Jul 2 2016" "Version 1.00" "3D FPS Game" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+FpsTimer \- The FPS timer\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <FpsTimer\&.h>\fP
+.SS "Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "\fBFpsTimer\fP (int \fBaverageOfFrames\fP)"
+.br
+.RI "\fIConstructor\&. \fP"
+.ti -1c
+.RI "void \fBtimeFrame\fP ()"
+.br
+.RI "\fITime frame\&. \fP"
+.ti -1c
+.RI "std::string \fBgetFps\fP ()"
+.br
+.RI "\fIGets the FPS\&. \fP"
+.in -1c
+.SS "Private Attributes"
+
+.in +1c
+.ti -1c
+.RI "std::deque< float > * \fBlastFrameTimes\fP"
+.br
+.RI "\fIList of times of the last frames\&. \fP"
+.ti -1c
+.RI "time_t \fBlastFrame\fP"
+.br
+.RI "\fIGets the temporary time\&. \fP"
+.ti -1c
+.RI "time_t \fBtempTime\fP"
+.br
+.ti -1c
+.RI "std::string \fBfpsString\fP"
+.br
+.RI "\fIThe FPS string\&. \fP"
+.ti -1c
+.RI "int \fBaverageOfFrames\fP"
+.br
+.RI "\fIThe average of frames\&. \fP"
+.ti -1c
+.RI "int \fBframesToUpdate\fP"
+.br
+.RI "\fIThe frames to update\&. \fP"
+.ti -1c
+.RI "float \fBaverageFps\fP"
+.br
+.RI "\fIThe average FPS\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+The FPS timer\&. 
+
+
+.SH "Constructor & Destructor Documentation"
+.PP 
+.SS "FpsTimer::FpsTimer (int averageOfFrames)"
+
+.PP
+Constructor\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIaverageOfFrames\fP The average of frames\&. 
+.RE
+.PP
+
+.SH "Member Function Documentation"
+.PP 
+.SS "std::string FpsTimer::getFps ()"
+
+.PP
+Gets the FPS\&. 
+.PP
+\fBReturns:\fP
+.RS 4
+The FPS\&. 
+.RE
+.PP
+
+.SS "void FpsTimer::timeFrame ()"
+
+.PP
+Time frame\&. 
+.SH "Member Data Documentation"
+.PP 
+.SS "float FpsTimer::averageFps\fC [private]\fP"
+
+.PP
+The average FPS\&. 
+.SS "int FpsTimer::averageOfFrames\fC [private]\fP"
+
+.PP
+The average of frames\&. 
+.SS "std::string FpsTimer::fpsString\fC [private]\fP"
+
+.PP
+The FPS string\&. 
+.SS "int FpsTimer::framesToUpdate\fC [private]\fP"
+
+.PP
+The frames to update\&. 
+.SS "time_t FpsTimer::lastFrame\fC [private]\fP"
+
+.PP
+Gets the temporary time\&. The temporary time\&. 
+.SS "std::deque<float>* FpsTimer::lastFrameTimes\fC [private]\fP"
+
+.PP
+List of times of the last frames\&. 
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for 3D FPS Game from the source code\&.

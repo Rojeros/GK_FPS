@@ -1,0 +1,300 @@
+.TH "collision" 3 "Sat Jul 2 2016" "Version 1.00" "3D FPS Game" \" -*- nroff -*-
+.ad l
+.nh
+.SH NAME
+collision \- A collision\&.  
+
+.SH SYNOPSIS
+.br
+.PP
+.PP
+\fC#include <collision\&.h>\fP
+.PP
+Inherited by \fBEnemy\fP\fC [private]\fP, and \fBitem\fP\&.
+.SS "Static Public Member Functions"
+
+.in +1c
+.ti -1c
+.RI "static bool \fBsphereplane\fP (\fBvector3d\fP &sp, \fBvector3d\fP pn, \fBvector3d\fP p1, \fBvector3d\fP p2, \fBvector3d\fP p3, \fBvector3d\fP p4, float r)"
+.br
+.RI "\fISphereplanes\&. \fP"
+.ti -1c
+.RI "static bool \fBraysphere\fP (float xc, float yc, float zc, float xd, float yd, float zd, float xs, float ys, float zs, float r, float *dist=NULL, \fBvector3d\fP *collpoint=NULL)"
+.br
+.RI "\fIRayspheres\&. \fP"
+.ti -1c
+.RI "static bool \fBrayplane\fP (const float &nx, float ny, float nz, float x0, float y0, float z0, float xs, float ys, float zs, float xd, float yd, float zd, \fBvector3d\fP p1, \fBvector3d\fP p2, \fBvector3d\fP p3, \fBvector3d\fP p4, float *dis=NULL, \fBvector3d\fP *point=NULL)"
+.br
+.RI "\fIRayplanes\&. \fP"
+.ti -1c
+.RI "static float \fBrayplanedist\fP (float nx, float ny, float nz, float x0, float y0, float z0, float xs, float ys, float zs, float xd, float yd, float zd)"
+.br
+.RI "\fIRayplanedists\&. \fP"
+.ti -1c
+.RI "static float \fBtrianglearea\fP (\fBvector3d\fP p1, \fBvector3d\fP p2, \fBvector3d\fP p3)"
+.br
+.RI "\fITriangleareas\&. \fP"
+.ti -1c
+.RI "static bool \fBspheresphere\fP (\fBvector3d\fP &c1, float r1, \fBvector3d\fP &c2, float r2)"
+.br
+.RI "\fISpherespheres\&. \fP"
+.ti -1c
+.RI "static float \fBpointdistacesquare\fP (\fBvector3d\fP p1, \fBvector3d\fP p2)"
+.br
+.RI "\fIPointdistacesquares\&. \fP"
+.ti -1c
+.RI "static float \fBpointdistace\fP (\fBvector3d\fP p1, \fBvector3d\fP p2)"
+.br
+.RI "\fIPointdistaces\&. \fP"
+.in -1c
+.SH "Detailed Description"
+.PP 
+A collision\&. 
+
+
+.SH "Member Function Documentation"
+.PP 
+.SS "float collision::pointdistace (\fBvector3d\fP p1, \fBvector3d\fP p2)\fC [static]\fP"
+
+.PP
+Pointdistaces\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIp1\fP The first \fBvector3d\fP\&. 
+.br
+\fIp2\fP The second \fBvector3d\fP\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+A float\&. 
+.RE
+.PP
+
+.SS "float collision::pointdistacesquare (\fBvector3d\fP p1, \fBvector3d\fP p2)\fC [static]\fP"
+
+.PP
+Pointdistacesquares\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIp1\fP The first \fBvector3d\fP\&. 
+.br
+\fIp2\fP The second \fBvector3d\fP\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+A float\&. 
+.RE
+.PP
+
+.SS "bool collision::rayplane (const float & nx, float ny, float nz, float x0, float y0, float z0, float xs, float ys, float zs, float xd, float yd, float zd, \fBvector3d\fP p1, \fBvector3d\fP p2, \fBvector3d\fP p3, \fBvector3d\fP p4, float * dis = \fCNULL\fP, \fBvector3d\fP * point = \fCNULL\fP)\fC [static]\fP"
+
+.PP
+Rayplanes\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fInx\fP The nx\&. 
+.br
+\fIny\fP The ny\&. 
+.br
+\fInz\fP The nz\&. 
+.br
+\fIx0\fP The x coordinate 0\&. 
+.br
+\fIy0\fP The y coordinate 0\&. 
+.br
+\fIz0\fP The z coordinate 0\&. 
+.br
+\fIxs\fP The xs\&. 
+.br
+\fIys\fP The ys\&. 
+.br
+\fIzs\fP The zs\&. 
+.br
+\fIxd\fP The xd\&. 
+.br
+\fIyd\fP The yd\&. 
+.br
+\fIzd\fP The zd\&. 
+.br
+\fIp1\fP The first \fBvector3d\fP\&. 
+.br
+\fIp2\fP The second \fBvector3d\fP\&. 
+.br
+\fIp3\fP The third \fBvector3d\fP\&. 
+.br
+\fIp4\fP The fourth \fBvector3d\fP\&. 
+.br
+\fIdis\fP [in,out] (Optional) If non-null, the dis\&. 
+.br
+\fIpoint\fP [in,out] (Optional) If non-null, the point\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+true if it succeeds, false if it fails\&. 
+.RE
+.PP
+
+.SS "static float collision::rayplanedist (float nx, float ny, float nz, float x0, float y0, float z0, float xs, float ys, float zs, float xd, float yd, float zd)\fC [static]\fP"
+
+.PP
+Rayplanedists\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fInx\fP The nx\&. 
+.br
+\fIny\fP The ny\&. 
+.br
+\fInz\fP The nz\&. 
+.br
+\fIx0\fP The x coordinate 0\&. 
+.br
+\fIy0\fP The y coordinate 0\&. 
+.br
+\fIz0\fP The z coordinate 0\&. 
+.br
+\fIxs\fP The xs\&. 
+.br
+\fIys\fP The ys\&. 
+.br
+\fIzs\fP The zs\&. 
+.br
+\fIxd\fP The xd\&. 
+.br
+\fIyd\fP The yd\&. 
+.br
+\fIzd\fP The zd\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+A float\&. 
+.RE
+.PP
+
+.SS "bool collision::raysphere (float xc, float yc, float zc, float xd, float yd, float zd, float xs, float ys, float zs, float r, float * dist = \fCNULL\fP, \fBvector3d\fP * collpoint = \fCNULL\fP)\fC [static]\fP"
+
+.PP
+Rayspheres\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIxc\fP The xc\&. 
+.br
+\fIyc\fP The yc\&. 
+.br
+\fIzc\fP The zc\&. 
+.br
+\fIxd\fP The xd\&. 
+.br
+\fIyd\fP The yd\&. 
+.br
+\fIzd\fP The zd\&. 
+.br
+\fIxs\fP The xs\&. 
+.br
+\fIys\fP The ys\&. 
+.br
+\fIzs\fP The zs\&. 
+.br
+\fIr\fP The float to process\&. 
+.br
+\fIdist\fP [in,out] (Optional) If non-null, the distance\&. 
+.br
+\fIcollpoint\fP [in,out] (Optional) If non-null, the collpoint\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+true if it succeeds, false if it fails\&. 
+.RE
+.PP
+
+.SS "bool collision::sphereplane (\fBvector3d\fP & sp, \fBvector3d\fP pn, \fBvector3d\fP p1, \fBvector3d\fP p2, \fBvector3d\fP p3, \fBvector3d\fP p4, float r)\fC [static]\fP"
+
+.PP
+Sphereplanes\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIsp\fP [in,out] The sp\&. 
+.br
+\fIpn\fP The pn\&. 
+.br
+\fIp1\fP The first \fBvector3d\fP\&. 
+.br
+\fIp2\fP The second \fBvector3d\fP\&. 
+.br
+\fIp3\fP The third \fBvector3d\fP\&. 
+.br
+\fIp4\fP The fourth \fBvector3d\fP\&. 
+.br
+\fIr\fP The float to process\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+true if it succeeds, false if it fails\&. 
+.RE
+.PP
+
+.SS "bool collision::spheresphere (\fBvector3d\fP & c1, float r1, \fBvector3d\fP & c2, float r2)\fC [static]\fP"
+
+.PP
+Spherespheres\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIc1\fP [in,out] The first \fBvector3d\fP\&. 
+.br
+\fIr1\fP The first float\&. 
+.br
+\fIc2\fP [in,out] The second \fBvector3d\fP\&. 
+.br
+\fIr2\fP The second float\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+true if it succeeds, false if it fails\&. 
+.RE
+.PP
+
+.SS "float collision::trianglearea (\fBvector3d\fP p1, \fBvector3d\fP p2, \fBvector3d\fP p3)\fC [static]\fP"
+
+.PP
+Triangleareas\&. 
+.PP
+\fBParameters:\fP
+.RS 4
+\fIp1\fP The first \fBvector3d\fP\&. 
+.br
+\fIp2\fP The second \fBvector3d\fP\&. 
+.br
+\fIp3\fP The third \fBvector3d\fP\&. 
+.RE
+.PP
+.PP
+\fBReturns:\fP
+.RS 4
+A float\&. 
+.RE
+.PP
+
+
+.SH "Author"
+.PP 
+Generated automatically by Doxygen for 3D FPS Game from the source code\&.
