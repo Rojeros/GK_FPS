@@ -239,27 +239,3 @@ void Weapon::show(float angleYaw, float anglePitch) {
 		glCallList(animationFrames[currentAnimationFrame]);
 	glPopMatrix();
 }
-
-void Weapon::test(const char key) {
-
-	if (key == 'i') {
-		currentPosition.z += 0.05;
-	}
-	else if (key == 'k') {
-		currentPosition.z -= 0.05;
-	}
-	else if (key == 'j') {
-		currentPosition.x -= 0.05;
-	}
-	else if (key == 'l') {
-		currentPosition.x += 0.05;
-	}
-	else if (key == 'u') {
-		currentPosition.y -= 0.05;
-
-	}
-	else if (key == 'o') {
-		currentPosition.y += 0.05;
-	}
-
-}
