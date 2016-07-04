@@ -93,7 +93,7 @@ public:
 	///
 	/// <param name="point">	The point. </param>
 
-	void destroyEnemy(vector3d point);
+	void destroyEnemy(vector3d point,int partitions);
 	/// <summary>	Dispaly destroy. </summary>
 	void dispalyDestroy();
 	/// <summary>	Updates the destroy. </summary>
@@ -106,7 +106,7 @@ public:
 	/// <param name="point">	The point. </param>
 	/// <param name="ray">  	The ray. </param>
 
-	void teleportEnemy(vector3d point,int ray);
+	void teleportEnemy(vector3d point,int ray,int partitions);
 	/// <summary>	Dispaly teleport. </summary>
 	void dispalyTeleport();
 	/// <summary>	Updates the teleport. </summary>

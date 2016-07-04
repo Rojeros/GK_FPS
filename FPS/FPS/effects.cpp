@@ -155,9 +155,9 @@ void Effects::bulletDelete()
 	}
 }
 
-void Effects::destroyEnemy(vector3d point)
+void Effects::destroyEnemy(vector3d point,int partitions)
 {
-	for (int i = 0; i < 500; i++) {
+	for (int i = 0; i < partitions; i++) {
 		vector3d r(rand() % 100 - 50, rand() % 100 - 50, rand() % 100 - 50);
 		r.normalize();
 		destroy.push_back(BulletT(point, vector3d(0, 0, 0), r, 0.1, 1, false,30));
@@ -221,16 +221,21 @@ void Effects::deleteDestroy()
 
 }
 
-void Effects::teleportEnemy(vector3d point,int ray)
+void Effects::teleportEnemy(vector3d point,int ray,int partitions)
 {
+	double part;
+	part =  360/(double)partitions ;
+	double partial=0;
+
 	vector3d n(0, 1, 0);
 	n.normalize();
 	vector3d tmp;
-	for (int i = 0; i < 360; i++) {
+	for (int i = 0; i < partitions; i++) {
+		partial = i*part;
 		tmp=vector3d(0, 0, 0);
-			tmp.x = sin(i)*ray+point.x;
-			tmp.z = cos(i)*ray+point.z;
-	
+			tmp.x = sin(partial)*ray+point.x;
+			tmp.z = cos(partial)*ray+point.z;
+
 			teleport.push_back(BulletT(tmp, vector3d(0, 0, 0), n, 0.05, 1, false, 40));
 	}
 }
