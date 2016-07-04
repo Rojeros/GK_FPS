@@ -53,7 +53,7 @@ FpsTimer* timer = new FpsTimer(40);
 const GLfloat specStrength = 20.0;
 
 // Movement settings
-const float g_translation_speed = 0.2;
+const float g_translation_speed = 0.5;
 const float g_rotation_speed = M_PI / 180 * 0.2;
 
 item bonuses;
@@ -74,19 +74,37 @@ int main(int argc, char **argv) {
 	spawn_points.push_back(vector3d(7, 3, -6));
 	spawn_points.push_back(vector3d(-14, 3, -4));
 	spawn_points.push_back(vector3d(18, 3, -4));
+
+	std::vector<vector3d> spawn_points2;
+	spawn_points2.push_back(vector3d(-26, 3, 4));
+	spawn_points2.push_back(vector3d(10, 3, 15));
+	spawn_points2.push_back(vector3d(-30, 3, 7));
+	spawn_points2.push_back(vector3d(57, 3, 16));
+	spawn_points2.push_back(vector3d(-15, 3, -14));
+	spawn_points2.push_back(vector3d(37, 3, -6));
+	spawn_points2.push_back(vector3d(-24, 3, -24));
+	spawn_points2.push_back(vector3d(48, 3, -34));
+	spawn_points2.push_back(vector3d(-126, 3, 44));
+	spawn_points2.push_back(vector3d(100, 3, 55));
+	spawn_points2.push_back(vector3d(-130, 3, 117));
+	spawn_points2.push_back(vector3d(157, 3, 166));
+	spawn_points2.push_back(vector3d(-135, 3, -134));
+	spawn_points2.push_back(vector3d(376, 3, -66));
+	spawn_points2.push_back(vector3d(-244, 3, -244));
+	spawn_points2.push_back(vector3d(248, 3, -340));
 	
 	effects.setObjectLoader(objectLoader);
 	
 
 	//unsigned int levelId = objectLoader->load("testowa_scena.obj", &level_collision_planes);
 	unsigned int levelId = objectLoader->load("Assets/Scenes/level_1/level1.obj", &level1_collision_planes);
-	unsigned int levelId2 = objectLoader->load("Assets/Scenes/scena4.obj", &level2_collision_planes);
+	unsigned int levelId2 = objectLoader->load("Assets/Scenes/level_2/level_2.obj", &level2_collision_planes);
 
 	//level adding
 	levels.push_back(
 		new Level(levelId, level1_collision_planes, "mapa1", spawn_points, vector3d(-3, 5, -4), vector3d(-9, 1, -4),95,95));
 	levels.push_back(
-		new Level(levelId2, level2_collision_planes, "mapa2", spawn_points, vector3d(3, 5, 4), vector3d(9, 1, 4),35,35)
+		new Level(levelId2, level2_collision_planes, "mapa2", spawn_points2, vector3d(3, 5, 4), vector3d(9, 1, 4),35,35)
 		);
 
 	vector<unsigned int> anim;
@@ -257,9 +275,10 @@ void update(void) {
 	else {		//normal update for everything
 		player.update(levels[currentLevel]->getCollisionPlanes());
 
-		if (enemyList.size() <= 4) {
+		if (enemyList.size() <= 6) {
 			vector3d spawn = levels[currentLevel]->getRandomSpawnPoint();
-			enemyList.push_back(Enemy(enemyAnimation, 200, 0.03, 05,100, collisionsphere(spawn, 4), vector3d(0, 0, 0), player.cam.getLocation(), enemy_collision_planes));
+			std::cout << spawn.x << " " << spawn.y << " " << spawn.z << std::endl;
+			enemyList.push_back(Enemy(enemyAnimation, 200, 0.2, 05,100, collisionsphere(spawn, 4), vector3d(0, 0, 0), player.cam.getLocation(), enemy_collision_planes));
 			
 			effects.teleportEnemy(vector3d(spawn.x, spawn.y-4, spawn.z), 4);
 
@@ -343,6 +362,10 @@ void update(void) {
 
 		effects.update();
 	
+		if (player.getPoints() >= 100) {
+			player.addPoints(-player.getPoints());
+			levels[currentLevel]->setEnd(true);
+		}
 		//check bonuses and finish level
 		int h = bonuses.update(player.getCollisionSphere());
 		switch (h) {
@@ -356,7 +379,10 @@ void update(void) {
 			player.setHealth(player.getHealth() + 500);
 			break;
 		case kind::finish:	//new level
-			levels[currentLevel]->setEnd(true);
+			if (player.getPoints() >= 100) {
+				player.addPoints(-player.getPoints());
+				levels[currentLevel]->setEnd(true);
+			}
 			break;
 		}
 	}

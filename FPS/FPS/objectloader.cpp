@@ -299,6 +299,11 @@ int ObjectLoader::parseCollision(std::string* line, std::vector<collisionplane>*
 {
 	int a, b, c, d, e;
 	sscanf_s(line->c_str(), "f %d//%d %d//%d %d//%d %d//%d", &a, &b, &c, &b, &d, &b, &e, &b);
+	/*std::cout << normals[b - 1]->x << std::endl;
+	std::cout << normals[a - 1]->x << std::endl;
+	std::cout << normals[c - 1]->x << std::endl;
+	std::cout << normals[d - 1]->x << std::endl;
+	std::cout << normals[e - 1]->x << std::endl;*/
 	collplane->push_back(collisionplane(normals[b - 1]->x, normals[b - 1]->y, normals[b - 1]->z, vertex[a - 1]->x, vertex[a - 1]->y, vertex[a - 1]->z, vertex[c - 1]->x, vertex[c - 1]->y, vertex[c - 1]->z, vertex[d - 1]->x, vertex[d - 1]->y, vertex[d - 1]->z, vertex[e - 1]->x, vertex[e - 1]->y, vertex[e - 1]->z));
 	return 1;
 }
