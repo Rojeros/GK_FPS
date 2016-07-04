@@ -278,7 +278,7 @@ void update(void) {
 		if (enemyList.size() <= 6) {
 			vector3d spawn = levels[currentLevel]->getRandomSpawnPoint();
 			std::cout << spawn.x << " " << spawn.y << " " << spawn.z << std::endl;
-			enemyList.push_back(Enemy(enemyAnimation, 200, 0.2, 05,100, collisionsphere(spawn, 4), vector3d(0, 0, 0), player.cam.getLocation(), enemy_collision_planes));
+			enemyList.push_back(Enemy(enemyAnimation, 200, 0.3, 15,100, collisionsphere(spawn, 4), vector3d(0, 0, 0), player.cam.getLocation(), enemy_collision_planes));
 			
 			effects.teleportEnemy(vector3d(spawn.x, spawn.y-4, spawn.z), 4);
 
