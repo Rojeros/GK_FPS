@@ -280,7 +280,7 @@ void update(void) {
 			std::cout << spawn.x << " " << spawn.y << " " << spawn.z << std::endl;
 			enemyList.push_back(Enemy(enemyAnimation, 200, 0.3, 15,100, collisionsphere(spawn, 4), vector3d(0, 0, 0), player.cam.getLocation(), enemy_collision_planes));
 			
-			effects.teleportEnemy(vector3d(spawn.x, spawn.y-4, spawn.z), 4,100);
+			effects.teleportEnemy(vector3d(spawn.x, spawn.y-4, spawn.z), 4,50);
 
 		}
 
@@ -293,7 +293,7 @@ void update(void) {
 			}
 			if (it->isDead()) {
 				if(it->getDeadTimer()==1)
-					effects.destroyEnemy(vector3d(it->getSphere()->center.x, it->getSphere()->center.y- it->getSphere()->r, it->getSphere()->center.z),100);
+					effects.destroyEnemy(vector3d(it->getSphere()->center.x, it->getSphere()->center.y- it->getSphere()->r, it->getSphere()->center.z),50);
 				if(it->deadTimerTick()){
 				player.addPoints(5);
 
@@ -593,7 +593,7 @@ Weapon* createWeapon(std::vector<unsigned int> anim,int i) {
 		return weapon;
 	}
 	if (i == 1) {
-		Weapon* weapon = new Weapon("AK", 10, false, 5, 500, 5, 100, 80, 80);
+		Weapon* weapon = new Weapon("AK", 10, false, 15, 500, 5, 100, 80, 80);
 
 		weapon->setAnimationFrames(anim);
 		weapon->setNormalStateAnimation(1);
